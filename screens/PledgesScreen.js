@@ -1,19 +1,20 @@
 import React from 'react';
 import {
+  Text, 
   StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+  View
+ } from 'react-native';
 
-export default class HomeScreen extends React.Component {
+
+export default class PledgesScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    title: 'Pledges',
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>Welcome to the Home Screen!</Text>
+        <Text>Welcome to the Pledges Made screen</Text>
       </View>
     );
   }
