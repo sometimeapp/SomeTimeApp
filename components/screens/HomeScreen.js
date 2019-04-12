@@ -22,7 +22,7 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text>Welcome to the Home Screen!</Text>
-        <Button title="Sign Out" onPress={ () => this._signOutAsync()} />
+        <Button title="Sign Out" onPress={this._signOutAsync} />
       </View>
     );
   }
