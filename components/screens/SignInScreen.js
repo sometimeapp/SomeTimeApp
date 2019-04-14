@@ -27,6 +27,8 @@ export default class SignInScreen extends React.Component {
       <View style={styles.container}>
         <Text>Welcome to the Sign-in Screen!</Text>
         <Button title="Sign in!" onPress={this._signInAsync} />
+        <Button title="Sign up!" onPress={ () => this.props.navigation.navigate('SignUp')} />
+        <Button title="Forgot Password" onPress={ () => this.props.navigation.navigate('ForgotPassword')} />
       </View>
     );
   }
