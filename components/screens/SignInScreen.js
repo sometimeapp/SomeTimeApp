@@ -15,6 +15,9 @@ import {
   Animated
 } from 'react-native';
 
+// AWS Amplify
+import Auth from '@aws-amplify/auth'
+
 import {
   Container,
   Item,
@@ -28,21 +31,30 @@ export default class SignInScreen extends React.Component {
   };
 
   state = {
-    username: '',
+    email: '',
     password: '',
   }
+
   onChangeText = (key, value) => {
     this.setState({[key]: value})
   }
 
   _signInAsync = async () => {
-      try {
-        await AsyncStorage.setItem('userToken', 'abc');
-        this.props.navigation.navigate('Main');
-      } catch (error) {
-          console.warn('Async Storage error', error);
+    const { email, password } = this.state
+    await Auth.signIn(email, password)
+    .then(user => {
+      this.setState({ user })
+      this.props.navigation.navigate('AuthLoading')
+    })
+    .catch(err => {
+      if (! err.message) {
+        console.log('Error when signing in: ', err)
+        Alert.alert('Error when signing in: ', err)
+      } else {
+        console.log('Error when signing in: ', err.message)
+        Alert.alert('Error when signing in: ', err.message)
       }
-    
+    })
   };
 
   render() {
@@ -57,19 +69,19 @@ export default class SignInScreen extends React.Component {
                   <Item rounded style={styles.itemStyle}>
                     <Icon
                       active
-                      name='person'
+                      name='mail'
                       style={styles.iconStyle}
                     />
                     <Input
                       style={styles.input}
-                      placeholder='Username'
+                      placeholder='Email'
                       placeholderTextColor='#adb4bc'
                       keyboardType={'email-address'}
                       returnKeyType='next'
                       autoCapitalize='none'
                       autoCorrect={false}
                       onSubmitEditing={(event) => {this.refs.SecondInput._root.focus()}}
-                      onChangeText={value => this.onChangeText('username', value)}
+                      onChangeText={value => this.onChangeText('email', value)}
                     />
                   </Item>
                   <Item rounded style={styles.itemStyle}>

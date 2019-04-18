@@ -21,9 +21,12 @@ import {
   Icon
 } from 'native-base'
 
+// AWS Amplify
+import Auth from '@aws-amplify/auth'
+
   export default class ForgotPasswordScreen extends React.Component {
     state = {
-      username: '',
+      email: '',
       authCode: '',
       newPassword: '',
     }
@@ -54,13 +57,13 @@ import {
                       />
                       <Input
                         style={styles.input}
-                        placeholder='Username'
+                        placeholder='Email'
                         placeholderTextColor='#adb4bc'
                         keyboardType={'email-address'}
                         returnKeyType='go'
                         autoCapitalize='none'
                         autoCorrect={false}
-                        onChangeText={value => this.onChangeText('username', value)}
+                        onChangeText={value => this.onChangeText('email', value)}
                       />
                     </Item>
                     <TouchableOpacity

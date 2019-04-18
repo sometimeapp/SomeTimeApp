@@ -21,6 +21,9 @@ import {
   Icon,
 } from 'native-base'
 
+// AWS Amplify
+import Auth from '@aws-amplify/auth'
+
 export default class SettingsScreen extends React.Component {
   state = {
     password1: '',

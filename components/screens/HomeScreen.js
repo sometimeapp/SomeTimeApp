@@ -18,6 +18,7 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
+    console.log("rendering the home screen!")
     return (
       <View style={styles.container}>
         <Text>Welcome to the Home Screen!</Text>
