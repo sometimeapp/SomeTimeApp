@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -14,6 +15,7 @@ import {
   FlatList,
   Animated,
 } from 'react-native'
+
 import {
   Container,
   Item,
@@ -21,16 +23,77 @@ import {
   Icon
 } from 'native-base'
 
+// AWS Amplify
+import Auth from '@aws-amplify/auth'
+
   export default class SignUpScreen extends React.Component {
     state = {
-      username: '',
-      password: '',
       email: '',
-      phoneNumber: '',
+      firstname: '',
+      lastname: '',
+      password: '',
       authCode: '',
     }
     onChangeText = (key, value) => {
       this.setState({[key]: value})
+    }
+
+    async signUp() {
+      const {firstname, lastname, email, password} = this.state
+      const name = firstname
+      const username = email
+      const family_name = lastname
+      await Auth.signUp({
+        username,
+        password,
+        attributes: { email, family_name, name }
+      })
+      .then(() => {
+        console.log('Sign up successful!')
+        Alert.alert('Enter the confirmation code sent to your email address')
+      })
+      .catch(err => {
+        if (! err.message) {
+          console.log('Error when signing up: ', err)
+          Alert('Error when signing up: ', err)
+        } else {
+          console.log('Error when signing up: ', err.message)
+          Alert.alert('Error when signing up', err.message)
+        }
+      })
+    }
+
+    async confirmSignUp() {
+      const {email, authCode} = this.state
+      await Auth.confirmSignUp(email, authCode)
+      .then(() => {
+        this.props.navigation.navigate('SignIn')
+        console.log('Confirm sign up successful')
+      })
+      .catch(err => {
+        if (! err.message) {
+          console.log('Error when entering confirmation code: ', err)
+          Alert.alert('Error when entering confirmation code: ', err)
+        } else {
+          console.log('Error when entering confirmation code: ', err.message)
+          Alert.alert('Error when entering confirmation code: ', err.message)
+        }
+      })
+    }
+
+    async resendSignUp() {
+      const { email } = this.state
+      await Auth.resendSignUp(email)
+      .then(() => console.log('Confirmation code resent successfully'))
+      .catch(err => {
+        if (! err.message) {
+          console.log('Error requesting new confirmation code: ', err)
+          Alert.alert('Error requesting new confirmation code: ', err)
+        } else {
+          console.log('Error requesting new confirmation code: ', err.message)
+          Alert.alert('Error requesting new confirmation code: ', err.message)
+        }
+      })
     }
 
     render() {
@@ -45,7 +108,28 @@ import {
               <View style={styles.container}>
                 <Container style={styles.infoContainer}>
                   <View style={styles.container}>
-                    {/* username section  */}
+                    {/* email section */}
+                    <Item rounded style={styles.itemStyle}>
+                      <Icon
+                        active
+                        name='mail'
+                        style={styles.iconStyle}
+                      />
+                      <Input
+                        style={styles.input}
+                        placeholder='Email'
+                        placeholderTextColor='#adb4bc'
+                        keyboardType={'email-address'}
+                        returnKeyType='next'
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        secureTextEntry={false}
+                        ref='ThirdInput'
+                        onSubmitEditing={(event) => {this.refs.FourthInput._root.focus()}}
+                        onChangeText={value => this.onChangeText('email', value)}
+                      />
+                    </Item>
+                    {/* name section  */}
                     <Item rounded style={styles.itemStyle}>
                       <Icon
                         active
@@ -54,14 +138,32 @@ import {
                       />
                       <Input
                         style={styles.input}
-                        placeholder='Username'
+                        placeholder='First Name'
                         placeholderTextColor='#adb4bc'
                         keyboardType={'email-address'}
                         returnKeyType='next'
                         autoCapitalize='none'
                         autoCorrect={false}
                         onSubmitEditing={(event) => {this.refs.SecondInput._root.focus()}}
-                        onChangeText={value => this.onChangeText('username', value)}
+                        onChangeText={value => this.onChangeText('firstname', value)}
+                      />
+                    </Item>
+                    <Item rounded style={styles.itemStyle}>
+                      <Icon
+                        active
+                        name='person'
+                        style={styles.iconStyle}
+                      />
+                      <Input
+                        style={styles.input}
+                        placeholder='Last Name'
+                        placeholderTextColor='#adb4bc'
+                        keyboardType={'email-address'}
+                        returnKeyType='next'
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        onSubmitEditing={(event) => {this.refs.SecondInput._root.focus()}}
+                        onChangeText={value => this.onChangeText('lastname', value)}
                       />
                     </Item>
                     {/*  password section  */}
@@ -85,50 +187,9 @@ import {
                         onChangeText={value => this.onChangeText('password', value)}
                       />
                     </Item>
-                    {/* email section */}
-                    <Item rounded style={styles.itemStyle}>
-                      <Icon
-                        active
-                        name='mail'
-                        style={styles.iconStyle}
-                      />
-                      <Input
-                        style={styles.input}
-                        placeholder='Email'
-                        placeholderTextColor='#adb4bc'
-                        keyboardType={'email-address'}
-                        returnKeyType='next'
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                        secureTextEntry={false}
-                        ref='ThirdInput'
-                        onSubmitEditing={(event) => {this.refs.FourthInput._root.focus()}}
-                        onChangeText={value => this.onChangeText('email', value)}
-                      />
-                    </Item>
-                    {/* phone section  */}
-                    <Item rounded style={styles.itemStyle}>
-                      <Icon
-                        active
-                        name='call'
-                        style={styles.iconStyle}
-                      />
-                      <Input
-                        style={styles.input}
-                        placeholder='+44766554433'
-                        placeholderTextColor='#adb4bc'
-                        keyboardType={'phone-pad'}
-                        returnKeyType='done'
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                        secureTextEntry={false}
-                        ref='FourthInput'
-                        value={this.state.phoneNumber}
-                        onChangeText={(val) => this.onChangeText('phoneNumber', val)}
-                      />
-                    </Item>
-                    {/* End of phone input */}
+
                     <TouchableOpacity
+                      onPress={() => this.signUp()}
                       style={styles.buttonStyle}>
                       <Text style={styles.buttonText}>
                         Sign Up
@@ -154,12 +215,14 @@ import {
                       />
                     </Item>
                     <TouchableOpacity
+                      onPress={() => this.confirmSignUp()}
                       style={styles.buttonStyle}>
                       <Text style={styles.buttonText}>
                         Confirm Sign Up
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
+                      onPress={() => this.resendSignUp()}
                       style={styles.buttonStyle}>
                       <Text style={styles.buttonText}>
                         Resend code
@@ -177,7 +240,7 @@ import {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#aa73b7',
+      backgroundColor: '#fff',
       justifyContent: 'center',
       flexDirection: 'column'
     },
@@ -191,13 +254,13 @@ import {
       position: 'absolute',
       left: 0,
       right: 0,
-      height: 470,
+      height: 570,
       bottom: 25,
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
       paddingHorizontal: 30,
-      backgroundColor: '#aa73b7',
+      backgroundColor: '#fff',
     },
     itemStyle: {
       marginBottom: 10,

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   ActivityIndicator,
   AsyncStorage,
@@ -7,26 +8,36 @@ import {
   View,
 } from 'react-native';
 
+// AWS Amplify
+import Auth from '@aws-amplify/auth'
+
 export default class AuthLoadingScreen extends React.Component {
   constructor(props) {
     super(props);
-    //this._bootstrapAsync();
   }
 
-  async componentDidMount() {
-    await this._bootstrapAsync();
+  state = {
+    userToken: null
   }
+
+   async componentDidMount() {
+     await this.loadApp();
+   }
 
     // Fetch the token from storage then navigate to our appropriate place
-    _bootstrapAsync = async () => {
-      const userToken = await AsyncStorage.getItem('userToken');
-  
-      // This will switch to the Main screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
-      this.props.navigation.navigate(userToken ? 'Main' : 'Auth');
-    };
+    loadApp = async () => {
+      console.log("I am loading")
+      await Auth.currentAuthenticatedUser()
+      .then(user => {
+      this.setState({userToken:
+        user.signInUserSession.accessToken.jwtToken})
+    })
+    .catch(err => console.log(err))
+    this.props.navigation.navigate(this.state.userToken ? 'Main' : 'Auth')
+  };
 
   render() {
+    console.log("I am rendering the Auth Loading Screen!")
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#fff" />
