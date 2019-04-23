@@ -59,15 +59,13 @@ export default class HomeScreen extends React.Component {
             <Button
             style={styles.button}
             title="Receive"
-            onPress={ () => console.log("clicked 'Receive'")}  
+            onPress={ () => this.props.navigation.navigate('QR')}  
             />
           </View>
       );
     }
   }
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
