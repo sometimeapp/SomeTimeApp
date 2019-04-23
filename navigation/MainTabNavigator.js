@@ -7,10 +7,13 @@ import HomeScreen from '../components/screens/HomeScreen';
 import PledgesScreen from '../components/screens/PledgesScreen';
 import SettingsScreen from '../components/screens/SettingsScreen';
 import QRScannerScreen from '../components/screens/QRScannerScreen';
+import GeneratedQRCodeScreen from '../components/screens/GeneratedQRCodeScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
-  QR: QRScannerScreen
+  Receive: QRScannerScreen,
+  QR: GeneratedQRCodeScreen
+
 });
 
 

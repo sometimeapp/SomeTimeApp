@@ -54,12 +54,12 @@ export default class HomeScreen extends React.Component {
             <Button
             style={styles.button}
             title="Make Promise"
-            onPress={ () => console.log("clicked 'Make'")} 
+            onPress={ () => this.props.navigation.navigate('QR')} 
             />
             <Button
             style={styles.button}
             title="Receive"
-            onPress={ () => this.props.navigation.navigate('QR')}  
+            onPress={ () => this.props.navigation.navigate('Receive')}  
             />
           </View>
       );
