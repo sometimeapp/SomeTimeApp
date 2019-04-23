@@ -1,15 +1,39 @@
 import React from 'react';
+import { Font } from 'expo';
+import { Ionicons } from '@expo/vector-icons';
 import {
   StyleSheet,
   Text,
   View,
-  AsyncStorage
+  AsyncStorage,
+  TouchableOpacity,
+  SafeAreaView,
+  Button
 } from 'react-native';
+import {
+  Container,
+  Header,
+  Body,
+  Title,
+  Item,
+} from 'native-base'
 
 export default class HomeScreen extends React.Component {
+  state = {
+    loadingFonts: true
+  }
   static navigationOptions = {
     header: null,
   };
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'Roboto': require('native-base/Fonts/Roboto.ttf'),
+      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    });
+    this.setState({ loadingFonts: false });
+  }
 
   _signOutAsync = async () => {
     await AsyncStorage.clear();
@@ -19,15 +43,29 @@ export default class HomeScreen extends React.Component {
 
   render() {
     console.log("rendering the home screen!")
-    return (
-      <View style={styles.container}>
-        <Text>Welcome to the Home Screen!</Text>
-      </View>
-    );
+    if (this.state.loadingFonts) {
+      return (
+        <Text>Hang on a sec...</Text>
+      )
+    } else {
+      return (
+          <View style={styles.container}>
+            <Text>Welcome to the Home screen</Text>
+            <Button
+            style={styles.button}
+            title="Make Promise"
+            onPress={ () => this.props.navigation.navigate('QR')} 
+            />
+            <Button
+            style={styles.button}
+            title="Receive"
+            onPress={ () => this.props.navigation.navigate('Receive')}  
+            />
+          </View>
+      );
+    }
   }
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -36,5 +74,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
+  }, 
+  button: {
+    padding: 20
   }
 });

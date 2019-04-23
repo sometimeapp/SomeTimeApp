@@ -6,13 +6,26 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../components/screens/HomeScreen';
 import PledgesScreen from '../components/screens/PledgesScreen';
 import SettingsScreen from '../components/screens/SettingsScreen';
+import QRScannerScreen from '../components/screens/QRScannerScreen';
+import GeneratedQRCodeScreen from '../components/screens/GeneratedQRCodeScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  Receive: QRScannerScreen,
+  QR: GeneratedQRCodeScreen
+
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+
+HomeStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
+
+  return {
+    tabBarVisible,
+    tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -23,6 +36,7 @@ HomeStack.navigationOptions = {
       }
     />
   ),
+  };
 };
 
 const PledgesStack = createStackNavigator({
