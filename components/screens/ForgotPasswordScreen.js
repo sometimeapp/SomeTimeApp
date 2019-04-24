@@ -10,8 +10,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   View,
-  Alert,
-  Animated
+  Alert
 } from 'react-native'
 
 import {
@@ -151,7 +150,7 @@ export default class ForgotPasswordScreen extends React.Component {
                     />
                   </Item>
                   <TouchableOpacity
-                    onPress={ () => this.forgotPasswordSubmit() }
+                    onPress={() => this.forgotPasswordSubmit()}
                     style={styles.buttonStyle}
                   >
                     <Text style={styles.buttonText}>

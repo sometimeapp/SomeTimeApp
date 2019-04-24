@@ -11,7 +11,6 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   View,
-  Alert
 } from 'react-native'
 
 import {
@@ -30,9 +29,9 @@ export default class SettingsScreen extends React.Component {
     password2: '',
   }
   onChangeText = (key, value) => {
-    this.setState({[key]: value})
+    this.setState({ [key]: value })
   }
-   
+
   _signOutAsync = async () => {
     await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
@@ -42,18 +41,18 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar/>
+        <StatusBar />
         <KeyboardAvoidingView style={styles.container} behavior='padding' enabled>
           <TouchableWithoutFeedback style={styles.container} onPress={Keyboard.dismiss}>
             <View style={styles.container}>
               {/*Infos*/}
               <Container style={styles.infoContainer}>
                 <View style={styles.container}>
-                  <View 
+                  <View
                     style={
-                      [styles.buttonStyle, {borderRadius: 4, marginBottom: 20}]
+                      [styles.buttonStyle, { borderRadius: 4, marginBottom: 20 }]
                     }>
-                    <Text style={styles.buttonText}>Change password</Text>              
+                    <Text style={styles.buttonText}>Change password</Text>
                   </View>
                   {/* Old password */}
                   <Item rounded style={styles.itemStyle}>
@@ -70,11 +69,11 @@ export default class SettingsScreen extends React.Component {
                       autoCapitalize='none'
                       autoCorrect={false}
                       secureTextEntry={true}
-                      onSubmitEditing={(event) => { this.refs.SecondInput._root.focus()}}
+                      onSubmitEditing={(event) => { this.refs.SecondInput._root.focus() }}
                       onChangeText={value => this.onChangeText('password1', value)}
                     />
-                  </Item>    
-                  {/* New password */}              
+                  </Item>
+                  {/* New password */}
                   <Item rounded style={styles.itemStyle}>
                     <Icon
                       active
@@ -99,26 +98,26 @@ export default class SettingsScreen extends React.Component {
                       Submit
                     </Text>
                   </TouchableOpacity>
-                  <View 
+                  <View
                     style={
                       {
-                        justifyContent: 'center', 
-                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        alignItems: 'center',
                         paddingBottom: 100
                       }
                     }
-                   />
+                  />
                   <TouchableOpacity
                     style={
-                      [styles.buttonStyle, 
-                        {
-                          flexDirection: 'row', 
-                          justifyContent: 'center'
-                        }
+                      [styles.buttonStyle,
+                      {
+                        flexDirection: 'row',
+                        justifyContent: 'center'
+                      }
                       ]
                     }
                     onPress={() => this._signOutAsync()}>
-                    <Icon name='md-power' style={{color: '#fff', paddingRight: 10}}/>
+                    <Icon name='md-power' style={{ color: '#fff', paddingRight: 10 }} />
                     <Text style={styles.buttonText}>
                       Sign out
                     </Text>
