@@ -1,10 +1,9 @@
 import React from 'react';
 import {
-  Text, 
+  Text,
   StyleSheet,
   View
- } from 'react-native';
-
+} from 'react-native';
 
 export default class PledgesScreen extends React.Component {
   static navigationOptions = {

@@ -1,5 +1,3 @@
-    
-import React from 'react';
 import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import MainTabNavigator from './MainTabNavigator';
 import SignInScreen from '../components/screens/SignInScreen';
@@ -7,15 +5,14 @@ import SignUpScreen from '../components/screens/SignUpScreen';
 import ForgotPasswordScreen from '../components/screens/ForgotPasswordScreen';
 import AuthLoadingScreen from '../components/screens/AuthLoadingScreen';
 
-
 /*
   This nav stack is specific to the all authentication paths
 */
-const AuthStack = createStackNavigator({ 
+const AuthStack = createStackNavigator({
   SignIn: SignInScreen,
   SignUp: SignUpScreen,
   ForgotPassword: ForgotPasswordScreen
- });
+});
 
 /* 
   This navigator allows only one page to be displayed at a time and suppresses the 'back' actions

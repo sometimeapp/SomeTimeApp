@@ -5,14 +5,12 @@ import {
   Text,
   View,
   TouchableOpacity,
-  AsyncStorage,
   TouchableWithoutFeedback,
   SafeAreaView,
   StatusBar,
   KeyboardAvoidingView,
   Keyboard,
-  Alert,
-  Animated
+  Alert
 } from 'react-native';
 
 // AWS Amplify
@@ -36,31 +34,31 @@ export default class SignInScreen extends React.Component {
   }
 
   onChangeText = (key, value) => {
-    this.setState({[key]: value})
+    this.setState({ [key]: value })
   }
 
   _signInAsync = async () => {
     const { email, password } = this.state
     await Auth.signIn(email, password)
-    .then(user => {
-      this.setState({ user })
-      this.props.navigation.navigate('AuthLoading')
-    })
-    .catch(err => {
-      if (! err.message) {
-        console.log('Error when signing in: ', err)
-        Alert.alert('Error when signing in: ', err)
-      } else {
-        console.log('Error when signing in: ', err.message)
-        Alert.alert('Error when signing in: ', err.message)
-      }
-    })
+      .then(user => {
+        this.setState({ user })
+        this.props.navigation.navigate('AuthLoading')
+      })
+      .catch(err => {
+        if (!err.message) {
+          console.log('Error when signing in: ', err)
+          Alert.alert('Error when signing in: ', err)
+        } else {
+          console.log('Error when signing in: ', err.message)
+          Alert.alert('Error when signing in: ', err.message)
+        }
+      })
   };
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar/>
+        <StatusBar />
         <KeyboardAvoidingView style={styles.container} behavior='padding' enabled>
           <TouchableWithoutFeedback style={styles.container} onPress={Keyboard.dismiss}>
             <View style={styles.container}>
@@ -80,7 +78,7 @@ export default class SignInScreen extends React.Component {
                       returnKeyType='next'
                       autoCapitalize='none'
                       autoCorrect={false}
-                      onSubmitEditing={(event) => {this.refs.SecondInput._root.focus()}}
+                      onSubmitEditing={(event) => { this.refs.SecondInput._root.focus() }}
                       onChangeText={value => this.onChangeText('email', value)}
                     />
                   </Item>
