@@ -1,0 +1,7 @@
+{
+    "tableName": "Pledges",
+    "partitionKeyName": "promiseeId",
+    "partitionKeyType": "S",
+    "sortKeyName": "promiseDate",
+    "sortKeyType": "S"
+}

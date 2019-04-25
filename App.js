@@ -2,7 +2,7 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
-import Amplify from '@aws-amplify/core'
+import Amplify, { API } from 'aws-amplify'
 import config from './aws-exports'
 Amplify.configure(config)
 

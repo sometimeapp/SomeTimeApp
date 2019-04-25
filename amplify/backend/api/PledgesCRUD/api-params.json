@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/pledges",
+            "lambdaFunction": "PledgesCRUD",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "PledgesCRUD",
+    "apiName": "PledgesCRUD",
+    "functionArns": [
+        {
+            "lambdaFunction": "PledgesCRUD"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "sometimeapp-20190418142935-authRole",
+        "unAuthRoleName": "sometimeapp-20190418142935-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "PledgesCRUD",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
