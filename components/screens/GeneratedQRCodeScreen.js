@@ -4,11 +4,14 @@ import {
     View,
     StyleSheet
 } from 'react-native';
+import { Auth } from 'aws-amplify';
+import { CognitoUser } from '@aws-amplify/auth';
 
 export default class GeneratedQRCodeScreen extends React.Component {
+
     state = {
         dummyData: {
-            promiserID: '67890876567890ghjklkjhgfyui',
+            promiserID: '',
             promiseeID: '567890987656789ghjkljhghjfd',
             status: 'pending',
             terms: 'Beer',
@@ -16,12 +19,26 @@ export default class GeneratedQRCodeScreen extends React.Component {
         }
     }
 
+    getId = async () => {
+        let userID;
+        Auth.currentAuthenticatedUser()
+        .then(user => userID = user.CognitoUser.attributes.sub)
+        return userID;
+    }
+
+    componentDidMount() {
+        let promiserID = getId();
+        this.setState({promiseeID: promiserID});
+    }   
+
+
+
     render() {
         const { dummyData } = this.state;
         return (
             <View style={styles.container}>
                 <QRCode
-                    value={JSON.stringify(dummyData)}
+                    value={dummyData}
                     size={250}
                 />
             </View>

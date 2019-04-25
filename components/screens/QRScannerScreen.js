@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
 
+
 export default class QRScannerScreen extends React.Component {
     state = {
         hasCameraPermission: null,
@@ -32,6 +33,7 @@ export default class QRScannerScreen extends React.Component {
     }
 
     handleBarCodeScanned = ({ type, data }) => {
-        alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+        //alert(`Bar code with type ${type} and data is ${typeof data} `);
+        this.props.navigation.navigate('Review', JSON.parse(data));
     }
 }
