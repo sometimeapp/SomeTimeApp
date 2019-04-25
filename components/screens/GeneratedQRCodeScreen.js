@@ -10,35 +10,33 @@ import { CognitoUser } from '@aws-amplify/auth';
 export default class GeneratedQRCodeScreen extends React.Component {
 
     state = {
-        dummyData: {
-            promiserID: '',
+            promisorID: '',
             promiseeID: '567890987656789ghjkljhghjfd',
             status: 'pending',
             terms: 'Beer',
             date: new Date()
         }
-    }
 
     getId = async () => {
-        let userID;
-        Auth.currentAuthenticatedUser()
-        .then(user => userID = user.CognitoUser.attributes.sub)
+        let user = await Auth.currentAuthenticatedUser()
+        let userID = await user.attributes.sub
+        console.log(userID)
         return userID;
     }
 
-    componentDidMount() {
-        let promiserID = getId();
-        this.setState({promiseeID: promiserID});
+    async componentDidMount() {
+        let promisorID = await this.getId();
+        this.setState({promisorID: promisorID});
+        console.log('I should have been bound by now ' + this.state.promisorID)
     }   
 
 
 
     render() {
-        const { dummyData } = this.state;
         return (
             <View style={styles.container}>
                 <QRCode
-                    value={dummyData}
+                    value={JSON.stringify(this.state)}
                     size={250}
                 />
             </View>
