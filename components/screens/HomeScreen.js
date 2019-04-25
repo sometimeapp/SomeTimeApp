@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  AsyncStorage,
   Button
 } from 'react-native';
 
@@ -12,12 +11,6 @@ export default class HomeScreen extends React.Component {
 
   static navigationOptions = {
     header: null,
-  };
-
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
-    console.log("signed out!")
   };
 
   render() {
