@@ -21,9 +21,9 @@ export default class GeneratedQRCodeScreen extends React.Component {
         try {
             let userInfo = {};
             let user = await Auth.currentAuthenticatedUser()
-            userinfo.userID = await user.attributes.sub;
-            userinfo.firstName = await user.attributes.name;
-            userinfo.lastName = await user.attributes.family_name;
+            userInfo.userID = await user.attributes.sub;
+            userInfo.firstName = await user.attributes.name;
+            userInfo.lastName = await user.attributes.family_name;
             //console.log(user);
             return userInfo;
         } catch (error) {
@@ -36,7 +36,7 @@ export default class GeneratedQRCodeScreen extends React.Component {
         this.setState({
             promisorID: userInfo.userID,
             promisorFirstName: userInfo.firstName,
-            promisorLastName: userinfo.lastName,
+            promisorLastName: userInfo.lastName,
             });
         //console.log('I should have been bound by now ' + this.state.promisorID)
     }   
