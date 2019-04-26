@@ -16,20 +16,20 @@ export default class TermsReviewScreen extends React.Component {
 
   async componentDidMount() {
     let promiseeID = await this.getId();
-    this.setState({promiseeID: promiseeID});
+    this.setState({ promiseeID: promiseeID });
     console.log('I should have been bound by now ' + this.state.promiseeID)
   }
 
   getId = async () => {
     try {
-        let user = await Auth.currentAuthenticatedUser()
-        let userID = await user.attributes.sub
-        //console.log(userID)
-        return userID;
+      let user = await Auth.currentAuthenticatedUser()
+      let userID = await user.attributes.sub
+      //console.log(userID)
+      return userID;
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-}
+  }
 
 
   /*
@@ -42,7 +42,33 @@ export default class TermsReviewScreen extends React.Component {
   */
 
   savePledge = async () => {
-    let newPledge = {
+    // let newPledge = {
+    //   body: {
+        // "promiseeId": this.state.promiseeID,
+        // "promiseDate": new Date(),
+        // "promisorId": this.props.navigation.getParam('promisorID'),
+        // "status": this.state.status,
+        // "terms": this.state.terms
+    //   }
+    // }
+    // const path = "/pledges";
+    // let apiResponse;
+
+    // // Use the API module to save the pledge to the database
+    // try {
+    //   apiResponse = await API.put("PledgesCRUD", path, newPledge)
+    //   console.log("response from saving pledge: ", + apiResponse);
+    //   this.setState({apiResponse});
+    // } catch (e) {
+    //   console.log("logging API error");
+    //   console.log(apiResponse);
+    //   console.log(e);
+    // }
+
+    let apiName = 'PledgesCRUD'; // replace this with your api name.
+    let path = '/pledges'; //replace this with the path you have configured on your API
+    let myInit = {
+      response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
       body: {
         "promiseeId": this.state.promiseeID,
         "promiseDate": new Date(),
@@ -51,17 +77,12 @@ export default class TermsReviewScreen extends React.Component {
         "terms": this.state.terms
       }
     }
-    const path = "/pledges";
 
-    // Use the API module to save the pledge to the database
-    try {
-      const apiResponse = await API.put("PledgesCRUD", path, newPledge)
-      console.log("response from saving pledge: ", + apiResponse);
-      this.setState({apiResponse});
-    } catch (e) {
-      console.log("logging API error")
-      console.log(e);
-    }
+    API.post(apiName, path, myInit).then(response => {
+      // Add your code here
+    }).catch(error => {
+      console.log(JSON.stringify(error.response))
+    });
   }
 
   render() {
@@ -79,10 +100,10 @@ export default class TermsReviewScreen extends React.Component {
 
         <View >
           <Button
-              style={styles.button}
-              title="Accept"
-              //onPress={() => this.props.navigation.navigate('QR')}
-              onPress={() => this.savePledge()}
+            style={styles.button}
+            title="Accept"
+            //onPress={() => this.props.navigation.navigate('QR')}
+            onPress={() => this.savePledge()}
           />
           <Button
             style={styles.button}
