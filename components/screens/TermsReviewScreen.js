@@ -5,12 +5,13 @@ import {
   View,
   Button,
 } from 'react-native';
-import { Auth } from 'aws-amplify';
+import { Auth, API } from 'aws-amplify';
 
 export default class TermsReviewScreen extends React.Component {
 
   state = {
-    promiseeID: ''
+    promiseeID: '',
+    apiResponse: null,
   }
 
   async componentDidMount() {
@@ -40,13 +41,26 @@ export default class TermsReviewScreen extends React.Component {
         }
   */
 
-  async savePledge() {
+  savePledge = async () => {
     let newPledge = {
       body: {
-        "promiseeId": this.props.navigation.getParam('promiseeID'),
+        "promiseeId": this.state.promiseeID,
         "promiseDate": new Date(),
-        "promisorId": this.props.navigation.getParam('pro')
+        "promisorId": this.props.navigation.getParam('promisorID'),
+        "status": this.state.status,
+        "terms": this.state.terms
       }
+    }
+    const path = "/pledges";
+
+    // Use the API module to save the pledge to the database
+    try {
+      const apiResponse = await API.put("PledgesCRUD", path, newPledge)
+      console.log("response from saving pledge: ", + apiResponse);
+      this.setState({apiResponse});
+    } catch (e) {
+      console.log("logging API error")
+      console.log(e);
     }
   }
 
@@ -68,7 +82,7 @@ export default class TermsReviewScreen extends React.Component {
               style={styles.button}
               title="Accept"
               //onPress={() => this.props.navigation.navigate('QR')}
-              onPress={() => alert("You've accepted")}
+              onPress={() => this.savePledge()}
           />
           <Button
             style={styles.button}
