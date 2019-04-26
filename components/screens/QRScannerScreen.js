@@ -7,27 +7,11 @@ import { Auth } from 'aws-amplify'
 export default class QRScannerScreen extends React.Component {
     state = {
         hasCameraPermission: null,
-        promiseeID: ''
     }
 
     async componentDidMount() {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         this.setState({ hasCameraPermission: status === 'granted' });
-        
-        let promiseeID = await this.getId();
-        this.setState({promiseeID: promiseeID});
-        console.log('I should have been bound by now ' + this.state.promiseeID)
-    }
-
-    getId = async () => {
-        try {
-            let user = await Auth.currentAuthenticatedUser()
-            let userID = await user.attributes.sub
-            console.log(userID)
-            return userID;
-        } catch (error) {
-            console.log(error);
-        }
     }
 
     render() {
@@ -52,7 +36,6 @@ export default class QRScannerScreen extends React.Component {
     handleBarCodeScanned = ({ type, data }) => {
         //alert(`Bar code with type ${type} and data is ${typeof data} `);
         data = JSON.parse(data);
-        data.promiseeID = this.state.promiseeID;
         this.props.navigation.navigate('Review', data);
     }
 }

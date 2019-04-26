@@ -9,6 +9,7 @@ Amplify.configure(config)
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
+    apiResponse: null, 
   };
 
   render() {

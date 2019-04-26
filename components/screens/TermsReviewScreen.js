@@ -9,6 +9,27 @@ import { Auth } from 'aws-amplify';
 
 export default class TermsReviewScreen extends React.Component {
 
+  state = {
+    promiseeID: ''
+  }
+
+  async componentDidMount() {
+    let promiseeID = await this.getId();
+    this.setState({promiseeID: promiseeID});
+    console.log('I should have been bound by now ' + this.state.promiseeID)
+  }
+
+  getId = async () => {
+    try {
+        let user = await Auth.currentAuthenticatedUser()
+        let userID = await user.attributes.sub
+        //console.log(userID)
+        return userID;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
   /*
             promiserID: '67890876567890ghjklkjhgfyui',
@@ -19,7 +40,15 @@ export default class TermsReviewScreen extends React.Component {
         }
   */
 
- 
+  async savePledge() {
+    let newPledge = {
+      body: {
+        "promiseeId": this.props.navigation.getParam('promiseeID'),
+        "promiseDate": new Date(),
+        "promisorId": this.props.navigation.getParam('pro')
+      }
+    }
+  }
 
   render() {
 
@@ -29,7 +58,7 @@ export default class TermsReviewScreen extends React.Component {
         <Text>{this.props.navigation.getParam('promisorID')}</Text>
         <Text>{this.props.navigation.getParam('promisorFirstName')}</Text>
         <Text>{this.props.navigation.getParam('promisorLastName')}</Text>
-        <Text>{this.props.navigation.getParam('promiseeID')}</Text>
+        <Text>{this.state.promiseeID}</Text>
         <Text>{this.props.navigation.getParam('status')}</Text>
         <Text>{this.props.navigation.getParam('terms')}</Text>
         <Text>{this.props.navigation.getParam('date')}</Text>
