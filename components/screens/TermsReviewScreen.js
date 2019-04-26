@@ -19,12 +19,16 @@ export default class TermsReviewScreen extends React.Component {
         }
   */
 
+ 
+
   render() {
 
     return (
 
       <View>
-        <Text>{this.props.navigation.getParam('promiserID')}</Text>
+        <Text>{this.props.navigation.getParam('promisorID')}</Text>
+        <Text>{this.props.navigation.getParam('promisorFirstName')}</Text>
+        <Text>{this.props.navigation.getParam('promisorLastName')}</Text>
         <Text>{this.props.navigation.getParam('promiseeID')}</Text>
         <Text>{this.props.navigation.getParam('status')}</Text>
         <Text>{this.props.navigation.getParam('terms')}</Text>
