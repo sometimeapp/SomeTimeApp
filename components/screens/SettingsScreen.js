@@ -24,10 +24,16 @@ import {
 import Auth from '@aws-amplify/auth'
 
 export default class SettingsScreen extends React.Component {
+  static navigationOptions = {
+    headerTitle: 'Settings',
+  };
+
   state = {
     password1: '',
     password2: '',
   }
+
+
   onChangeText = (key, value) => {
     this.setState({ [key]: value })
   }
