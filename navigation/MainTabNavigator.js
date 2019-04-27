@@ -10,12 +10,14 @@ import QRScannerScreen from '../components/screens/QRScannerScreen';
 import GeneratedQRCodeScreen from '../components/screens/GeneratedQRCodeScreen';
 import TermsReviewScreen from '../components/screens/TermsReviewScreen';
 import PledgesOwedScreen from '../components/screens/PledgesOwedScreen';
+import DefineTermsScreen from '../components/screens/DefineTermsScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Receive: QRScannerScreen,
   QR: GeneratedQRCodeScreen,
-  Review: TermsReviewScreen
+  Review: TermsReviewScreen,
+  Terms: DefineTermsScreen
 });
 
 HomeStack.navigationOptions = ({ navigation }) => {
