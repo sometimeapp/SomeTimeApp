@@ -10,7 +10,7 @@ export default class HomeScreen extends React.Component {
   state = {}
 
   static navigationOptions = {
-    header: null,
+    headerTitle: 'Home',
   };
 
   render() {
@@ -43,6 +43,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
   }
 });
