@@ -18,16 +18,20 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text>Welcome to the Home screen</Text>
-        <Button
-          style={styles.button}
-          title="Make Promise"
-          onPress={() => this.props.navigation.navigate('QR')}
-        />
-        <Button
-          style={styles.button}
-          title="Receive"
-          onPress={() => this.props.navigation.navigate('Receive')}
-        />
+        <View style={{ margin: 5 }}>
+          <Button
+            style={styles.button}
+            title="Make Promise"
+            onPress={() => this.props.navigation.navigate('QR')}
+          />
+          </View>
+          <View style={{ margin: 5 }}>
+          <Button
+            style={styles.button}
+            title="Receive"
+            onPress={() => this.props.navigation.navigate('Receive')}
+          />
+        </View>
       </View>
     );
   }
@@ -40,8 +44,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
-  },
-  button: {
-    padding: 20
   }
 });

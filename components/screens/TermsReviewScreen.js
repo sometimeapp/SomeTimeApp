@@ -19,7 +19,7 @@ export default class TermsReviewScreen extends React.Component {
         }
   */
 
- 
+
 
   render() {
 
@@ -34,13 +34,14 @@ export default class TermsReviewScreen extends React.Component {
         <Text>{this.props.navigation.getParam('terms')}</Text>
         <Text>{this.props.navigation.getParam('date')}</Text>
 
-        <View >
+        <View style={{ margin: 5 }}>
           <Button
-              style={styles.button}
-              title="Accept"
-              //onPress={() => this.props.navigation.navigate('QR')}
-              onPress={() => alert("You've accepted")}
+            title="Accept"
+            //onPress={() => this.props.navigation.navigate('QR')}
+            onPress={() => alert("You've accepted")}
           />
+          </View>
+          <View style={{ margin: 5 }}>
           <Button
             style={styles.button}
             title="Reject"
@@ -60,8 +61,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
-  },
-  button: {
-    padding: 20,
   }
 });
