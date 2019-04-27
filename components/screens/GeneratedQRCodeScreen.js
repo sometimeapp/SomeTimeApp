@@ -2,20 +2,21 @@ import React from 'react';
 import QRCode from 'react-native-qrcode-svg';
 import {
     View,
-    StyleSheet
+    StyleSheet,
+    Button
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 
 export default class GeneratedQRCodeScreen extends React.Component {
 
     state = {
-            promisorID: '',
-            promisorFirstName: '',
-            promisorLastName: '',
-            status: 'pending',
-            terms: 'Beer',
-            date: new Date(), 
-        }
+        promisorID: '',
+        promisorFirstName: '',
+        promisorLastName: '',
+        status: 'pending',
+        terms: 'Beer',
+        date: new Date(),
+    }
 
     getId = async () => {
         try {
@@ -37,9 +38,9 @@ export default class GeneratedQRCodeScreen extends React.Component {
             promisorID: userInfo.userID,
             promisorFirstName: userInfo.firstName,
             promisorLastName: userInfo.lastName,
-            });
+        });
         //console.log('I should have been bound by now ' + this.state.promisorID)
-    }   
+    }
 
     render() {
         console.log()
@@ -49,6 +50,12 @@ export default class GeneratedQRCodeScreen extends React.Component {
                     value={JSON.stringify(this.state)}
                     size={250}
                 />
+                <View style={{ marginTop: 20 }}>
+                    <Button
+                        title="Home"
+                        onPress={() => this.props.navigation.navigate('Home')}
+                    />
+                </View>
             </View>
         )
     }
@@ -60,5 +67,5 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-    },
+    }
 })
