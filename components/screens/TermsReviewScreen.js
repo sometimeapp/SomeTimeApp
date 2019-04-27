@@ -73,13 +73,14 @@ export default class TermsReviewScreen extends React.Component {
         "promiseeId": this.state.promiseeID,
         "promiseDate": new Date(),
         "promisorId": this.props.navigation.getParam('promisorID'),
-        "status": this.state.status,
-        "terms": this.state.terms
+        "status": this.props.navigation.getParam('status'),
+        "terms": this.props.navigation.getParam('terms')
       }
     }
 
     API.post(apiName, path, myInit).then(response => {
-      // Add your code here
+      alert('Pledge successfully made!');
+      this.props.navigation.navigate('Home');
     }).catch(error => {
       console.log(JSON.stringify(error.response))
     });
