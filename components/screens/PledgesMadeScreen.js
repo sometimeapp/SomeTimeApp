@@ -5,9 +5,9 @@ import {
   View
 } from 'react-native';
 
-export default class PledgesScreen extends React.Component {
+export default class PledgesMadeScreen extends React.Component {
   static navigationOptions = {
-    title: 'Pledges',
+    title: 'Made',
   };
 
   render() {
