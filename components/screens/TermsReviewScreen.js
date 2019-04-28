@@ -73,7 +73,7 @@ export default class TermsReviewScreen extends React.Component {
         "promiseeId": this.state.promiseeID,
         "promiseDate": new Date(),
         "promisorId": this.props.navigation.getParam('promisorID'),
-        "status": this.props.navigation.getParam('status'),
+        "status": 'pending',
         "terms": this.props.navigation.getParam('terms')
       }
     }
