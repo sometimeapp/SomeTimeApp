@@ -22,7 +22,7 @@ export default class HomeScreen extends React.Component {
           <Button
             style={styles.button}
             title="Make Promise"
-            onPress={() => this.props.navigation.navigate('QR')}
+            onPress={() => this.props.navigation.navigate('Terms')}
           />
           </View>
           <View style={{ margin: 5 }}>
