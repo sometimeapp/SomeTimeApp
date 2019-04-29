@@ -5,12 +5,19 @@ import {
   View
 } from 'react-native';
 
+
 export default class PledgesMadeScreen extends React.Component {
   static navigationOptions = {
     title: 'Made',
   };
 
+  componentDidMount() {
+    console.log("I AM MOUNTING THE MADE SCREEN!")  
+  }
+
+
   render() {
+    
     return (
       <View style={styles.container}>
         <Text>Welcome to the Pledges Made screen</Text>
