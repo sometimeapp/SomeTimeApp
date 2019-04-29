@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Button,
+  ActivityIndicator
 } from 'react-native';
 import { Auth, API } from 'aws-amplify';
 
@@ -12,6 +13,7 @@ export default class TermsReviewScreen extends React.Component {
   state = {
     promiseeID: '',
     apiResponse: null,
+    sending: false
   }
 
   async componentDidMount() {
@@ -42,31 +44,11 @@ export default class TermsReviewScreen extends React.Component {
   */
 
   savePledge = async () => {
-    // let newPledge = {
-    //   body: {
-        // "promiseeId": this.state.promiseeID,
-        // "promiseDate": new Date(),
-        // "promisorId": this.props.navigation.getParam('promisorID'),
-        // "status": this.state.status,
-        // "terms": this.state.terms
-    //   }
-    // }
-    // const path = "/pledges";
-    // let apiResponse;
 
-    // // Use the API module to save the pledge to the database
-    // try {
-    //   apiResponse = await API.put("PledgesCRUD", path, newPledge)
-    //   console.log("response from saving pledge: ", + apiResponse);
-    //   this.setState({apiResponse});
-    // } catch (e) {
-    //   console.log("logging API error");
-    //   console.log(apiResponse);
-    //   console.log(e);
-    // }
+    this.setState({sending: true});
 
-    let apiName = 'PledgesCRUD'; // replace this with your api name.
-    let path = '/pledges'; //replace this with the path you have configured on your API
+    let apiName = 'PledgesCRUD'; 
+    let path = '/pledges'; 
     let myInit = {
       response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
       body: {
@@ -100,15 +82,21 @@ export default class TermsReviewScreen extends React.Component {
         <Text>{this.props.navigation.getParam('date')}</Text>
 
         <View style={{ margin: 5 }}>
-          <Button
+        {
+          !this.state.sending ? (
+            <Button
             onPress={() => alert("You've accepted")}
             title="Accept"
             onPress={() => this.savePledge()}
           />
+          ) : (
+            <ActivityIndicator />
+          )
+        }
           </View>
           <View style={{ margin: 5 }}>
           <Button
-            style={styles.button}
+            disabled={this.state.sending ? true : false}
             title="Reject"
             onPress={() => this.props.navigation.navigate('Home')}
           />
