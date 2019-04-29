@@ -12,26 +12,35 @@ export default class TermsReviewScreen extends React.Component {
 
   state = {
     promiseeID: '',
+    promiseeFirstName: '',
+    promiseeLastName: '',
     apiResponse: null,
     sending: false
   }
 
   async componentDidMount() {
-    let promiseeID = await this.getId();
-    this.setState({ promiseeID: promiseeID });
-    console.log('I should have been bound by now ' + this.state.promiseeID)
-  }
+    let userInfo = await this.getId();
+    this.setState({
+        promiseeID: userInfo.userID,
+        promiseeFirstName: userInfo.firstName,
+        promiseeLastName: userInfo.lastName,
+    });
+    //console.log('I should have been bound by now ' + this.state.promisorID)
+}
 
-  getId = async () => {
+getId = async () => {
     try {
-      let user = await Auth.currentAuthenticatedUser()
-      let userID = await user.attributes.sub
-      //console.log(userID)
-      return userID;
+        let userInfo = {};
+        let user = await Auth.currentAuthenticatedUser()
+        userInfo.userID = await user.attributes.sub;
+        userInfo.firstName = await user.attributes.name;
+        userInfo.lastName = await user.attributes.family_name;
+        //console.log(user);
+        return userInfo;
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
-  }
+}
 
 
   /*
@@ -55,6 +64,8 @@ export default class TermsReviewScreen extends React.Component {
         "promiseeId": this.state.promiseeID,
         "promiseDate": new Date(),
         "promisorId": this.props.navigation.getParam('promisorID'),
+        "promisorFirstName": this.props.navigation.getParam('promisorFirstName'),
+        "promisorLastName": this.props.navigation.getParam('promisorLastName'),
         "status": 'pending',
         "terms": this.props.navigation.getParam('terms')
       }
