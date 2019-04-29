@@ -62,6 +62,8 @@ getId = async () => {
       response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
       body: {
         "promiseeId": this.state.promiseeID,
+        "promiseeFirstName": this.state.promiseeFirstName,
+        "promiseeLastName": this.state.promiseeLastName,
         "promiseDate": new Date(),
         "promisorId": this.props.navigation.getParam('promisorID'),
         "promisorFirstName": this.props.navigation.getParam('promisorFirstName'),
