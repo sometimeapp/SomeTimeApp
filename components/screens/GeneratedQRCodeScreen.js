@@ -5,7 +5,6 @@ import {
     StyleSheet,
     Button
 } from 'react-native';
-import { Auth } from 'aws-amplify';
 
 export default class GeneratedQRCodeScreen extends React.Component {
 
