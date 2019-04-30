@@ -15,7 +15,7 @@ export default class PledgesOwedScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: 'Owed',  
+    title: 'Owed',
   };
 
   async componentDidMount() {
@@ -32,12 +32,12 @@ export default class PledgesOwedScreen extends React.Component {
 async getData(promiseeId) { 
     let apiName = 'PledgesCRUD';
     let path = `/pledges/${promiseeId}`;
-    let myInit = { // OPTIONAL
-        headers: {}, 
-        queryStringParameters: {
-          promiseeId: promiseeId
-        } // OPTIONAL
-    }
+    // let myInit = { // OPTIONAL
+    //     headers: {}, 
+    //     queryStringParameters: {  //probably not necessary
+    //       promiseeId: promiseeId
+    //     } // OPTIONAL
+    // }
     return await API.get(apiName, path);
 }
 

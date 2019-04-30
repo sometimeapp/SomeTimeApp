@@ -72,9 +72,20 @@ app.get(path + hashKeyPath, function(req, res) {
     }
   }
 
+  // let queryParams = {
+  //   TableName: tableName,
+  //   KeyConditions: condition
+  // } 
+
   let queryParams = {
-    TableName: tableName,
-    KeyConditions: condition
+    "TableName": "Pledges-dev",
+    "IndexName": "promisorId",
+    "KeyConditionExpression": "promisorId = :v_promisor",
+    "ExpressionAttributeValues": {
+        ":v_promisor": {"S": [promisorId goes here]}
+    },
+    "ProjectionExpression": "[column1], [column2], [columnX]",
+    "ScanIndexForward": false
   } 
 
   dynamodb.query(queryParams, (err, data) => {
