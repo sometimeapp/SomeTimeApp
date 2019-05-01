@@ -82,17 +82,22 @@ app.get(path + hashKeyPath, function(req, res) {
     "IndexName": "promisorId",
     "KeyConditionExpression": "promisorId = :v_promisor",
     "ExpressionAttributeValues": {
-        ":v_promisor": {"S": [promisorId goes here]}
+        ":v_promisor": hashKeyPath
     },
-    "ProjectionExpression": "[column1], [column2], [columnX]",
+    "ProjectionExpression": "promisorFirstName, promisorLastName, promiseeFirstName, promiseeLastName, promiseDate, terms, pledgeStatus",
     "ScanIndexForward": false
   } 
 
   dynamodb.query(queryParams, (err, data) => {
     if (err) {
+      console.log(err);
       res.statusCode = 500;
       res.json({error: 'Could not load items: ' + err});
     } else {
+      console.log('Logging res');
+      console.log(res);
+      console.log('Logging DATA');
+      console.log(data);
       res.json(data.Items);
     }
   });
