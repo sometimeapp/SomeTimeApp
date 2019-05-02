@@ -19,20 +19,17 @@ if(process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
 
-var userIdPresent = false; // TODO: update in case is required to use that definition
-var partitionKeyName = "promiseeId";
-var partitionKeyType = "S";
-var sortKeyName = "promiseDate";
-var sortKeyType = "S";
-var hasSortKey = sortKeyName !== "";
-var path = "/pledges";
-var UNAUTH = 'UNAUTH';
-var hashKeyPath = '/:' + partitionKeyName;
-var sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
 // declare a new express app
 var app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
+
+let GSIflag;
+app.use( (req, res, next) => {
+  GSIflag = req.query.message;
+  console.log('message: ' + GSIflag)
+  next();
+});
 
 // Enable CORS for all methods
 app.use(function(req, res, next) {
@@ -40,6 +37,34 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
 });
+
+const userIdPresent = false; // TODO: update in case is required to use that definition
+
+//If the GSI flag is set, then query the GSI using promisorId; otherwise, query pledges table with promiseeId
+var partitionKeyName;
+if(GSIflag) {
+ partitionKeyName = 'promisorId';
+} else {
+ partitionKeyName = 'promiseeId';
+}
+
+console.log('Partition key name is: ' + partitionKeyName);
+
+
+const partitionKeyType = "S";
+const sortKeyType = "S";
+
+const sortKeyName = "promiseDate";
+
+const hasSortKey = sortKeyName !== "";
+const path = "/pledges";
+const UNAUTH = 'UNAUTH';
+
+const hashKeyPath = '/:' + partitionKeyName;
+const sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
+
+console.log('hashKeyPath is: ' + hashKeyPath);
+
 
 // convert url string param to expected Type
 const convertUrlType = (param, type) => {
@@ -55,8 +80,8 @@ const convertUrlType = (param, type) => {
  * HTTP Get method for list objects *
  ********************************/
 
+ // the following block works for requesting pledges owed to you
 app.get(path + hashKeyPath, function(req, res) {
-  console.log("The path + hashKeyPath is " + path + hashKeyPath);
   var condition = {}
   condition[partitionKeyName] = {
     ComparisonOperator: 'EQ'
@@ -67,6 +92,7 @@ app.get(path + hashKeyPath, function(req, res) {
   } else {
     try {
       condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
+      console.log('condition is: ' + JSON.stringify(condition));
     } catch(err) {
       res.statusCode = 500;
       res.json({error: 'Wrong column type ' + err});
@@ -75,11 +101,14 @@ app.get(path + hashKeyPath, function(req, res) {
 
   let queryParams = {
     TableName: tableName,
+    IndexName: GSIflag ? 'promisorId' : null,
     KeyConditions: condition
   } 
 
   dynamodb.query(queryParams, (err, data) => {
+    console.log('queryParams is: ' + JSON.stringify(queryParams));
     if (err) {
+      console.log(JSON.stringify(err));
       res.statusCode = 500;
       res.json({error: 'Could not load items: ' + err});
     } else {
@@ -87,6 +116,42 @@ app.get(path + hashKeyPath, function(req, res) {
     }
   });
 });
+
+// // experimental request for pledges you have made
+// app.get(path, function(req, res) {
+//   let message = req.query.message;
+//   if(message){
+//     path += indexKeyPath;
+//   } else {
+//     path += hashKeyPath;
+//   }
+//   console.log("THE MESSAGE IS " + message);
+//   var condition = {}
+//   condition[indexKeyName] = {
+//     ComparisonOperator: 'EQ'
+//   }
+
+//   console.log('condition is: ' + JSON.stringify(condition));
+  
+//   if (userIdPresent && req.apiGateway) {
+//     condition[indexKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
+//   } else {
+//     try {
+//       condition[indexKeyName]['AttributeValueList'] = [ convertUrlType(req.params[indexKeyName], partitionKeyType) ];
+//       console.log('condition is: ' + JSON.stringify(condition));
+//     } catch(err) {
+//       res.statusCode = 500;
+//       res.json({error: 'Wrong column type ' + err});
+//     }
+//   }
+
+//   let queryParams = {
+//     TableName: tableName,
+//     IndexName: 'promisorId',
+//     KeyConditions: condition
+//   } 
+
+
 
 /*****************************************
  * HTTP Get method for get single object *
