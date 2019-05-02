@@ -41,7 +41,12 @@ app.use(function(req, res, next) {
 //const userIdPresent = false; // TODO: update in case is required to use that definition
 
 //If the GSI flag is set, then query the GSI using promisorId; otherwise, query pledges table with promiseeId
-var partitionKeyName = GSIflag ? "promisorId" : "promiseeId";
+var partitionKeyName;
+if(GSIflag) {
+  partitionKeyName = 'promisorId';
+} else {
+  partitionKeyName = 'promiseeId';
+}
 
 
 const partitionKeyType = "S";
