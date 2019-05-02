@@ -22,17 +22,25 @@ if(process.env.ENV && process.env.ENV !== "NONE") {
 const userIdPresent = false; // TODO: update in case is required to use that definition
 const partitionKeyName = "promiseeId";
 const partitionKeyType = "S";
+const indexKeyName = "promisorId";
 const sortKeyName = "promiseDate";
 const sortKeyType = "S";
 const hasSortKey = sortKeyName !== "";
 const path = "/pledges";
 const UNAUTH = 'UNAUTH';
 const hashKeyPath = '/:' + partitionKeyName;
+const indexKeyPath = '/:' + indexKeyName;
 const sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
 // declare a new express app
 var app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
+
+app.use( (req, res, next) => {
+  console.log('message: ' + req.query.message)
+  next();
+  
+});
 
 // Enable CORS for all methods
 app.use(function(req, res, next) {
@@ -55,49 +63,72 @@ const convertUrlType = (param, type) => {
  * HTTP Get method for list objects *
  ********************************/
 
-app.get(path + hashKeyPath, function(req, res) {
+ // the following block works for requesting pledges owed to you
+// app.get(path + hashKeyPath, function(req, res) {
+//   var condition = {}
+//   condition[partitionKeyName] = {
+//     ComparisonOperator: 'EQ'
+//   }
+
+//   console.log('condition is: ' + JSON.stringify(condition));
+  
+//   if (userIdPresent && req.apiGateway) {
+//     condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
+//   } else {
+//     try {
+//       condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
+//       console.log('condition is: ' + JSON.stringify(condition));
+//     } catch(err) {
+//       res.statusCode = 500;
+//       res.json({error: 'Wrong column type ' + err});
+//     }
+//   }
+
+//   let queryParams = {
+//     TableName: tableName,
+//     KeyConditions: condition
+//   } 
+
+// experimental request for pledges you have made
+app.get(path, function(req, res) {
+  let message = req.query.message;
+  if(message){
+    path += indexKeyPath;
+  } else {
+    path += hashKeyPath;
+  }
+  console.log("THE MESSAGE IS " + message);
   var condition = {}
-  condition[partitionKeyName] = {
+  condition[indexKeyName] = {
     ComparisonOperator: 'EQ'
   }
+
+  console.log('condition is: ' + JSON.stringify(condition));
   
   if (userIdPresent && req.apiGateway) {
-    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
+    condition[indexKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
   } else {
     try {
-      condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
+      condition[indexKeyName]['AttributeValueList'] = [ convertUrlType(req.params[indexKeyName], partitionKeyType) ];
+      console.log('condition is: ' + JSON.stringify(condition));
     } catch(err) {
       res.statusCode = 500;
       res.json({error: 'Wrong column type ' + err});
     }
   }
 
-  // let queryParams = {
-  //   TableName: tableName,
-  //   KeyConditions: condition
-  // } 
-
   let queryParams = {
-    "TableName": "Pledges-dev",
-    "IndexName": "promisorId",
-    "KeyConditionExpression": "promisorId = :v_promisor",
-    "ExpressionAttributeValues": {
-        ":v_promisor": hashKeyPath
-    },
-    "ProjectionExpression": "promisorFirstName, promisorLastName, promiseeFirstName, promiseeLastName, promiseDate, terms, pledgeStatus",
-    "ScanIndexForward": false
+    TableName: tableName,
+    IndexName: 'promisorId',
+    KeyConditions: condition
   } 
 
   dynamodb.query(queryParams, (err, data) => {
+    console.log('queryParams is: ' + JSON.stringify(queryParams));
     if (err) {
-      console.log(err);
       res.statusCode = 500;
       res.json({error: 'Could not load items: ' + err});
     } else {
-      console.log('Logging res');
-      console.log(res);
-      console.log('Logging DATA');
-      console.log(data);
       res.json(data.Items);
     }
   });
