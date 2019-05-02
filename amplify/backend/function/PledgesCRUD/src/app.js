@@ -38,15 +38,17 @@ app.use(function(req, res, next) {
   next()
 });
 
-//const userIdPresent = false; // TODO: update in case is required to use that definition
+const userIdPresent = false; // TODO: update in case is required to use that definition
 
 //If the GSI flag is set, then query the GSI using promisorId; otherwise, query pledges table with promiseeId
 var partitionKeyName;
 if(GSIflag) {
-  partitionKeyName = 'promisorId';
+ partitionKeyName = 'promisorId';
 } else {
-  partitionKeyName = 'promiseeId';
+ partitionKeyName = 'promiseeId';
 }
+
+console.log('Partition key name is: ' + partitionKeyName);
 
 
 const partitionKeyType = "S";
@@ -60,6 +62,8 @@ const UNAUTH = 'UNAUTH';
 
 const hashKeyPath = '/:' + partitionKeyName;
 const sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
+
+console.log('hashKeyPath is: ' + hashKeyPath);
 
 
 // convert url string param to expected Type
@@ -82,8 +86,6 @@ app.get(path + hashKeyPath, function(req, res) {
   condition[partitionKeyName] = {
     ComparisonOperator: 'EQ'
   }
-
-  console.log('condition is: ' + JSON.stringify(condition));
   
   if (userIdPresent && req.apiGateway) {
     condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
@@ -106,6 +108,7 @@ app.get(path + hashKeyPath, function(req, res) {
   dynamodb.query(queryParams, (err, data) => {
     console.log('queryParams is: ' + JSON.stringify(queryParams));
     if (err) {
+      console.log(JSON.stringify(err));
       res.statusCode = 500;
       res.json({error: 'Could not load items: ' + err});
     } else {
