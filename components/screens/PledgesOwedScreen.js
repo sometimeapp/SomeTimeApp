@@ -3,8 +3,8 @@ import {
   Text,
   StyleSheet,
   View, 
-  FlatList, 
-  ListItem
+  FlatList,
+  ActivityIndicator 
 } from 'react-native';
 import { Auth, API } from 'aws-amplify';
 
@@ -71,10 +71,11 @@ getId = async () => {
       <View style={styles.container}>
         {
           !this.state.pledgesOwed ? (
-            <Text>Welcome to the Pledges Owed screen</Text>
+            <ActivityIndicator></ActivityIndicator>
           ) : (
             <FlatList 
               data={this.state.pledgesOwed}
+              keyExtractor={(x, i) => i.toString()}
               renderItem={({ item }) => (
                 <Text>{item.terms}</Text>
               )}

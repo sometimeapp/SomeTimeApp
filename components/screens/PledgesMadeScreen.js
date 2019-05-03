@@ -4,7 +4,7 @@ import {
   StyleSheet,
   View, 
   FlatList, 
-  ListItem
+  ActivityIndicator
 } from 'react-native';
 import { Auth, API } from 'aws-amplify';
 
@@ -71,10 +71,11 @@ getId = async () => {
       <View style={styles.container}>
         {
           !this.state.pledgesMade ? (
-            <Text>Welcome to the Pledges Made screen</Text>
+            <ActivityIndicator></ActivityIndicator>
           ) : (
             <FlatList 
               data={this.state.pledgesMade}
+              keyExtractor={(x, i) => i.toString()}
               renderItem={({ item }) => (
                 <Text>{item.terms}</Text>
               )}
