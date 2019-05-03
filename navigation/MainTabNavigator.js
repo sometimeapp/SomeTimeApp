@@ -56,14 +56,21 @@ const PledgesStack = createStackNavigator({
   Details: PledgeDetailsScreen
 })
 
-PledgesStack.navigationOptions = {
-  tabBarLabel: 'Pledges',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
+PledgesStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
+  return {
+    tabBarVisible,
+    tabBarLabel: 'Pledges',
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+      />
+    ),
+  };
 };
 
 const SettingsStack = createStackNavigator({
