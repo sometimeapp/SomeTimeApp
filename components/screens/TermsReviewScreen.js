@@ -68,7 +68,7 @@ getId = async () => {
         "promisorId": this.props.navigation.getParam('promisorID'),
         "promisorFirstName": this.props.navigation.getParam('promisorFirstName'),
         "promisorLastName": this.props.navigation.getParam('promisorLastName'),
-        "status": 'pending',
+        "pledgeStatus": 'pending',
         "terms": this.props.navigation.getParam('terms')
       }
     }
@@ -90,7 +90,7 @@ getId = async () => {
         <Text>{this.props.navigation.getParam('promisorFirstName')}</Text>
         <Text>{this.props.navigation.getParam('promisorLastName')}</Text>
         <Text>{this.state.promiseeID}</Text>
-        <Text>{this.props.navigation.getParam('status')}</Text>
+        <Text>{this.props.navigation.getParam('pledgeStatus')}</Text>
         <Text>{this.props.navigation.getParam('terms')}</Text>
         <Text>{this.props.navigation.getParam('date')}</Text>
 
