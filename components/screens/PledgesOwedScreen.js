@@ -4,10 +4,11 @@ import {
   StyleSheet,
   View, 
   FlatList,
-  ActivityIndicator 
+  ActivityIndicator, 
+  TouchableHighlight 
 } from 'react-native';
 import { Auth, API } from 'aws-amplify';
-
+import { Card } from 'react-native-elements';
 export default class PledgesOwedScreen extends React.Component {
 
   state = {
@@ -56,16 +57,6 @@ getId = async () => {
 }
 
   render() {
-    let pledgeList = [];
-    if(this.state.pledgesOwed) {
-      for(let pledge in this.state.pledgesOwed) {
-        pledgeList.push(          
-        <View>
-          <Text>{pledge.terms}</Text>
-        </View>
-        )
-      }
-    }
 
     return (
       <View style={styles.container}>
@@ -77,7 +68,15 @@ getId = async () => {
               data={this.state.pledgesOwed}
               keyExtractor={(x, i) => i.toString()}
               renderItem={({ item }) => (
-                <Text>{item.terms}</Text>
+                <TouchableHighlight
+                onPress={() => this.props.navigation.navigate("Details")}
+                >
+                  <Card>
+                    <Text>{item.promisorFirstName + " " + item.promisorLastName}</Text>
+                    <Text>{item.terms}</Text>
+                  </Card>
+                </TouchableHighlight>
+              
               )}
             />
           )
@@ -91,9 +90,5 @@ getId = async () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    textAlign: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
   }
 });

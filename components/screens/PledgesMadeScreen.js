@@ -2,11 +2,14 @@ import React from 'react';
 import {
   Text,
   StyleSheet,
-  View, 
-  FlatList, 
-  ActivityIndicator
+  View,
+  FlatList,
+  ActivityIndicator,
+  TouchableHighlight
 } from 'react-native';
 import { Auth, API } from 'aws-amplify';
+import { Card } from 'react-native-elements';
+
 
 export default class PledgesMadeScreen extends React.Component {
 
@@ -19,17 +22,17 @@ export default class PledgesMadeScreen extends React.Component {
   };
 
   async componentDidMount() {
-    console.log("I AM MOUNTING THE MADE SCREEN!")  
+    console.log("I AM MOUNTING THE MADE SCREEN!")
     let userInfo = await this.getId();
     let promisorId = userInfo.userID;
 
     let response = await this.getData(promisorId);
-    this.setState({pledgesMade: response})
+    this.setState({ pledgesMade: response })
     //console.log(response);
 
   }
 
-async getData(promisorId) { 
+  async getData(promisorId) {
     let apiName = 'PledgesCRUD';
     let path = `/pledges/${promisorId}?message=index`;
     // let myInit = { // OPTIONAL
@@ -39,10 +42,10 @@ async getData(promisorId) {
     //     } // OPTIONAL
     // }
     return await API.get(apiName, path);
-}
+  }
 
-getId = async () => {
-  try {
+  getId = async () => {
+    try {
       let userInfo = {};
       let user = await Auth.currentAuthenticatedUser()
       userInfo.userID = await user.attributes.sub;
@@ -50,22 +53,12 @@ getId = async () => {
       userInfo.lastName = await user.attributes.family_name;
       //console.log(user);
       return userInfo;
-  } catch (error) {
+    } catch (error) {
       console.log(error);
+    }
   }
-}
 
   render() {
-    let pledgeList = [];
-    if(this.state.pledgesMade) {
-      for(let pledge in this.state.pledgesMade) {
-        pledgeList.push(          
-        <View>
-          <Text>{pledge.terms}</Text>
-        </View>
-        )
-      }
-    }
 
     return (
       <View style={styles.container}>
@@ -73,16 +66,26 @@ getId = async () => {
           !this.state.pledgesMade ? (
             <ActivityIndicator></ActivityIndicator>
           ) : (
-            <FlatList 
-              data={this.state.pledgesMade}
-              keyExtractor={(x, i) => i.toString()}
-              renderItem={({ item }) => (
-                <Text>{item.terms}</Text>
-              )}
-            />
-          )
+              <FlatList
+                data={this.state.pledgesMade}
+                keyExtractor={(x, i) => i.toString()}
+                renderItem={({ item }) => (
+                  <View>
+                    <TouchableHighlight
+                      onPress={() => this.props.navigation.navigate('Details')}
+                    >
+                      <Card>
+                        <Text>{item.promiseeFirstName + " " + item.promiseeLastName}</Text>
+                        <Text>{item.terms}</Text>
+                      </Card>
+                    </TouchableHighlight>
+                  </View>
+
+                )}
+              />
+            )
         }
-        
+
       </View>
     );
   }
@@ -91,9 +94,5 @@ getId = async () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    textAlign: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
   }
 });
