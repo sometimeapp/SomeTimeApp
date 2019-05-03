@@ -16,7 +16,7 @@ export default class PledgesOwedScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: 'Owed',
+    title: 'Pledges Owed to Me',
   };
 
   async componentDidMount() {
@@ -72,7 +72,7 @@ getId = async () => {
                 onPress={() => this.props.navigation.navigate("Details")}
                 >
                   <Card>
-                    <Text>{item.promisorFirstName + " " + item.promisorLastName}</Text>
+                    <Text>{item.promisorFirstName + " " + item.promisorLastName + " owes"}</Text>
                     <Text>{item.terms}</Text>
                   </Card>
                 </TouchableHighlight>

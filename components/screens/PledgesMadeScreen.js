@@ -18,7 +18,7 @@ export default class PledgesMadeScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: 'Made',
+    title: 'Pledges I Made',
   };
 
   async componentDidMount() {
@@ -75,7 +75,7 @@ export default class PledgesMadeScreen extends React.Component {
                       onPress={() => this.props.navigation.navigate('Details')}
                     >
                       <Card>
-                        <Text>{item.promiseeFirstName + " " + item.promiseeLastName}</Text>
+                        <Text>{"I owe " + item.promiseeFirstName + " " + item.promiseeLastName}</Text>
                         <Text>{item.terms}</Text>
                       </Card>
                     </TouchableHighlight>
