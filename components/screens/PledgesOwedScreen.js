@@ -2,17 +2,20 @@ import React from 'react';
 import {
   Text,
   StyleSheet,
-  View, 
+  View,
   FlatList,
-  ActivityIndicator, 
-  TouchableHighlight 
+  ActivityIndicator,
+  TouchableHighlight
 } from 'react-native';
-import { Auth, API } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import { Card } from 'react-native-elements';
+import { getData } from '../../utilities/services'
+
 export default class PledgesOwedScreen extends React.Component {
 
   state = {
-    pledgesOwed: null
+    pledgesOwed: null, 
+    isFetching: false
   }
 
   static navigationOptions = {
@@ -20,27 +23,30 @@ export default class PledgesOwedScreen extends React.Component {
   };
 
   async componentDidMount() {
-    console.log("I AM MOUNTING THE OWED SCREEN!")  
+    console.log("I AM MOUNTING THE OWED SCREEN!")
     let userInfo = await this.getId();
     let promiseeId = userInfo.userID;
-
-    let response = await this.getData(promiseeId);
-    this.setState({pledgesOwed: response})
-    //console.log(response);
-
+    this.setState({isFetching: true});
+    const apiData = await getData(promiseeId, null);
+    this.setState({
+      promiseeId: promiseeId,
+      pledgesOwed: apiData,
+      isFetching: false
+    })
   }
 
-async getData(promiseeId) { 
-    let apiName = 'PledgesCRUD';
-    let path = `/pledges/${promiseeId}`;
-    // let myInit = { // OPTIONAL
-    //     headers: {}, 
-    //     queryStringParameters: {  //probably not necessary
-    //       promiseeId: promiseeId
-    //     } // OPTIONAL
-    // }
-    return await API.get(apiName, path);
-}
+  onRefresh = async () => {
+    console.log("calling onRefresh...")
+    this.setState({ isFetching: true });
+    const newPledges = await getData(this.state.promiseeId, null);
+    console.log("Yo!  The new pledges are....")
+    console.log(newPledges)
+    this.setState({
+      pledgesOwed: newPledges,
+      isFetching: false})
+ }
+
+
 
 getId = async () => {
   try {
@@ -67,6 +73,8 @@ getId = async () => {
             <FlatList 
               data={this.state.pledgesOwed}
               keyExtractor={(x, i) => i.toString()}
+              onRefresh={() => this.onRefresh()}
+              refreshing={this.state.isFetching}
               renderItem={({ item }) => (
                 <TouchableHighlight
                 onPress={() => this.props.navigation.navigate("Details")}

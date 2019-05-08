@@ -7,14 +7,16 @@ import {
   ActivityIndicator,
   TouchableHighlight
 } from 'react-native';
-import { Auth, API } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import { Card } from 'react-native-elements';
+import { getData } from '../../utilities/services'
 
 
 export default class PledgesMadeScreen extends React.Component {
 
   state = {
-    pledgesMade: null
+    pledgesMade: null, 
+    isFetching: false
   }
 
   static navigationOptions = {
@@ -25,24 +27,33 @@ export default class PledgesMadeScreen extends React.Component {
     console.log("I AM MOUNTING THE MADE SCREEN!")
     let userInfo = await this.getId();
     let promisorId = userInfo.userID;
-
-    let response = await this.getData(promisorId);
-    this.setState({ pledgesMade: response })
-    //console.log(response);
-
+    this.setState({isFetching: true});
+    const apiData = await getData(promisorId, "index");
+    this.setState({
+      promisorId: promisorId,
+      pledgesMade: apiData,
+      isFetching: false
+    })
   }
 
-  async getData(promisorId) {
-    let apiName = 'PledgesCRUD';
-    let path = `/pledges/${promisorId}?message=index`;
-    // let myInit = { // OPTIONAL
-    //     headers: {}, 
-    //     queryStringParameters: {  //probably not necessary
-    //       promisorId: promisorId
-    //     } // OPTIONAL
-    // }
-    return await API.get(apiName, path);
-  }
+  onRefresh = async () => {
+    console.log("calling onRefresh...")
+    this.setState({ isFetching: true });
+    const newPledges = await getData(this.state.promisorId, "index");
+    console.log("Yo!  The new pledges are....")
+    console.log(newPledges)
+    this.setState({
+      pledgesMade: newPledges,
+      isFetching: false})
+ }
+
+  // getData = async (promisorId) => {
+  //   console.log("getting data from api...")
+  //   let apiName = 'PledgesCRUD';
+  //   let path = `/pledges/${promisorId}?message=index`;
+  //   let apiData = await API.get(apiName, path);
+  //   return apiData;
+  // }
 
   getId = async () => {
     try {
@@ -59,7 +70,8 @@ export default class PledgesMadeScreen extends React.Component {
   }
 
   render() {
-
+    console.log("YO! THE STATE IS:")
+    console.log(this.state.pledgesMade);
     return (
       <View style={styles.container}>
         {
@@ -69,6 +81,9 @@ export default class PledgesMadeScreen extends React.Component {
               <FlatList
                 data={this.state.pledgesMade}
                 keyExtractor={(x, i) => i.toString()}
+                onRefresh={() => this.onRefresh()}
+                refreshing={this.state.isFetching}
+
                 renderItem={({ item }) => (
                   <View>
                     <TouchableHighlight
