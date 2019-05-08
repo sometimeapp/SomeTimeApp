@@ -11,13 +11,14 @@ import GeneratedQRCodeScreen from '../components/screens/GeneratedQRCodeScreen';
 import TermsReviewScreen from '../components/screens/TermsReviewScreen';
 import PledgesOwedScreen from '../components/screens/PledgesOwedScreen';
 import DefineTermsScreen from '../components/screens/DefineTermsScreen';
+import PledgeDetailsScreen from '../components/screens/PledgeDetailsScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Receive: QRScannerScreen,
-  QR: GeneratedQRCodeScreen,
+  MakeQR: GeneratedQRCodeScreen,
   Review: TermsReviewScreen,
-  Terms: DefineTermsScreen
+  Terms: DefineTermsScreen,
 });
 
 HomeStack.navigationOptions = ({ navigation }) => {
@@ -52,16 +53,25 @@ PledgesTab.navigationOptions = {
 
 const PledgesStack = createStackNavigator({
   Pledges: PledgesTab,
+  Details: PledgeDetailsScreen,
+  ResolveQR: GeneratedQRCodeScreen
 })
 
-PledgesStack.navigationOptions = {
-  tabBarLabel: 'Pledges',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
+PledgesStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
+  return {
+    tabBarVisible,
+    tabBarLabel: 'Pledges',
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+      />
+    ),
+  };
 };
 
 const SettingsStack = createStackNavigator({

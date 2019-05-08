@@ -2,44 +2,51 @@ import React from 'react';
 import {
   Text,
   StyleSheet,
-  View, 
+  View,
   FlatList,
-  ActivityIndicator 
+  ActivityIndicator,
+  TouchableHighlight
 } from 'react-native';
-import { Auth, API } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
+import { Card } from 'react-native-elements';
+import { getData } from '../../utilities/services'
 
 export default class PledgesOwedScreen extends React.Component {
 
   state = {
-    pledgesOwed: null
+    pledgesOwed: null, 
+    isFetching: false
   }
 
   static navigationOptions = {
-    title: 'Owed',
+    title: 'Pledges Owed to Me',
   };
 
   async componentDidMount() {
-    console.log("I AM MOUNTING THE OWED SCREEN!")  
+    console.log("I AM MOUNTING THE OWED SCREEN!")
     let userInfo = await this.getId();
     let promiseeId = userInfo.userID;
-
-    let response = await this.getData(promiseeId);
-    this.setState({pledgesOwed: response})
-    //console.log(response);
-
+    this.setState({isFetching: true});
+    const apiData = await getData(promiseeId, null);
+    this.setState({
+      promiseeId: promiseeId,
+      pledgesOwed: apiData,
+      isFetching: false
+    })
   }
 
-async getData(promiseeId) { 
-    let apiName = 'PledgesCRUD';
-    let path = `/pledges/${promiseeId}`;
-    // let myInit = { // OPTIONAL
-    //     headers: {}, 
-    //     queryStringParameters: {  //probably not necessary
-    //       promiseeId: promiseeId
-    //     } // OPTIONAL
-    // }
-    return await API.get(apiName, path);
-}
+  onRefresh = async () => {
+    console.log("calling onRefresh...")
+    this.setState({ isFetching: true });
+    const newPledges = await getData(this.state.promiseeId, null);
+    console.log("Yo!  The new pledges are....")
+    console.log(newPledges)
+    this.setState({
+      pledgesOwed: newPledges,
+      isFetching: false})
+ }
+
+
 
 getId = async () => {
   try {
@@ -56,16 +63,6 @@ getId = async () => {
 }
 
   render() {
-    let pledgeList = [];
-    if(this.state.pledgesOwed) {
-      for(let pledge in this.state.pledgesOwed) {
-        pledgeList.push(          
-        <View>
-          <Text>{pledge.terms}</Text>
-        </View>
-        )
-      }
-    }
 
     return (
       <View style={styles.container}>
@@ -76,8 +73,18 @@ getId = async () => {
             <FlatList 
               data={this.state.pledgesOwed}
               keyExtractor={(x, i) => i.toString()}
+              onRefresh={() => this.onRefresh()}
+              refreshing={this.state.isFetching}
               renderItem={({ item }) => (
-                <Text>{item.terms}</Text>
+                <TouchableHighlight
+                onPress={() => this.props.navigation.navigate("Details",  {...item, screen: 'owed'})}
+                >
+                  <Card>
+                    <Text>{item.promisorFirstName + " " + item.promisorLastName + " owes"}</Text>
+                    <Text>{item.terms}</Text>
+                  </Card>
+                </TouchableHighlight>
+              
               )}
             />
           )
@@ -91,9 +98,5 @@ getId = async () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    textAlign: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
   }
 });

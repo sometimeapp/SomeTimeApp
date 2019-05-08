@@ -70,7 +70,7 @@ export default class DefineTermsScreen extends React.Component {
                     <Button
                         style={styles.button}
                         title="Seal the Deal"
-                        onPress={() => this.props.navigation.navigate('QR', this.state)}
+                        onPress={() => this.props.navigation.navigate('MakeQR', this.state)}
                     />
                 </View>
             </View>

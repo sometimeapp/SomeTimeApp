@@ -2,47 +2,61 @@ import React from 'react';
 import {
   Text,
   StyleSheet,
-  View, 
-  FlatList, 
-  ActivityIndicator
+  View,
+  FlatList,
+  ActivityIndicator,
+  TouchableHighlight
 } from 'react-native';
-import { Auth, API } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
+import { Card } from 'react-native-elements';
+import { getData } from '../../utilities/services'
+
 
 export default class PledgesMadeScreen extends React.Component {
 
   state = {
-    pledgesMade: null
+    pledgesMade: null, 
+    isFetching: false
   }
 
   static navigationOptions = {
-    title: 'Made',
+    title: 'Pledges I Made',
   };
 
   async componentDidMount() {
-    console.log("I AM MOUNTING THE MADE SCREEN!")  
+    console.log("I AM MOUNTING THE MADE SCREEN!")
     let userInfo = await this.getId();
     let promisorId = userInfo.userID;
-
-    let response = await this.getData(promisorId);
-    this.setState({pledgesMade: response})
-    //console.log(response);
-
+    this.setState({isFetching: true});
+    const apiData = await getData(promisorId, "index");
+    this.setState({
+      promisorId: promisorId,
+      pledgesMade: apiData,
+      isFetching: false
+    })
   }
 
-async getData(promisorId) { 
-    let apiName = 'PledgesCRUD';
-    let path = `/pledges/${promisorId}?message=index`;
-    // let myInit = { // OPTIONAL
-    //     headers: {}, 
-    //     queryStringParameters: {  //probably not necessary
-    //       promisorId: promisorId
-    //     } // OPTIONAL
-    // }
-    return await API.get(apiName, path);
-}
+  onRefresh = async () => {
+    console.log("calling onRefresh...")
+    this.setState({ isFetching: true });
+    const newPledges = await getData(this.state.promisorId, "index");
+    console.log("Yo!  The new pledges are....")
+    console.log(newPledges)
+    this.setState({
+      pledgesMade: newPledges,
+      isFetching: false})
+ }
 
-getId = async () => {
-  try {
+  // getData = async (promisorId) => {
+  //   console.log("getting data from api...")
+  //   let apiName = 'PledgesCRUD';
+  //   let path = `/pledges/${promisorId}?message=index`;
+  //   let apiData = await API.get(apiName, path);
+  //   return apiData;
+  // }
+
+  getId = async () => {
+    try {
       let userInfo = {};
       let user = await Auth.currentAuthenticatedUser()
       userInfo.userID = await user.attributes.sub;
@@ -50,39 +64,43 @@ getId = async () => {
       userInfo.lastName = await user.attributes.family_name;
       //console.log(user);
       return userInfo;
-  } catch (error) {
+    } catch (error) {
       console.log(error);
+    }
   }
-}
 
   render() {
-    let pledgeList = [];
-    if(this.state.pledgesMade) {
-      for(let pledge in this.state.pledgesMade) {
-        pledgeList.push(          
-        <View>
-          <Text>{pledge.terms}</Text>
-        </View>
-        )
-      }
-    }
-
+    console.log("YO! THE STATE IS:")
+    console.log(this.state.pledgesMade);
     return (
       <View style={styles.container}>
         {
           !this.state.pledgesMade ? (
             <ActivityIndicator></ActivityIndicator>
           ) : (
-            <FlatList 
-              data={this.state.pledgesMade}
-              keyExtractor={(x, i) => i.toString()}
-              renderItem={({ item }) => (
-                <Text>{item.terms}</Text>
-              )}
-            />
-          )
+              <FlatList
+                data={this.state.pledgesMade}
+                keyExtractor={(x, i) => i.toString()}
+                onRefresh={() => this.onRefresh()}
+                refreshing={this.state.isFetching}
+
+                renderItem={({ item }) => (
+                  <View>
+                    <TouchableHighlight
+                      onPress={() => this.props.navigation.navigate('Details', {...item, screen: 'made'})}
+                    >
+                      <Card>
+                        <Text>{"I owe " + item.promiseeFirstName + " " + item.promiseeLastName}</Text>
+                        <Text>{item.terms}</Text>
+                      </Card>
+                    </TouchableHighlight>
+                  </View>
+
+                )}
+              />
+            )
         }
-        
+
       </View>
     );
   }
@@ -91,9 +109,5 @@ getId = async () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    textAlign: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
   }
 });
