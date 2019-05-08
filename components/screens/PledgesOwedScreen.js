@@ -77,7 +77,7 @@ getId = async () => {
               refreshing={this.state.isFetching}
               renderItem={({ item }) => (
                 <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("Details")}
+                onPress={() => this.props.navigation.navigate("Details",  {...item, screen: 'owed'})}
                 >
                   <Card>
                     <Text>{item.promisorFirstName + " " + item.promisorLastName + " owes"}</Text>

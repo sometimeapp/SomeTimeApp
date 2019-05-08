@@ -16,7 +16,7 @@ import PledgeDetailsScreen from '../components/screens/PledgeDetailsScreen';
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Receive: QRScannerScreen,
-  QR: GeneratedQRCodeScreen,
+  MakeQR: GeneratedQRCodeScreen,
   Review: TermsReviewScreen,
   Terms: DefineTermsScreen,
 });
@@ -53,7 +53,8 @@ PledgesTab.navigationOptions = {
 
 const PledgesStack = createStackNavigator({
   Pledges: PledgesTab,
-  Details: PledgeDetailsScreen
+  Details: PledgeDetailsScreen,
+  ResolveQR: GeneratedQRCodeScreen
 })
 
 PledgesStack.navigationOptions = ({ navigation }) => {

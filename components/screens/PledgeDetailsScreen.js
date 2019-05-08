@@ -2,10 +2,9 @@ import React from 'react';
 import {
   Text,
   StyleSheet,
-  View, 
-  ActivityIndicator
+  View,
+  Button
 } from 'react-native';
-import { Auth, API } from 'aws-amplify';
 
 export default class PledgeDetailsScreen extends React.Component {
 
@@ -13,47 +12,28 @@ export default class PledgeDetailsScreen extends React.Component {
     title: '',
   };
 
-  async componentDidMount() {
-    console.log("I AM MOUNTING THE MADE SCREEN!")  
-    let userInfo = await this.getId();
-    let promisorId = userInfo.userID;
-
-    let response = await this.getData(promisorId);
-    this.setState({pledgesMade: response})
-    //console.log(response);
-  }
-
-async getData(promisorId) { 
-    let apiName = 'PledgesCRUD';
-    let path = `/pledges/${promisorId}?message=index`;
-    // let myInit = { // OPTIONAL
-    //     headers: {}, 
-    //     queryStringParameters: {  //probably not necessary
-    //       promisorId: promisorId
-    //     } // OPTIONAL
-    // }
-    return await API.get(apiName, path);
-}
-
-getId = async () => {
-  try {
-      let userInfo = {};
-      let user = await Auth.currentAuthenticatedUser()
-      userInfo.userID = await user.attributes.sub;
-      userInfo.firstName = await user.attributes.name;
-      userInfo.lastName = await user.attributes.family_name;
-      //console.log(user);
-      return userInfo;
-  } catch (error) {
-      console.log(error);
-  }
-}
 
   render() {
-
+    const pledge = this.props.navigation.state.params;
+    console.log(this.props);
     return (
       <View style={styles.container}>
         <Text>Welcome to the Pledge Details Screen</Text>
+        <Text>Terms: {pledge.terms}</Text>
+        <Text>{pledge.screen === 'made' ? `Owed to: ${pledge.promiseeFirstName} ${pledge.promiseeLastName}`
+          : `Made by: ${pledge.promisorFirstName} ${pledge.promisorLastName}`}
+        </Text>
+        <Text>Date: {pledge.promiseDate}</Text>
+        <Text>Terms: {pledge.pledgeStatus}</Text>
+        { pledge.screen === 'owed' ? (
+          <View style={{ margin: 5 }}>
+          <Button
+            style={styles.button}
+            title="Resolve"
+            onPress={() => this.props.navigation.navigate('ResolveQR', pledge)}
+          />
+        </View>
+        ) : (null) }
       </View>
     );
   }
@@ -64,7 +44,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     textAlign: 'center',
-    justifyContent: 'center',
     backgroundColor: '#fff',
   }
 });

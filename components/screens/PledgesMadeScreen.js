@@ -87,7 +87,7 @@ export default class PledgesMadeScreen extends React.Component {
                 renderItem={({ item }) => (
                   <View>
                     <TouchableHighlight
-                      onPress={() => this.props.navigation.navigate('Details')}
+                      onPress={() => this.props.navigation.navigate('Details', {...item, screen: 'made'})}
                     >
                       <Card>
                         <Text>{"I owe " + item.promiseeFirstName + " " + item.promiseeLastName}</Text>
