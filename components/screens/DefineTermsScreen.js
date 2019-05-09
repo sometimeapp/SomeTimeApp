@@ -7,13 +7,17 @@ import {
 } from 'react-native';
 import { Input } from 'native-base';
 import { Auth } from 'aws-amplify';
+import moment from 'moment';
 
 export default class DefineTermsScreen extends React.Component {
+
+    
     state = {
         promisorID: '',
         promisorFirstName: '',
         promisorLastName: '',
-        date: new Date(),
+        date: moment(),
+        dueDate: this.state.date.add(3, 'd'),
         terms: '',
     }
 

@@ -24,6 +24,7 @@ export default class PledgeDetailsScreen extends React.Component {
           : `Made by: ${pledge.promisorFirstName} ${pledge.promisorLastName}`}
         </Text>
         <Text>Date: {pledge.promiseDate}</Text>
+        <Text>Due Date: {pledge.promiseDueDate}</Text>
         <Text>Terms: {pledge.pledgeStatus}</Text>
         { pledge.screen === 'made' ? (
           <View style={{ margin: 5 }}>
