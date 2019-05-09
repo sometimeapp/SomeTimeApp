@@ -17,11 +17,15 @@ import {
 import Auth from '@aws-amplify/auth'
 
 import {
-  Container,
+  //Container,
   Item,
-  Input,
+  //Input,
   Icon
 } from 'native-base'
+
+import {
+  Input
+} from 'react-native-elements'
 
 export default class SignInScreen extends React.Component {
   static navigationOptions = {
@@ -58,74 +62,17 @@ export default class SignInScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar />
-        <KeyboardAvoidingView style={styles.container} behavior='padding' enabled>
-          <TouchableWithoutFeedback style={styles.container} onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
-              <Container style={styles.infoContainer}>
-                <View style={styles.container}>
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='mail'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='Email'
-                      placeholderTextColor='#adb4bc'
-                      keyboardType={'email-address'}
-                      returnKeyType='next'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      onSubmitEditing={(event) => { this.refs.SecondInput._root.focus() }}
-                      onChangeText={value => this.onChangeText('email', value)}
-                    />
-                  </Item>
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='lock'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='Password'
-                      placeholderTextColor='#adb4bc'
-                      returnKeyType='go'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      secureTextEntry={true}
-                      ref='SecondInput'
-                      onChangeText={value => this.onChangeText('password', value)}
-                    />
-                  </Item>
-                  <TouchableOpacity
-                    onPress={() => this._signInAsync()}
-                    style={styles.buttonStyle}>
-                    <Text style={styles.buttonText}>
-                      Sign In
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('SignUp')}
-                    style={styles.buttonStyle}>
-                    <Text style={styles.buttonText}>
-                      Sign Up
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('ForgotPassword')}
-                    style={styles.buttonStyle}>
-                    <Text style={styles.buttonText}>
-                      Forgot Password
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </Container>
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+       <Input
+        placeholder="Email"
+        textContentType="emailAddress"
+        autoCorrect={false}
+       />
+       <Input
+        placeholder="Password"
+        textContentType="password"
+        secureTextEntry={true}
+        autoCorrect={false}
+       />
       </SafeAreaView>
     )
   }
