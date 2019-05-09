@@ -17,7 +17,7 @@ export default class DefineTermsScreen extends React.Component {
         promisorFirstName: '',
         promisorLastName: '',
         date: moment(),
-        dueDate: this.state.date.add(3, 'd'),
+        dueDate: moment().add(3, 'd'),
         terms: '',
     }
 

@@ -65,7 +65,7 @@ getId = async () => {
         "promiseeFirstName": this.state.promiseeFirstName,
         "promiseeLastName": this.state.promiseeLastName,
         "promiseDate": this.props.navigaton.getParam('date'),
-        "promiseDueDate": this.props.navigaton.getParam('dueDate'),
+        "promiseDueDate": this.props.navigation.getParam('dueDate'),
         "promisorId": this.props.navigation.getParam('promisorID'),
         "promisorFirstName": this.props.navigation.getParam('promisorFirstName'),
         "promisorLastName": this.props.navigation.getParam('promisorLastName'),
