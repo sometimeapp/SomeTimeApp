@@ -25,6 +25,7 @@ export default class ResolveReviewScreen extends React.Component {
       response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
       body: {
         "promiseeId" : this.props.navigation.getParam('promiseeId'),
+        "promisorId" : this.props.navigation.getParam('promisorId'),
         "promiseDate" : this.props.navigation.getParam('promiseDate'),
         "pledgeStatus": 'resolved',
         "promiseeFirstName" : this.props.navigation.getParam('promiseeFirstName'),
@@ -48,7 +49,7 @@ export default class ResolveReviewScreen extends React.Component {
     return (
 
       <View style={styles.container}>
-        <Text>{this.props.navigation.getParam('promisorID')}</Text>
+        <Text>{this.props.navigation.getParam('promisorId')}</Text>
         <Text>{this.props.navigation.getParam('promisorFirstName')}</Text>
         <Text>{this.props.navigation.getParam('promisorLastName')}</Text>
         <Text>{this.props.navigation.getParam('pledgeStatus')}</Text>

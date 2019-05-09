@@ -25,7 +25,7 @@ export default class PledgeDetailsScreen extends React.Component {
         </Text>
         <Text>Date: {pledge.promiseDate}</Text>
         <Text>Terms: {pledge.pledgeStatus}</Text>
-        { pledge.screen === 'owed' ? (
+        { pledge.screen === 'made' ? (
           <View style={{ margin: 5 }}>
           <Button
             style={styles.button}
