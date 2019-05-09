@@ -27,6 +27,11 @@ export default class ResolveReviewScreen extends React.Component {
         "promiseeId" : this.props.navigation.getParam('promiseeId'),
         "promiseDate" : this.props.navigation.getParam('promiseDate'),
         "pledgeStatus": 'resolved',
+        "promiseeFirstName" : this.props.navigation.getParam('promiseeFirstName'),
+        "promiseeLastName" : this.props.navigation.getParam('promiseeLastName'),
+        "promisorFirstName" : this.props.navigation.getParam('promisorFirstName'),
+        "promisorLastName" : this.props.navigation.getParam('promisorLastName'),
+        "terms" : this.props.navigation.getParam('terms'),
       }
     }
 
