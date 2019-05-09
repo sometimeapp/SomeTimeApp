@@ -64,7 +64,8 @@ getId = async () => {
         "promiseeId": this.state.promiseeID,
         "promiseeFirstName": this.state.promiseeFirstName,
         "promiseeLastName": this.state.promiseeLastName,
-        "promiseDate": new Date(),
+        "promiseDate": this.props.navigation.getParam('date'),
+        "promiseDueDate": this.props.navigation.getParam('dueDate'),
         "promisorId": this.props.navigation.getParam('promisorID'),
         "promisorFirstName": this.props.navigation.getParam('promisorFirstName'),
         "promisorLastName": this.props.navigation.getParam('promisorLastName'),
@@ -93,6 +94,7 @@ getId = async () => {
         <Text>{this.props.navigation.getParam('pledgeStatus')}</Text>
         <Text>{this.props.navigation.getParam('terms')}</Text>
         <Text>{this.props.navigation.getParam('date')}</Text>
+        <Text>{this.props.navigation.getParam('dueDate')}</Text>
 
         <View style={{ margin: 5 }}>
         {
