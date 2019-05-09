@@ -12,6 +12,7 @@ import TermsReviewScreen from '../components/screens/TermsReviewScreen';
 import PledgesOwedScreen from '../components/screens/PledgesOwedScreen';
 import DefineTermsScreen from '../components/screens/DefineTermsScreen';
 import PledgeDetailsScreen from '../components/screens/PledgeDetailsScreen';
+import ResolveReviewScreeen from '../components/screens/ResolveReviewScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -54,7 +55,8 @@ PledgesTab.navigationOptions = {
 const PledgesStack = createStackNavigator({
   Pledges: PledgesTab,
   Details: PledgeDetailsScreen,
-  ResolveQR: GeneratedQRCodeScreen
+  ResolveQR: GeneratedQRCodeScreen, 
+  ResolveReview: ResolveReviewScreeen
 })
 
 PledgesStack.navigationOptions = ({ navigation }) => {
