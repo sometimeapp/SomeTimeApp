@@ -36,6 +36,10 @@ export default class QRScannerScreen extends React.Component {
     handleBarCodeScanned = ({ type, data }) => {
         //alert(`Bar code with type ${type} and data is ${typeof data} `);
         data = JSON.parse(data);
-        this.props.navigation.navigate('Review', data);
+        if(data.screen) {
+            this.props.navigation.navigate('ResolveReview', data);
+        } else {
+            this.props.navigation.navigate('Review', data);
+        }
     }
 }

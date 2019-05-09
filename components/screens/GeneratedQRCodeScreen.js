@@ -9,7 +9,7 @@ import {
 export default class GeneratedQRCodeScreen extends React.Component {
 
     render() {
-        console.log()
+        console.log('Generated QR Code screen: ' + JSON.stringify(this.props.navigation.state.params));
         return (
             <View style={styles.container}>
                 <QRCode
