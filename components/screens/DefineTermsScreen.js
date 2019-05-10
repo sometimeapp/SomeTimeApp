@@ -85,10 +85,13 @@ export default class DefineTermsScreen extends React.Component {
                         <View style={styles.durationBox}>
                             <Text style={styles.durationNumber}>3</Text>
                         </View>
-
-                        <Text style={styles.durationText}>days</Text>
+                        <View style={styles.durationView}>
+                            <Text style={styles.durationText}>days</Text>
+                        </View>
+                        
 
                     </View>
+
                 </View>
 
 
@@ -173,6 +176,11 @@ const styles = StyleSheet.create({
     durationText: {
         fontSize: 32
     },
+    durationView: {
+        flex: 1, 
+        justifyContent: "center",
+        alignItems: "center"
+    },
     durationBoxContainer: {
         flex: 2,
         backgroundColor: "silver"
@@ -183,10 +191,12 @@ const styles = StyleSheet.create({
     },
     durationBox: {
         flex: 1,
-        borderWidth: 0.5,
+        borderWidth: 1,
+        alignItems: "center",
+        justifyContent: "center"
     },
     durationNumber: {
-
+        fontSize: 40
     },
     sliderContainer: {
         flex: 1,
