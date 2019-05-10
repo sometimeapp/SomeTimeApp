@@ -9,9 +9,11 @@ import { Input } from 'native-base';
 import { Auth } from 'aws-amplify';
 import moment from 'moment';
 
+import StaticTermsIcons from '../screenComponents/StaticTermsIcons'
+
 export default class DefineTermsScreen extends React.Component {
 
-    
+
     state = {
         promisorID: '',
         promisorFirstName: '',
@@ -23,7 +25,7 @@ export default class DefineTermsScreen extends React.Component {
 
     static navigationOptions = {
         headerTitle: 'Terms',
-    }; 
+    };
 
     async componentDidMount() {
         let userInfo = await this.getId();
@@ -57,26 +59,61 @@ export default class DefineTermsScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Welcome to the Terms screen</Text>
-                <Input
-                    style={styles.input}
-                    placeholder='I promise...'
-                    onChangeText={value => this.onChangeText('terms', value)}
-                />
-                <View style={{ margin: 5 }}>
-                    <Button
-                        style={styles.button}
-                        title="Cancel"
-                        onPress={() => this.props.navigation.navigate('Home')}
-                    />
+
+                <View style={styles.introContainer}>
+                    <Text style={styles.introText}>I promise...</Text>
                 </View>
-                <View style={{ margin: 5 }}>
-                    <Button
-                        style={styles.button}
-                        title="Seal the Deal"
-                        onPress={() => this.props.navigation.navigate('MakeQR', this.state)}
-                    />
+
+                <View style={styles.termsBoxContainer}>
+                    <View style={styles.termsBox}>
+                        <Text style={styles.termsBoxText}>{this.state.terms || "(something)"}</Text>
+                    </View>
                 </View>
+
+                <View style={styles.staticTermsContainer}>
+                    <StaticTermsIcons />
+                </View>
+
+                <View style={styles.durationTextContainer}>
+                    <Text style={styles.durationText}>within...</Text>
+                </View>
+
+                <View style={styles.durationBoxContainer}>
+
+                    <View style={styles.durationRowBox}>
+
+                        <View style={styles.durationBox}>
+                            <Text style={styles.durationNumber}>3</Text>
+                        </View>
+
+                        <Text style={styles.durationText}>days</Text>
+
+                    </View>
+                </View>
+
+
+                <View style={styles.sliderContainer}>
+                    <Text>Placeholder for slider</Text>
+                </View>
+
+
+                <View style={styles.buttonContainer}>
+                    <View style={{ margin: 5 }}>
+                        <Button
+
+                            title="Cancel"
+                            onPress={() => this.props.navigation.navigate('Home')}
+                        />
+                    </View>
+                    <View style={{ margin: 5 }}>
+                        <Button
+
+                            title="Seal the Deal"
+                            onPress={() => this.props.navigation.navigate('MakeQR', this.state)}
+                        />
+                    </View>
+                </View>
+
             </View>
         );
     }
@@ -84,16 +121,87 @@ export default class DefineTermsScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
-        textAlign: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#ffffff',
+        flex: 1
+        // alignItems: 'center',
+        // textAlign: 'center',
+        // justifyContent: 'center',
+        // backgroundColor: '#ffffff',
     },
+    introContainer: {
+        flex: 2,
+        alignItems: "center",
+        justifyContent: "center",
+        // backgroundColor: "skyblue"
+    },
+    introText: {
+        fontSize: 32
+    },
+    termsBoxContainer: {
+        flex: 3,
+        // backgroundColor: "pink",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative"
+
+    },
+    termsBox: {
+        borderWidth: 2.5,
+        position: "absolute", 
+        height: "90%", 
+        width: "50%",
+        alignItems: "center",
+        justifyContent: "center", 
+
+    },
+    termsBoxText: {
+        fontSize: 32
+    },
+
+    staticTermsContainer: {
+        flex: 1,
+        // backgroundColor: "aqua",
+        alignItems: "center",
+        justifyContent: "center", 
+    },
+    durationTextContainer: {
+        flex: 1,
+        // backgroundColor: "lime",
+        alignItems: "center",
+        justifyContent: "center", 
+
+    },
+    durationText: {
+        fontSize: 32
+    },
+    durationBoxContainer: {
+        flex: 2,
+        backgroundColor: "silver"
+    },
+    durationRowBox: {
+        flex: 1,
+        flexDirection: "row"
+    },
+    durationBox: {
+        flex: 1,
+        borderWidth: 0.5,
+    },
+    durationNumber: {
+
+    },
+    sliderContainer: {
+        flex: 1,
+        backgroundColor: "fuchsia"
+
+    },
+
     input: {
         flex: 1,
         fontSize: 17,
         fontWeight: 'bold',
         color: '#5a52a5',
+    },
+    buttonContainer: {
+        flex: 1,
+        backgroundColor: "yellow"
     },
 });
