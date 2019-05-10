@@ -1,27 +1,24 @@
-import React from 'react'
+import React from 'react';
 
 import {
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   StyleSheet,
   Text,
+  View,
   SafeAreaView,
   StatusBar,
   KeyboardAvoidingView,
   Keyboard,
-  View,
   Alert,
-} from 'react-native'
-
-import {
-  Container,
-  Item,
-  Input,
-  Icon
-} from 'native-base'
+  TouchableOpacity,
+  ScrollView
+} from 'react-native';
 
 // AWS Amplify
 import Auth from '@aws-amplify/auth'
+
+import {
+  Input,
+} from 'react-native-elements'
 
 export default class SignUpScreen extends React.Component {
   state = {
@@ -96,216 +93,142 @@ export default class SignUpScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar />
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior='padding'
-          enabled>
-          <TouchableWithoutFeedback style={styles.container} onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
-              <Container style={styles.infoContainer}>
-                <View style={styles.container}>
-                  {/* email section */}
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='mail'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='Email'
-                      placeholderTextColor='#adb4bc'
-                      keyboardType={'email-address'}
-                      returnKeyType='next'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      secureTextEntry={false}
-                      ref='ThirdInput'
-                      onSubmitEditing={(event) => { this.refs.FourthInput._root.focus() }}
-                      onChangeText={value => this.onChangeText('email', value)}
-                    />
-                  </Item>
-                  {/* name section  */}
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='person'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='First Name'
-                      placeholderTextColor='#adb4bc'
-                      keyboardType={'email-address'}
-                      returnKeyType='next'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      onSubmitEditing={(event) => { this.refs.SecondInput._root.focus() }}
-                      onChangeText={value => this.onChangeText('firstname', value)}
-                    />
-                  </Item>
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='person'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='Last Name'
-                      placeholderTextColor='#adb4bc'
-                      keyboardType={'email-address'}
-                      returnKeyType='next'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      onSubmitEditing={(event) => { this.refs.SecondInput._root.focus() }}
-                      onChangeText={value => this.onChangeText('lastname', value)}
-                    />
-                  </Item>
-                  {/*  password section  */}
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='lock'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='Password'
-                      placeholderTextColor='#adb4bc'
-                      returnKeyType='next'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      secureTextEntry={true}
-                      // ref={c => this.SecondInput = c}
-                      ref='SecondInput'
-                      onSubmitEditing={(event) => { this.refs.ThirdInput._root.focus() }}
-                      onChangeText={value => this.onChangeText('password', value)}
-                    />
-                  </Item>
-
-                  <TouchableOpacity
-                    onPress={() => this.signUp()}
-                    style={styles.buttonStyle}>
-                    <Text style={styles.buttonText}>
-                      Sign Up
-                      </Text>
-                  </TouchableOpacity>
-                  {/* code confirmation section  */}
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='md-apps'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='Confirmation code'
-                      placeholderTextColor='#adb4bc'
-                      keyboardType={'numeric'}
-                      returnKeyType='done'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      secureTextEntry={false}
-                      onChangeText={value => this.onChangeText('authCode', value)}
-                    />
-                  </Item>
-                  <TouchableOpacity
-                    onPress={() => this.confirmSignUp()}
-                    style={styles.buttonStyle}>
-                    <Text style={styles.buttonText}>
-                      Confirm Sign Up
-                      </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => this.resendSignUp()}
-                    style={styles.buttonStyle}>
-                    <Text style={styles.buttonText}>
-                      Resend code
-                      </Text>
-                  </TouchableOpacity>
-                </View>
-              </Container>
+        <ScrollView>
+          <View style={styles.titleContainer}>
+            <Text style={styles.titleText}>SomeTime</Text>
+            <Text style={styles.subtitleText}>a ledger for casual contracts</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <Input
+              placeholder="Email"
+              textContentType="emailAddress"
+              autoCorrect={false}
+              containerStyle={{ width: "95%" }}
+              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+              onSubmitEditing={() => this.firstname.focus()}
+              onChangeText={value => this.onChangeText('email', value)}
+            />
+            <Input
+              placeholder="First Name"
+              autoCorrect={false}
+              containerStyle={{ width: "95%" }}
+              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+              onSubmitEditing={() => this.lastname.focus()}
+              ref={ref => this.firstname = ref}
+              onChangeText={value => this.onChangeText('firstname', value)}
+            />
+            <Input
+              placeholder="Last Name"
+              autoCorrect={false}
+              containerStyle={{ width: "95%" }}
+              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+              onSubmitEditing={() => this.password.focus()}
+              ref={ref => this.lastname = ref}
+              onChangeText={value => this.onChangeText('lastname', value)}
+            />
+            <Input
+              placeholder="Password"
+              textContentType="password"
+              secureTextEntry={true}
+              autoCorrect={false}
+              containerStyle={{ width: "95%" }}
+              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+              ref={ref => this.password = ref}
+              onChangeText={value => this.onChangeText('password', value)}
+            />
+          </View>
+          <View style={styles.buttonsContainer}>
+            <View style={styles.buttonView}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => this.signUp()}>
+                <Text style={styles.buttonText}>Sign Up</Text>
+              </TouchableOpacity>
             </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+          </View>
+          <View style={styles.inputContainer}>
+            <Input
+              placeholder="Confirmation Code"
+              keyboardType="numeric"
+              returnKeyType="done"
+              autoCorrect={false}
+              containerStyle={{ width: "95%" }}
+              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+              onChangeText={value => this.onChangeText('authCode', value)}
+            />
+          </View>
+          
+
+            <View style={styles.bottomButtonsView}>
+            <TouchableOpacity
+              onPress={() => this.confirmSignUp()}
+              style={styles.button}>
+              <Text style={styles.buttonText}>
+                Confirm Sign Up
+              </Text>
+            </TouchableOpacity>
+            </View>
+            
+            <View style={styles.bottomButtonsView}>
+            <TouchableOpacity
+              onPress={() => this.resendSignUp()}
+              style={styles.button}>
+              <Text style={styles.buttonText}>
+                Resend code
+              </Text>
+            </TouchableOpacity>
+            </View>
+            
+         
+        </ScrollView>
+
       </SafeAreaView>
     )
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    flexDirection: 'column'
   },
-  input: {
+  titleContainer: {
     flex: 1,
-    fontSize: 17,
-    fontWeight: 'bold',
-    color: '#5a52a5',
+    alignItems: "center",
+    justifyContent: "center"
   },
-  infoContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    height: 570,
-    bottom: 25,
-    flexDirection: 'row',
-    justifyContent: 'center',
+  titleText: {
+    fontSize: 40
+  },
+  subtitleText: {
+    fontSize: 16
+  },
+  inputContainer: {
+    flex: 1,
+    alignItems: "center"
+  },
+  buttonView: {
+    flex: 1,
+    alignItems: "center",
+  },
+  bottomButtonsView: {
+    flex: 1,
+    alignItems: "center",
+    marginBottom: 15
+  },
+  button: {
     alignItems: 'center',
-    paddingHorizontal: 30,
-    backgroundColor: '#fff',
-  },
-  itemStyle: {
-    marginBottom: 10,
-  },
-  iconStyle: {
-    color: '#5a52a5',
-    fontSize: 28,
-    marginLeft: 15
-  },
-  buttonStyle: {
-    alignItems: 'center',
-    backgroundColor: '#667292',
-    padding: 14,
-    marginBottom: 10,
-    borderRadius: 24,
+    justifyContent: "center",
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    width: "80%",
+    borderRadius: 10
   },
   buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: "#fff",
-  },
-  logoContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    height: 600,
-    bottom: 270,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  textStyle: {
-    padding: 5,
-    fontSize: 18
-  },
-  countryStyle: {
-    flex: 1,
-    backgroundColor: '#99ff',
-    borderTopColor: '#211f',
-    borderTopWidth: 1,
-    padding: 12,
-  },
-  closeButtonStyle: {
-    flex: 1,
-    padding: 12,
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#211f',
-    backgroundColor: '#fff3',
+    fontWeight: "bold"
   }
 })
