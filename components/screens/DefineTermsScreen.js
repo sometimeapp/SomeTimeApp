@@ -3,7 +3,8 @@ import {
     StyleSheet,
     Text,
     View,
-    Button
+    Button, 
+    Slider
 } from 'react-native';
 import { Input } from 'native-base';
 import { Auth } from 'aws-amplify';
@@ -78,25 +79,32 @@ export default class DefineTermsScreen extends React.Component {
                     <Text style={styles.durationText}>within...</Text>
                 </View>
 
-                <View style={styles.durationBoxContainer}>
+                <View style={styles.durationColumnBox}>
 
                     <View style={styles.durationRowBox}>
 
-                        <View style={styles.durationBox}>
+                        <View style={styles.durationRow}>
                             <Text style={styles.durationNumber}>3</Text>
                         </View>
-                        <View style={styles.durationView}>
+                        <View style={styles.durationUnitsRow}>
                             <Text style={styles.durationText}>days</Text>
                         </View>
                         
-
                     </View>
 
                 </View>
 
 
                 <View style={styles.sliderContainer}>
-                    <Text>Placeholder for slider</Text>
+                    <Slider
+                    minimumValue={1}
+                    maximumValue={365}
+                    minimumTrackTintColor="#1EB1FC"
+                    maximumTractTintColor="#1EB1FC" 
+                    step={1}
+                    value={3}
+
+                    />
                 </View>
 
 
@@ -149,6 +157,7 @@ const styles = StyleSheet.create({
     },
     termsBox: {
         borderWidth: 2.5,
+        borderRadius: 10,
         position: "absolute", 
         height: "90%", 
         width: "50%",
@@ -176,12 +185,12 @@ const styles = StyleSheet.create({
     durationText: {
         fontSize: 32
     },
-    durationView: {
+    durationUnitsRow: {
         flex: 1, 
         justifyContent: "center",
         alignItems: "center"
     },
-    durationBoxContainer: {
+    durationColumnBox: {
         flex: 2,
         backgroundColor: "silver"
     },
@@ -189,7 +198,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row"
     },
-    durationBox: {
+    durationRow: {
         flex: 1,
         borderWidth: 1,
         alignItems: "center",
@@ -200,8 +209,8 @@ const styles = StyleSheet.create({
     },
     sliderContainer: {
         flex: 1,
-        backgroundColor: "fuchsia"
-
+        backgroundColor: "fuchsia",
+        justifyContent: "center",
     },
 
     input: {
