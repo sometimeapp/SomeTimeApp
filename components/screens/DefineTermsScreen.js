@@ -19,6 +19,7 @@ export default class DefineTermsScreen extends React.Component {
         promisorID: '',
         promisorFirstName: '',
         promisorLastName: '',
+        duration: 3,
         date: moment(),
         dueDate: moment().add(3, 'd'),
         terms: '',
@@ -57,6 +58,10 @@ export default class DefineTermsScreen extends React.Component {
         this.setState({ [key]: value })
     }
 
+    onChangeDuration = (value) => {
+        this.setState({duration: value})
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -83,13 +88,16 @@ export default class DefineTermsScreen extends React.Component {
 
                     <View style={styles.durationRowBox}>
 
-                        <View style={styles.durationRow}>
-                            <Text style={styles.durationNumber}>3</Text>
+                        <View style={styles.durationBorderBox}>
+                            <View style={styles.durationRow}>
+                                <Text style={styles.durationNumber}>{this.state.duration}</Text>
+                            </View>
                         </View>
+
                         <View style={styles.durationUnitsRow}>
                             <Text style={styles.durationText}>days</Text>
                         </View>
-                        
+        
                     </View>
 
                 </View>
@@ -97,12 +105,14 @@ export default class DefineTermsScreen extends React.Component {
 
                 <View style={styles.sliderContainer}>
                     <Slider
+                    style={{marginLeft: 10, marginRight: 10}}
                     minimumValue={1}
-                    maximumValue={365}
+                    maximumValue={90}
                     minimumTrackTintColor="#1EB1FC"
                     maximumTractTintColor="#1EB1FC" 
                     step={1}
                     value={3}
+                    onValueChange={ value => this.onChangeDuration(value)}
 
                     />
                 </View>
@@ -133,27 +143,20 @@ export default class DefineTermsScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1
-        // alignItems: 'center',
-        // textAlign: 'center',
-        // justifyContent: 'center',
-        // backgroundColor: '#ffffff',
     },
     introContainer: {
         flex: 2,
         alignItems: "center",
         justifyContent: "center",
-        // backgroundColor: "skyblue"
     },
     introText: {
         fontSize: 32
     },
     termsBoxContainer: {
         flex: 3,
-        // backgroundColor: "pink",
         alignItems: "center",
         justifyContent: "center",
         position: "relative"
-
     },
     termsBox: {
         borderWidth: 2.5,
@@ -163,7 +166,6 @@ const styles = StyleSheet.create({
         width: "50%",
         alignItems: "center",
         justifyContent: "center", 
-
     },
     termsBoxText: {
         fontSize: 32
@@ -171,16 +173,13 @@ const styles = StyleSheet.create({
 
     staticTermsContainer: {
         flex: 1,
-        // backgroundColor: "aqua",
         alignItems: "center",
         justifyContent: "center", 
     },
     durationTextContainer: {
         flex: 1,
-        // backgroundColor: "lime",
         alignItems: "center",
         justifyContent: "center", 
-
     },
     durationText: {
         fontSize: 32
@@ -192,17 +191,25 @@ const styles = StyleSheet.create({
     },
     durationColumnBox: {
         flex: 2,
-        backgroundColor: "silver"
     },
     durationRowBox: {
         flex: 1,
         flexDirection: "row"
     },
-    durationRow: {
+    durationBorderBox: {
         flex: 1,
-        borderWidth: 1,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        position: "relative"
+    },
+    durationRow: {
+        borderWidth: 2.5,
+        borderRadius: 10,
+        position: "absolute", 
+        height: "75%", 
+        width: "50%",
+        alignItems: "center",
+        justifyContent: "center", 
     },
     durationNumber: {
         fontSize: 40
@@ -211,13 +218,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "fuchsia",
         justifyContent: "center",
-    },
-
-    input: {
-        flex: 1,
-        fontSize: 17,
-        fontWeight: 'bold',
-        color: '#5a52a5',
     },
     buttonContainer: {
         flex: 1,

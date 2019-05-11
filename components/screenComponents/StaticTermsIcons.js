@@ -25,7 +25,7 @@ export default class StaticTermsIcons extends React.Component {
                     <Text style={styles.emoji}>🚘</Text>
                 </View>
                 <View style={styles.itemContainer}>
-                    <Text style={styles.emoji}>*️⃣</Text>
+                    <Text style={styles.emoji}>*️</Text>
                 </View>
     
             </View>
