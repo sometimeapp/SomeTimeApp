@@ -4,7 +4,8 @@ import {
     Text,
     View,
     Button, 
-    Slider
+    Slider, 
+    TouchableOpacity
 } from 'react-native';
 import { Input } from 'native-base';
 import { Auth } from 'aws-amplify';
@@ -20,9 +21,9 @@ export default class DefineTermsScreen extends React.Component {
         promisorFirstName: '',
         promisorLastName: '',
         duration: 3,
-        date: moment(),
-        dueDate: moment().add(3, 'd'),
-        terms: '',
+        // date: moment(),
+        // dueDate: moment().add(3, 'd'),
+        terms: ''
     }
 
     static navigationOptions = {
@@ -54,12 +55,16 @@ export default class DefineTermsScreen extends React.Component {
     }
 
 
-    onChangeText = (key, value) => {
-        this.setState({ [key]: value })
+    onChangeTerms = (value) => {
+        this.setState({ terms: value })
     }
 
     onChangeDuration = (value) => {
         this.setState({duration: value})
+    }
+
+    setStaticPledge = (value) => {
+        this.setState({terms : value})
     }
 
     render() {
@@ -72,12 +77,22 @@ export default class DefineTermsScreen extends React.Component {
 
                 <View style={styles.termsBoxContainer}>
                     <View style={styles.termsBox}>
-                        <Text style={styles.termsBoxText}>{this.state.terms || "(something)"}</Text>
+                        {/* <Text style={styles.termsBoxText}>{this.state.terms || "(something)"}</Text> */}
+                        <Input 
+                          style={styles.termsBoxText}
+                          placeholder="(something...)"
+                          value={this.state.terms}
+                          onChangeText={text => this.setState({terms: text})}
+                          multiline={true}
+                          maxLength={140}
+                        />
                     </View>
                 </View>
 
                 <View style={styles.staticTermsContainer}>
-                    <StaticTermsIcons />
+                    <StaticTermsIcons 
+                    handleTouch={ value => this.setStaticPledge(value)}
+                    />
                 </View>
 
                 <View style={styles.durationTextContainer}>
@@ -118,20 +133,27 @@ export default class DefineTermsScreen extends React.Component {
                 </View>
 
 
-                <View style={styles.buttonContainer}>
-                    <View style={{ margin: 5 }}>
-                        <Button
-
-                            title="Cancel"
-                            onPress={() => this.props.navigation.navigate('Home')}
-                        />
-                    </View>
-                    <View style={{ margin: 5 }}>
-                        <Button
-
-                            title="Seal the Deal"
-                            onPress={() => this.props.navigation.navigate('MakeQR', this.state)}
-                        />
+                <View style={styles.buttonsContainer}>
+                    <View style={styles.buttonRowContainer}>
+                        <View style={styles.signInButtonView}>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={ () => this.props.navigation.navigate('Home') }>
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.signUpButtonView}>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={ () => {
+                                    let today = moment();
+                                    let future = today.add(this.state.duration, 'd')
+                                    this.props.navigation.navigate('MakeQR', {...this.state, date: today, dueDate: future}) 
+                                    }
+                            }>
+                                <Text style={styles.buttonText}>Seal the Deal</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
 
@@ -168,7 +190,7 @@ const styles = StyleSheet.create({
         justifyContent: "center", 
     },
     termsBoxText: {
-        fontSize: 32
+        fontSize: 22
     },
 
     staticTermsContainer: {
@@ -216,11 +238,38 @@ const styles = StyleSheet.create({
     },
     sliderContainer: {
         flex: 1,
-        backgroundColor: "fuchsia",
+        //backgroundColor: "fuchsia",
         justifyContent: "center",
     },
-    buttonContainer: {
+    buttonsContainer: {
         flex: 1,
-        backgroundColor: "yellow"
-    },
+      },
+      buttonRowContainer: {
+        flexDirection: "row",
+        flex: 1,
+        alignItems: "center",
+        //backgroundColor: "lime"
+      },
+      signUpButtonView: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+      },
+      signInButtonView: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+      },
+      button: {
+        alignItems: 'center',
+        justifyContent: "center",
+        backgroundColor: '#DDDDDD',
+        padding: 10,
+        //height: "30%",
+        width: "66%",
+        borderRadius: 10
+      },
+      buttonText: {
+        fontWeight: "bold"
+      },
 });

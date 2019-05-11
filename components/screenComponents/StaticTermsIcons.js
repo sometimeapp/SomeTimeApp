@@ -3,8 +3,16 @@ import {
     StyleSheet,
     Text,
     View,
-    Button
+    TouchableOpacity
 } from 'react-native';
+
+const emojiDictionary = {
+    "☕" : "a coffee",
+    "🍸" : "a drink",
+    "🍴" : "a meal",
+    "🚘" : "a ride", 
+    "🤙" : "to hang out"
+}
 
 export default class StaticTermsIcons extends React.Component {
 
@@ -12,21 +20,21 @@ export default class StaticTermsIcons extends React.Component {
         return (
             <View style={styles.rowContainer}>
 
-                <View style={styles.itemContainer}>
+                <TouchableOpacity style={ styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["☕"]) }>
                     <Text style={styles.emoji}>☕</Text>
-                </View>
-                <View style={styles.itemContainer}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["🍸"]) }>
                     <Text style={styles.emoji}>🍸</Text>
-                </View>          
-                <View style={styles.itemContainer}>
+                </TouchableOpacity>          
+                <TouchableOpacity style={styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["🍴"]) }>
                     <Text style={styles.emoji}>🍴</Text>
-                </View>
-                <View style={styles.itemContainer}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["🚘"]) }>
                     <Text style={styles.emoji}>🚘</Text>
-                </View>
-                <View style={styles.itemContainer}>
-                    <Text style={styles.emoji}>*️</Text>
-                </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["🤙"]) }>
+                    <Text style={styles.emoji}>🤙</Text>
+                </TouchableOpacity>
     
             </View>
         )
@@ -37,11 +45,7 @@ export default class StaticTermsIcons extends React.Component {
 const styles = StyleSheet.create({
     rowContainer: {
         flex: 1,
-        flexDirection: "row", 
-        // alignItems: 'center',
-        // textAlign: 'center',
-        // justifyContent: 'center',
-        // backgroundColor: '#ffffff',
+        flexDirection: "row"
     }, 
     emoji: {
         fontSize: 30
