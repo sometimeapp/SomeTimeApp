@@ -76,8 +76,11 @@ export default class PledgesMadeScreen extends React.Component {
       <View style={styles.container}>
         {
           !this.state.pledgesMade ? (
-            <ActivityIndicator></ActivityIndicator>
+            <View style={styles.indicatorContainer}>
+            <ActivityIndicator size="large"></ActivityIndicator>
+            </View>
           ) : (
+            
               <FlatList
                 data={this.state.pledgesMade}
                 keyExtractor={(x, i) => i.toString()}
@@ -89,7 +92,12 @@ export default class PledgesMadeScreen extends React.Component {
                     <TouchableHighlight
                       onPress={() => this.props.navigation.navigate('Details', {...item, screen: 'made'})}
                     >
-                      <Card>
+                      <Card
+                        title={item.promiseeFirstName + " " + item.promiseeLastName}
+                        image={require('../../assets/images/photo-placeholder.png')}
+                        imageWrapperStyle={{flex: 1, flexDirection: 'row'}}
+                        imageStyle={{flex: 1, height: 150, width: 150}}
+                      >
                         <Text>{"I owe " + item.promiseeFirstName + " " + item.promiseeLastName}</Text>
                         <Text>{item.terms}</Text>
                       </Card>
@@ -107,6 +115,11 @@ export default class PledgesMadeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  indicatorContainer: {
+    flex: 1,
+    justifyContent: "center", 
+    alignItems: "center"
+  },
   container: {
     flex: 1,
   }
