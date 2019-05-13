@@ -4,24 +4,17 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   SafeAreaView,
-  StatusBar,
-  KeyboardAvoidingView,
-  Keyboard,
-  Alert
+  Alert,
+  TouchableOpacity
 } from 'react-native';
 
 // AWS Amplify
 import Auth from '@aws-amplify/auth'
 
 import {
-  Container,
-  Item,
   Input,
-  Icon
-} from 'native-base'
+} from 'react-native-elements'
 
 export default class SignInScreen extends React.Component {
   static navigationOptions = {
@@ -58,74 +51,58 @@ export default class SignInScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar />
-        <KeyboardAvoidingView style={styles.container} behavior='padding' enabled>
-          <TouchableWithoutFeedback style={styles.container} onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
-              <Container style={styles.infoContainer}>
-                <View style={styles.container}>
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='mail'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='Email'
-                      placeholderTextColor='#adb4bc'
-                      keyboardType={'email-address'}
-                      returnKeyType='next'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      onSubmitEditing={(event) => { this.refs.SecondInput._root.focus() }}
-                      onChangeText={value => this.onChangeText('email', value)}
-                    />
-                  </Item>
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='lock'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='Password'
-                      placeholderTextColor='#adb4bc'
-                      returnKeyType='go'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      secureTextEntry={true}
-                      ref='SecondInput'
-                      onChangeText={value => this.onChangeText('password', value)}
-                    />
-                  </Item>
-                  <TouchableOpacity
-                    onPress={() => this._signInAsync()}
-                    style={styles.buttonStyle}>
-                    <Text style={styles.buttonText}>
-                      Sign In
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('SignUp')}
-                    style={styles.buttonStyle}>
-                    <Text style={styles.buttonText}>
-                      Sign Up
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('ForgotPassword')}
-                    style={styles.buttonStyle}>
-                    <Text style={styles.buttonText}>
-                      Forgot Password
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </Container>
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleText}>SomeTime</Text>
+          <Text style={styles.subtitleText}>a ledger for casual contracts</Text>
+        </View>
+        <View style={styles.inputContainer}>
+          <Input
+            placeholder="Email"
+            textContentType="emailAddress"
+            autoCorrect={false}
+            containerStyle={{ width: "95%" }}
+            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+            onSubmitEditing={() => this.password.focus()}
+            onChangeText={value => this.onChangeText('email', value)}
+          />
+          <Input
+            placeholder="Password"
+            textContentType="password"
+            secureTextEntry={true}
+            autoCorrect={false}
+            containerStyle={{ width: "95%" }}
+            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+            ref={ref => this.password = ref}
+            onChangeText={value => this.onChangeText('password', value)}
+          />
+        </View>
+        <View style={styles.buttonsContainer}>
+          <View style={styles.buttonRowContainer}>
+            <View style={styles.signInButtonView}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => this._signInAsync()}>
+                <Text style={styles.buttonText}>Sign In</Text>
+              </TouchableOpacity>
             </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+            <View style={styles.signUpButtonView}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => this.props.navigation.navigate('SignUp')}>
+                <Text style={styles.buttonText}>Sign Up</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        <View style={styles.passwordContainer}>
+          <Text
+            style={styles.buttonText}
+            onPress={() => this.props.navigation.navigate('ForgotPassword')}>
+            Forgot Password?
+          </Text>
+        </View>
       </SafeAreaView>
     )
   }
@@ -134,56 +111,53 @@ export default class SignInScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    flexDirection: 'column'
   },
-  input: {
+  titleContainer: {
+    flex: 2,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  titleText: {
+    fontSize: 40
+  },
+  subtitleText: {
+    fontSize: 16
+  },
+  inputContainer: {
     flex: 1,
-    fontSize: 17,
-    fontWeight: 'bold',
-    color: '#5a52a5',
+    alignItems: "center"
   },
-  infoContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    height: 350,
-    bottom: 25,
-    flexDirection: 'row',
-    justifyContent: 'center',
+  buttonsContainer: {
+    flex: 1,
+  },
+  buttonRowContainer: {
+    flexDirection: "row",
+    flex: 1,
+  },
+  signUpButtonView: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  signInButtonView: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  button: {
     alignItems: 'center',
-    paddingHorizontal: 30,
-    backgroundColor: '#fff',
-  },
-  itemStyle: {
-    marginBottom: 20,
-  },
-  iconStyle: {
-    color: '#5a52a5',
-    fontSize: 28,
-    marginLeft: 15
-  },
-  buttonStyle: {
-    alignItems: 'center',
-    backgroundColor: '#667292',
-    padding: 14,
-    marginBottom: 20,
-    borderRadius: 24,
+    justifyContent: "center",
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    height: "30%",
+    width: "66%",
+    borderRadius: 10
   },
   buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: "#fff",
+    fontWeight: "bold"
   },
-  logoContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    height: 400,
-    bottom: 180,
-    alignItems: 'center',
-    justifyContent: 'center',
+  passwordContainer: {
     flex: 1,
-  },
+    alignItems: "center",
+  }
 })
