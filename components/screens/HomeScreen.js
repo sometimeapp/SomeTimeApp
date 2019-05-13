@@ -65,43 +65,43 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
-    return (
-      <PledgeCard pledge={staticPromiseList[3]} />
-    )
+  //   return (
+  //     <PledgeCard pledge={staticPromiseList[3]} />
+  //   )
     
+  // }
+}
+
+  render() {
+    console.log("rendering the home screen!")
+    return (
+      <View style={styles.container}>
+        <Text>Welcome to the Home screen</Text>
+        <View style={{ margin: 5 }}>
+          <Button
+            style={styles.button}
+            title="Make Promise"
+            onPress={() => this.props.navigation.navigate('Terms')}
+          />
+          </View>
+          <View style={{ margin: 5 }}>
+          <Button
+            style={styles.button}
+            title="Receive"
+            onPress={() => this.props.navigation.navigate('Receive')}
+          />
+        </View>
+      </View>
+    );
   }
 }
 
-//   render() {
-//     console.log("rendering the home screen!")
-//     return (
-//       <View style={styles.container}>
-//         <Text>Welcome to the Home screen</Text>
-//         <View style={{ margin: 5 }}>
-//           <Button
-//             style={styles.button}
-//             title="Make Promise"
-//             onPress={() => this.props.navigation.navigate('Terms')}
-//           />
-//           </View>
-//           <View style={{ margin: 5 }}>
-//           <Button
-//             style={styles.button}
-//             title="Receive"
-//             onPress={() => this.props.navigation.navigate('Receive')}
-//           />
-//         </View>
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: 'center',
-//     textAlign: 'center',
-//     justifyContent: 'center',
-//     backgroundColor: '#ffffff',
-//   }
-// });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    textAlign: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ffffff',
+  }
+});

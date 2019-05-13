@@ -15,7 +15,7 @@ export default class PledgeCard extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity style={styles.card}>
+                <View style={styles.card}>
 
                     <View style={styles.imageContainer}>
                         <Icon
@@ -65,7 +65,7 @@ export default class PledgeCard extends React.Component {
                             size={60}
                         />
                     </View>
-                </TouchableOpacity>
+                </View>
             </View>
         )
     }

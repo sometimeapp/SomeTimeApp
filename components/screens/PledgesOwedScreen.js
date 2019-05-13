@@ -5,11 +5,14 @@ import {
   View,
   FlatList,
   ActivityIndicator,
-  TouchableHighlight
+  TouchableOpacity
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { Card } from 'react-native-elements';
-import { getData } from '../../utilities/services'
+import { getData } from '../../utilities/services';
+
+import PledgeCard from '../screenComponents/PledgeCard'
+
 
 export default class PledgesOwedScreen extends React.Component {
 
@@ -47,7 +50,6 @@ export default class PledgesOwedScreen extends React.Component {
  }
 
 
-
 getId = async () => {
   try {
       let userInfo = {};
@@ -76,14 +78,12 @@ getId = async () => {
               onRefresh={() => this.onRefresh()}
               refreshing={this.state.isFetching}
               renderItem={({ item }) => (
-                <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("Details",  {...item, screen: 'owed'})}
-                >
-                  <Card>
-                    <Text>{item.promisorFirstName + " " + item.promisorLastName + " owes"}</Text>
-                    <Text>{item.terms}</Text>
-                  </Card>
-                </TouchableHighlight>
+                <TouchableOpacity
+                      onPress={() => this.props.navigation.navigate('Details', {...item, screen: 'made'})}
+                    >
+                    <PledgeCard pledge={item} />
+
+                    </TouchableOpacity>
               
               )}
             />

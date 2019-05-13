@@ -5,7 +5,7 @@ import {
   View,
   FlatList,
   ActivityIndicator,
-  TouchableHighlight
+  TouchableOpacity
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { Card } from 'react-native-elements';
@@ -91,20 +91,12 @@ export default class PledgesMadeScreen extends React.Component {
 
                 renderItem={({ item }) => (
                   <View>
-                    <TouchableHighlight
+                    <TouchableOpacity
                       onPress={() => this.props.navigation.navigate('Details', {...item, screen: 'made'})}
                     >
                     <PledgeCard pledge={item} />
-                      {/* <Card
-                        title={item.promiseeFirstName + " " + item.promiseeLastName}
-                        image={require('../../assets/images/photo-placeholder.png')}
-                        imageWrapperStyle={{flex: 1, flexDirection: 'row'}}
-                        imageStyle={{flex: 1, height: 150, width: 150}}
-                      >
-                        <Text>{"I owe " + item.promiseeFirstName + " " + item.promiseeLastName}</Text>
-                        <Text>{item.terms}</Text>
-                      </Card> */}
-                    </TouchableHighlight>
+
+                    </TouchableOpacity>
                   </View>
 
                 )}
