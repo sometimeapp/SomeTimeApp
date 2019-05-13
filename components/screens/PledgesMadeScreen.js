@@ -5,11 +5,13 @@ import {
   View,
   FlatList,
   ActivityIndicator,
-  TouchableHighlight
+  TouchableOpacity
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { Card } from 'react-native-elements';
 import { getData } from '../../utilities/services'
+
+import PledgeCard from '../screenComponents/PledgeCard'
 
 
 export default class PledgesMadeScreen extends React.Component {
@@ -76,8 +78,11 @@ export default class PledgesMadeScreen extends React.Component {
       <View style={styles.container}>
         {
           !this.state.pledgesMade ? (
-            <ActivityIndicator></ActivityIndicator>
+            <View style={styles.indicatorContainer}>
+            <ActivityIndicator size="large"></ActivityIndicator>
+            </View>
           ) : (
+            
               <FlatList
                 data={this.state.pledgesMade}
                 keyExtractor={(x, i) => i.toString()}
@@ -86,14 +91,12 @@ export default class PledgesMadeScreen extends React.Component {
 
                 renderItem={({ item }) => (
                   <View>
-                    <TouchableHighlight
+                    <TouchableOpacity
                       onPress={() => this.props.navigation.navigate('Details', {...item, screen: 'made'})}
                     >
-                      <Card>
-                        <Text>{"I owe " + item.promiseeFirstName + " " + item.promiseeLastName}</Text>
-                        <Text>{item.terms}</Text>
-                      </Card>
-                    </TouchableHighlight>
+                    <PledgeCard pledge={item} />
+
+                    </TouchableOpacity>
                   </View>
 
                 )}
@@ -107,6 +110,11 @@ export default class PledgesMadeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  indicatorContainer: {
+    flex: 1,
+    justifyContent: "center", 
+    alignItems: "center"
+  },
   container: {
     flex: 1,
   }
