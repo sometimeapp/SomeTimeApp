@@ -27,11 +27,12 @@ export default class SignInScreen extends React.Component {
   }
 
   onChangeText = (key, value) => {
-    this.setState({ [key]: value })
+    this.setState({ [key]: value.trim() })
   }
 
   _signInAsync = async () => {
-    const { email, password } = this.state
+    let { email, password } = this.state
+    email = email.toLowerCase();
     await Auth.signIn(email, password)
       .then(user => {
         this.setState({ user })

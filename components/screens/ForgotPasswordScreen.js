@@ -28,12 +28,13 @@ export default class SignInScreen extends React.Component {
   }
 
   onChangeText = (key, value) => {
-    this.setState({ [key]: value })
+    this.setState({ [key]: value.trim() })
   }
 
   // Request a new password
   async forgotPassword() {
-    const { email } = this.state
+    let { email } = this.state
+    email = email.toLowerCase();
     await Auth.forgotPassword(email)
       .then(data => console.log('New code sent', data))
       .catch(err => {
@@ -48,7 +49,8 @@ export default class SignInScreen extends React.Component {
   }
   // Upon confirmation redirect the user to the Sign In page
   async forgotPasswordSubmit() {
-    const { email, authCode, newPassword } = this.state
+    let { email, authCode, newPassword } = this.state
+    email = email.toLowerCase();  
     await Auth.forgotPasswordSubmit(email, authCode, newPassword)
       .then(() => {
         this.props.navigation.navigate('SignIn')
