@@ -110,7 +110,7 @@ export default class DefineTermsScreen extends React.Component {
                         </View>
 
                         <View style={styles.durationUnitsRow}>
-                            <Text style={styles.durationText}>days</Text>
+                            <Text style={styles.durationText}>{this.state.duration < 2 ? 'day' : 'days'}</Text>
                         </View>
         
                     </View>
