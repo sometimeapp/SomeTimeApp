@@ -21,6 +21,10 @@ import {
 } from 'react-native-elements'
 
 export default class SignUpScreen extends React.Component {
+  static navigationOptions = {
+    headerTitle: 'Sign Up',
+  };
+
   state = {
     email: '',
     firstname: '',
@@ -141,7 +145,6 @@ export default class SignUpScreen extends React.Component {
               onChangeText={value => this.onChangeText('password', value)}
             />
           </View>
-          <View style={styles.buttonsContainer}>
             <View style={styles.buttonView}>
               <TouchableOpacity
                 style={styles.button}
@@ -149,7 +152,6 @@ export default class SignUpScreen extends React.Component {
                 <Text style={styles.buttonText}>Sign Up</Text>
               </TouchableOpacity>
             </View>
-          </View>
           <View style={styles.inputContainer}>
             <Input
               placeholder="Confirmation Code"
@@ -225,7 +227,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: '#DDDDDD',
     padding: 10,
-    width: "80%",
+    width: "83%",
     borderRadius: 10
   },
   buttonText: {

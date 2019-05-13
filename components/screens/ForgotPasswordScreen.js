@@ -1,34 +1,32 @@
 import React from 'react';
 
 import {
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   StyleSheet,
   Text,
-  SafeAreaView,
-  StatusBar,
-  KeyboardAvoidingView,
-  Keyboard,
   View,
-  Alert
-} from 'react-native'
-
-import {
-  Container,
-  Item,
-  Input,
-  Icon
-} from 'native-base'
+  SafeAreaView,
+  Alert,
+  TouchableOpacity
+} from 'react-native';
 
 // AWS Amplify
 import Auth from '@aws-amplify/auth'
 
-export default class ForgotPasswordScreen extends React.Component {
+import {
+  Input,
+} from 'react-native-elements'
+
+export default class SignInScreen extends React.Component {
+  static navigationOptions = {
+    headerTitle: 'Forgot Password',
+  };
+
   state = {
     email: '',
-    authCode: '',
     newPassword: '',
+    authCode: ''
   }
+
   onChangeText = (key, value) => {
     this.setState({ [key]: value })
   }
@@ -48,7 +46,6 @@ export default class ForgotPasswordScreen extends React.Component {
         }
       })
   }
-
   // Upon confirmation redirect the user to the Sign In page
   async forgotPasswordSubmit() {
     const { email, authCode, newPassword } = this.state
@@ -68,158 +65,136 @@ export default class ForgotPasswordScreen extends React.Component {
       })
   }
 
-
-
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar />
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior='padding'
-          enabled
-          keyboardVerticalOffset={23}>
-          <TouchableWithoutFeedback style={styles.container} onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
-              {/* Infos */}
-              <Container style={styles.infoContainer}>
-                <View style={styles.container}>
-                  {/* Username */}
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='person'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='Email'
-                      placeholderTextColor='#adb4bc'
-                      keyboardType={'email-address'}
-                      returnKeyType='go'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      onChangeText={value => this.onChangeText('email', value)}
-                    />
-                  </Item>
-                  <TouchableOpacity
-                    style={styles.buttonStyle}
-                    onPress={() => this.forgotPassword()}
-                  >
-                    <Text style={styles.buttonText}>
-                      Send Code
-                      </Text>
-                  </TouchableOpacity>
-                  {/* the New password section  */}
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='lock'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='New password'
-                      placeholderTextColor='#adb4bc'
-                      returnKeyType='next'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      secureTextEntry={true}
-                      onSubmitEditing={(event) => { this.refs.SecondInput._root.focus() }}
-                      onChangeText={value => this.onChangeText('newPassword', value)}
-                    />
-                  </Item>
-                  {/* Code confirmation section  */}
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='md-apps'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='Confirmation code'
-                      placeholderTextColor='#adb4bc'
-                      keyboardType={'numeric'}
-                      returnKeyType='done'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      secureTextEntry={false}
-                      ref='SecondInput'
-                      onChangeText={value => this.onChangeText('authCode', value)}
-                    />
-                  </Item>
-                  <TouchableOpacity
-                    onPress={() => this.forgotPasswordSubmit()}
-                    style={styles.buttonStyle}
-                  >
-                    <Text style={styles.buttonText}>
-                      Confirm the new password
-                      </Text>
-                  </TouchableOpacity>
-                </View>
-              </Container>
+
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleText}>SomeTime</Text>
+          <Text style={styles.subtitleText}>a ledger for casual contracts</Text>
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Input
+            placeholder="Email"
+            textContentType="emailAddress"
+            autoCorrect={false}
+            containerStyle={{ width: "95%" }}
+            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+            onChangeText={value => this.onChangeText('email', value)}
+          />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.forgotPassword()}>
+            <Text style={styles.buttonText}>Send Code</Text>
+          </TouchableOpacity>
+
+
+          <Input
+            placeholder="New Password"
+            textContentType="password"
+            secureTextEntry={true}
+            autoCorrect={false}
+            containerStyle={{ width: "95%" }}
+            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+            onSubmitEditing={() => this.confirmationCode.focus()}
+            onChangeText={value => this.onChangeText('newPassword', value)}
+          />
+          <Input
+            placeholder="Confirmation Code"
+            keyboardType={'numeric'}
+            autoCorrect={false}
+            containerStyle={{ width: "95%" }}
+            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+            ref={ref => this.confirmationCode = ref}
+            onChangeText={value => this.onChangeText('authCode', value)}
+          />
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.forgotPasswordSubmit()}>
+            <Text style={styles.buttonText}>Confirm Password</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* <View style={styles.buttonView}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.forgotPassword()}>
+            <Text style={styles.buttonText}>Send Code</Text>
+          </TouchableOpacity>
+        </View> */}
+
+        {/* <View style={styles.inputContainer}>
+          <Input
+            placeholder="New Password"
+            textContentType="password"
+            secureTextEntry={true}
+            autoCorrect={false}
+            containerStyle={{ width: "95%" }}
+            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+            onSubmitEditing={() => this.confirmationCode.focus()}
+            onChangeText={value => this.onChangeText('newPassword', value)}
+          />
+          <Input
+            placeholder="Confirmation Code"
+            keyboardType={'numeric'}
+            autoCorrect={false}
+            containerStyle={{ width: "95%" }}
+            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+            ref={ref => this.confirmationCode = ref}
+            onChangeText={value => this.onChangeText('authCode', value)}
+          />
+            <View style={styles.buttonView}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => this.forgotPasswordSubmit()}>
+                <Text style={styles.buttonText}>Confirm Password</Text>
+              </TouchableOpacity>
             </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+          </View> */}
       </SafeAreaView>
-    );
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    flexDirection: 'column'
   },
-  input: {
+  titleContainer: {
     flex: 1,
-    fontSize: 17,
-    fontWeight: 'bold',
-    color: '#5a52a5',
+    alignItems: "center",
+    justifyContent: "center"
   },
-  infoContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    height: 350,
-    bottom: 25,
-    flexDirection: 'row',
-    justifyContent: 'center',
+  titleText: {
+    fontSize: 40
+  },
+  subtitleText: {
+    fontSize: 16
+  },
+  inputContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
+  buttonView: {
+    flex: 1,
+    alignItems: "center",
+  },
+  button: {
     alignItems: 'center',
-    paddingHorizontal: 30,
-    backgroundColor: '#fff',
-  },
-  itemStyle: {
-    marginBottom: 20,
-  },
-  iconStyle: {
-    color: '#5a52a5',
-    fontSize: 28,
-    marginLeft: 15
-  },
-  buttonStyle: {
-    alignItems: 'center',
-    backgroundColor: '#667292',
-    padding: 14,
-    marginBottom: 20,
-    borderRadius: 24,
+    justifyContent: "center",
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    width: "83%",
+    borderRadius: 10
   },
   buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: "#fff",
-  },
-  logoContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    height: 400,
-    bottom: 180,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
+    fontWeight: "bold"
+  }
 })
