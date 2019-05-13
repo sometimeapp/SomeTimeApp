@@ -33,14 +33,15 @@ export default class SignUpScreen extends React.Component {
     authCode: '',
   }
   onChangeText = (key, value) => {
-    this.setState({ [key]: value })
+    this.setState({ [key]: value.trim() })
   }
 
   async signUp() {
-    const { firstname, lastname, email, password } = this.state
-    const name = firstname
-    const username = email
-    const family_name = lastname
+    let { firstname, lastname, email, password } = this.state
+    const name = firstname.charAt(0).toUpperCase() + firstname.slice(1);
+    const username = email.toLowerCase();
+    email = username;
+    const family_name = lastname.charAt(0).toUpperCase() + lastname.slice(1);
     await Auth.signUp({
       username,
       password,
@@ -62,7 +63,8 @@ export default class SignUpScreen extends React.Component {
   }
 
   async confirmSignUp() {
-    const { email, authCode } = this.state
+    let { email, authCode } = this.state
+    email = email.toLowerCase();
     await Auth.confirmSignUp(email, authCode)
       .then(() => {
         this.props.navigation.navigate('SignIn')
@@ -80,7 +82,8 @@ export default class SignUpScreen extends React.Component {
   }
 
   async resendSignUp() {
-    const { email } = this.state
+    let { email } = this.state
+    email = email.toLowerCase();
     await Auth.resendSignUp(email)
       .then(() => console.log('Confirmation code resent successfully'))
       .catch(err => {
