@@ -11,6 +11,8 @@ import { Auth } from 'aws-amplify';
 import { Card } from 'react-native-elements';
 import { getData } from '../../utilities/services'
 
+import PledgeCard from '../screenComponents/PledgeCard'
+
 
 export default class PledgesMadeScreen extends React.Component {
 
@@ -92,7 +94,8 @@ export default class PledgesMadeScreen extends React.Component {
                     <TouchableHighlight
                       onPress={() => this.props.navigation.navigate('Details', {...item, screen: 'made'})}
                     >
-                      <Card
+                    <PledgeCard pledge={item} />
+                      {/* <Card
                         title={item.promiseeFirstName + " " + item.promiseeLastName}
                         image={require('../../assets/images/photo-placeholder.png')}
                         imageWrapperStyle={{flex: 1, flexDirection: 'row'}}
@@ -100,7 +103,7 @@ export default class PledgesMadeScreen extends React.Component {
                       >
                         <Text>{"I owe " + item.promiseeFirstName + " " + item.promiseeLastName}</Text>
                         <Text>{item.terms}</Text>
-                      </Card>
+                      </Card> */}
                     </TouchableHighlight>
                   </View>
 
