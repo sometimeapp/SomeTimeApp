@@ -4,7 +4,7 @@ import {
     Text,
     View,
     Button,
-    TouchableOpacity, 
+    TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import moment from 'moment';
@@ -27,7 +27,11 @@ export default class PledgeCard extends React.Component {
 
                     <View style={styles.infoContainer}>
                         <View style={styles.promiseeNameContainer}>
-                            <Text style={{ fontSize: 20 }}>{this.props.pledge.promiseeFirstName} {this.props.pledge.promiseeLastName}</Text>
+                            <Text style={{ fontSize: 20 }}>
+                                {this.props.screen === 'PledgesMade' ?
+                                    `${this.props.pledge.promiseeFirstName} ${this.props.pledge.promiseeLastName}`
+                                    : `${this.props.pledge.promisorFirstName} ${this.props.pledge.promisorLastName}`}
+                            </Text>
                         </View>
 
                         <View style={styles.detailContainerContainer}>

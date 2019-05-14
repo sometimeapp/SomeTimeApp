@@ -94,7 +94,9 @@ export default class PledgesMadeScreen extends React.Component {
                     <TouchableOpacity
                       onPress={() => this.props.navigation.navigate('Details', {...item, screen: 'made'})}
                     >
-                    <PledgeCard pledge={item} />
+                    <PledgeCard 
+                    pledge={item} 
+                    screen={this.props.navigation.state.routeName} />
 
                     </TouchableOpacity>
                   </View>
