@@ -14,11 +14,15 @@ import {
 } from 'react-native'
 
 import {
-  Container,
-  Item,
   Input,
-  Icon,
-} from 'native-base'
+} from 'react-native-elements'
+
+// import {
+//   Container,
+//   Item,
+//   Input,
+//   Icon,
+// } from 'native-base'
 
 // AWS Amplify
 import Auth from '@aws-amplify/auth'
@@ -29,13 +33,13 @@ export default class SettingsScreen extends React.Component {
   };
 
   state = {
-    password1: '',
-    password2: '',
+    oldPassword: '',
+    newPassword: '',
   }
 
 
   onChangeText = (key, value) => {
-    this.setState({ [key]: value })
+    this.setState({ [key]: value.trim() })
   }
 
   _signOutAsync = async () => {
@@ -44,95 +48,90 @@ export default class SettingsScreen extends React.Component {
     console.log("signed out!")
   };
 
+  _changePasswordAsync = async () => {
+    console.log(this.state);
+    Auth.currentAuthenticatedUser()
+    .then(user => {
+        return Auth.changePassword(user, this.state.oldPassword, this.state.newPassword);
+    })
+    .then( data => {
+      console.log(data)
+      alert("Password successfully changed!");
+      this.props.navigation.navigate('Home');
+    })
+    .catch(err => {
+      //  NOTE -- these error alerts are currently overridden by default notifications from Amplify
+      switch(err.code) {
+        case("NotAuthorizedException") : 
+        alert("Old password is incorrect!");
+        break;
+
+        case("InvalidParameterException") :
+        alert("New password must be at least 8 characters and include at least one uppercase character, one lowercase character, one number, and one special character");
+        break;
+
+        default: 
+        alert("Unknown error!");
+      }
+
+
+      console.log(err)
+      alert(err.message);
+    });
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar />
-        <KeyboardAvoidingView style={styles.container} behavior='padding' enabled>
-          <TouchableWithoutFeedback style={styles.container} onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
-              {/*Infos*/}
-              <Container style={styles.infoContainer}>
-                <View style={styles.container}>
-                  <View
-                    style={
-                      [styles.buttonStyle, { borderRadius: 4, marginBottom: 20 }]
-                    }>
-                    <Text style={styles.buttonText}>Change password</Text>
-                  </View>
-                  {/* Old password */}
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='lock'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='Old password'
-                      placeholderTextColor='#adb4bc'
-                      returnKeyType='next'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      secureTextEntry={true}
-                      onSubmitEditing={(event) => { this.refs.SecondInput._root.focus() }}
-                      onChangeText={value => this.onChangeText('password1', value)}
-                    />
-                  </Item>
-                  {/* New password */}
-                  <Item rounded style={styles.itemStyle}>
-                    <Icon
-                      active
-                      name='lock'
-                      style={styles.iconStyle}
-                    />
-                    <Input
-                      style={styles.input}
-                      placeholder='New password'
-                      placeholderTextColor='#adb4bc'
-                      returnKeyType='go'
-                      autoCapitalize='none'
-                      autoCorrect={false}
-                      secureTextEntry={true}
-                      ref='SecondInput'
-                      onChangeText={value => this.onChangeText('password2', value)}
-                    />
-                  </Item>
-                  <TouchableOpacity
-                    style={styles.buttonStyle}>
-                    <Text style={styles.buttonText}>
-                      Submit
-                    </Text>
-                  </TouchableOpacity>
-                  <View
-                    style={
-                      {
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        paddingBottom: 100
-                      }
-                    }
-                  />
-                  <TouchableOpacity
-                    style={
-                      [styles.buttonStyle,
-                      {
-                        flexDirection: 'row',
-                        justifyContent: 'center'
-                      }
-                      ]
-                    }
-                    onPress={() => this._signOutAsync()}>
-                    <Icon name='md-power' style={{ color: '#fff', paddingRight: 10 }} />
-                    <Text style={styles.buttonText}>
-                      Sign out
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </Container>
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+
+        <View style={styles.changePasswordContainer}>
+
+          <View style={styles.headerContainer}>
+            <Text style={styles.headingText}>Change Password</Text>
+          </View>
+
+          <Input
+                placeholder="Old Password"
+                textContentType="password"
+                secureTextEntry={false}
+                autoCorrect={false}
+                containerStyle={{ width: "95%" }}
+                inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+                inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+                onChangeText={value => this.onChangeText('oldPassword', value)}
+                onSubmitEditing={() => this.newPassword.focus()}
+          />
+
+          <Input
+                placeholder="New Password"
+                textContentType="password"
+                secureTextEntry={false}
+                autoCorrect={false}
+                containerStyle={{ width: "95%" }}
+                inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+                inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+                ref={ref => this.newPassword = ref}
+                onChangeText={value => this.onChangeText('newPassword', value)}
+          />
+
+          <TouchableOpacity
+                onPress={() => this._changePasswordAsync()}
+                style={styles.button}>
+                <Text style={styles.buttonText}>
+                  Submit
+                </Text>
+          </TouchableOpacity>
+
+        </View>
+
+        <View style={styles.buttonView}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={ () => this._signOutAsync() }>
+                  <Text style={styles.buttonText}>Sign Out</Text>
+                </TouchableOpacity>
+        </View>
+      
       </SafeAreaView>
     );
   }
@@ -141,56 +140,27 @@ export default class SettingsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
-    justifyContent: 'center',
-    flexDirection: 'column'
   },
-  input: {
+  buttonView: {
     flex: 1,
-    fontSize: 17,
-    fontWeight: 'bold',
-    color: '#5a52a5',
+    justifyContent: "center",
+    alignItems: "center",
   },
-  infoContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    height: 350,
-    bottom: 25,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 30,
-    backgroundColor: '#ffffff',
-  },
-  itemStyle: {
-    marginBottom: 20,
-  },
-  iconStyle: {
-    color: '#5a52a5',
-    fontSize: 28,
-    marginLeft: 15
-  },
-  buttonStyle: {
-    alignItems: 'center',
-    backgroundColor: '#667292',
-    padding: 14,
-    marginBottom: 20,
-    borderRadius: 24,
-  },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: "#fff",
-  },
-  logoContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    height: 400,
-    bottom: 180,
-    alignItems: 'center',
-    justifyContent: 'center',
+  changePasswordContainer: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
+  button: {
+    alignItems: 'center',
+    justifyContent: "center",
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    width: "83%",
+    borderRadius: 10
+  },
+  headingText: {
+    fontSize: 20
+  }
+
 })
