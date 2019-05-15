@@ -84,7 +84,7 @@ export default class DefineTermsScreen extends React.Component {
                           value={this.state.terms}
                           onChangeText={text => this.setState({terms: text})}
                           multiline={true}
-                          maxLength={140}
+                          maxLength={50}
                         />
                     </View>
                 </View>
