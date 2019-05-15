@@ -3,7 +3,7 @@ import {
   Text,
   StyleSheet,
   View,
-  Button
+  TouchableOpacity
 } from 'react-native';
 
 import { Icon } from 'react-native-elements';
@@ -28,25 +28,46 @@ export default class PledgeDetailsScreen extends React.Component {
             name="coffee"
             type="font-awesome"
             size={100}
-            containerStyle={{borderWidth: 3, padding: 5}}
+            containerStyle={{ borderWidth: 3, padding: 5 }}
           />
         </View>
 
 
         <View style={styles.pledgeInfoContainer}>
-          
-          <View style={styles.pledgeHeadingsContainer}>
-            <Text>Pledge Headings go here</Text>
-          </View>
 
-          <View style={styles.pledgeDetailsContainer}>
-            <Text>Pledge Details go here</Text>
+          <View style={{ flex: 1, flexDirection: "row" }}>
+            
+            <View style={styles.pledgeHeadingsContainer}>
+              <Text style={{fontWeight: "bold"}}>Terms:</Text>
+              <Text style={{fontWeight: "bold"}}>Owed to:</Text>
+              <Text style={{fontWeight: "bold"}}>Pledge made:</Text>
+              <Text style={{fontWeight: "bold"}}>Due:</Text>
+              <Text style={{fontWeight: "bold"}}>Status:</Text>
+            </View>
+
+            <View style={styles.pledgeDetailsContainer}>
+              <Text>{pledge.terms}</Text>
+              <Text>{pledge.screen === 'made' ? `${pledge.promiseeFirstName} ${pledge.promiseeLastName}`
+                    : `${pledge.promisorFirstName} ${pledge.promisorLastName}`}
+              </Text>
+              <Text>{moment(pledge.promiseDate).format('DD-MMM-YYYY hh:mm A')}</Text>
+              <Text>{moment(pledge.promiseDueDate).format('DD-MMM-YYYY hh:mm A')}</Text>
+              <Text>{pledge.pledgeStatus}</Text>
+            </View>
+
           </View>
 
         </View>
 
         <View style={styles.buttonContainer}>
-          <Text>Button goes here</Text>
+          {pledge.screen === 'made' ? (
+            <TouchableOpacity
+                style={styles.button}
+                onPress={ () => this.props.navigation.navigate('ResolveQR', pledge) }>
+                <Text style={styles.buttonText}>Make Good</Text>
+              </TouchableOpacity>
+          ) : (null)
+          }
         </View>
 
       </View>
@@ -78,33 +99,50 @@ export default class PledgeDetailsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  }, 
+  },
   iconContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
   },
   pledgeInfoContainer: {
-    flex: 1,    
-    flexDirection: "row",
+    flex: 1,
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "yellow"
+    //backgroundColor: "yellow"
   },
   pledgeHeadingsContainer: {
-    flex: 1,
-    backgroundColor: "lime"
+    flex: 4,
+    flexDirection: "column",
+    //backgroundColor: "lime",
+    justifyContent: "space-between",
+    marginLeft: 15,
   },
   pledgeDetailsContainer: {
-    flex: 1,
-    backgroundColor: "blue"
+    flex: 6,
+    //backgroundColor: "skyblue", 
+    justifyContent: "space-between",
+    marginRight: 15
   },
   buttonContainer: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center", 
-    backgroundColor: "pink"
-  }
+    alignItems: "center",
+    //backgroundColor: "pink"
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: "center",
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    height: "20%",
+    width: "40%",
+    borderRadius: 10
+  },
+  buttonText: {
+    fontWeight: "bold"
+  },
 
 });
