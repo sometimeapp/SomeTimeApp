@@ -60,7 +60,7 @@ export default class PledgeDetailsScreen extends React.Component {
         </View>
 
         <View style={styles.buttonContainer}>
-          {pledge.screen === 'made' ? (
+          {pledge.screen === 'made' && pledge.pledgeStatus !== 'resolved' ? (
             <TouchableOpacity
                 style={styles.button}
                 onPress={ () => this.props.navigation.navigate('ResolveQR', pledge) }>
