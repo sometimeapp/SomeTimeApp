@@ -13,9 +13,10 @@ export default class PledgeCard extends React.Component {
 
 
     render() {
+        const { pledgeStatus } = this.props.pledge;
         return (
-            <View style={styles.container}>
-                <View style={styles.card}>
+            <View style={styles.container} >
+                <View style={pledgeStatus === 'resolved' ? {...styles.card, backgroundColor: '#d3d3d3'} : {...styles.card}}>
 
                     <View style={styles.imageContainer}>
                         <Icon
