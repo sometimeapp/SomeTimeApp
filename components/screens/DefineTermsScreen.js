@@ -147,7 +147,7 @@ export default class DefineTermsScreen extends React.Component {
                                 style={styles.button}
                                 onPress={ () => {
                                     let today = moment();
-                                    let future = today.add(this.state.duration, 'd')
+                                    let future = today.clone().add(this.state.duration, 'd');
                                     this.props.navigation.navigate('MakeQR', {...this.state, date: today, dueDate: future}) 
                                     }
                             }>
