@@ -6,12 +6,14 @@ import {
     TouchableOpacity
 } from 'react-native';
 
+import { Icon } from 'react-native-elements';
+
 const emojiDictionary = {
-    "☕" : "a coffee",
-    "🍸" : "a drink",
-    "🍴" : "a meal",
-    "🚘" : "a ride", 
-    "🤙" : "to hang out"
+    "☕": "a coffee",
+    "🍸": "a drink",
+    "🍴": "a meal",
+    "🚘": "a ride",
+    "🤙": "to hang out"
 }
 
 export default class StaticTermsIcons extends React.Component {
@@ -20,22 +22,42 @@ export default class StaticTermsIcons extends React.Component {
         return (
             <View style={styles.rowContainer}>
 
-                <TouchableOpacity style={ styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["☕"]) }>
-                    <Text style={styles.emoji}>☕</Text>
+                <TouchableOpacity style={styles.itemContainer} onPress={() => this.props.handleTouch(emojiDictionary["☕"])}>
+                    <Icon
+                        name="coffee"
+                        type="font-awesome"
+                        size={30}
+                    />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["🍸"]) }>
-                    <Text style={styles.emoji}>🍸</Text>
-                </TouchableOpacity>          
-                <TouchableOpacity style={styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["🍴"]) }>
-                    <Text style={styles.emoji}>🍴</Text>
+                <TouchableOpacity style={styles.itemContainer} onPress={() => this.props.handleTouch(emojiDictionary["🍸"])}>
+                    <Icon
+                        name="glass"
+                        type="font-awesome"
+                        size={30}
+                    />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["🚘"]) }>
-                    <Text style={styles.emoji}>🚘</Text>
+                <TouchableOpacity style={styles.itemContainer} onPress={() => this.props.handleTouch(emojiDictionary["🍴"])}>
+                <Icon
+                        name="cutlery"
+                        type="font-awesome"
+                        size={30}
+                    />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["🤙"]) }>
-                    <Text style={styles.emoji}>🤙</Text>
+                <TouchableOpacity style={styles.itemContainer} onPress={() => this.props.handleTouch(emojiDictionary["🚘"])}>
+                <Icon
+                        name="automobile"
+                        type="font-awesome"
+                        size={30}
+                    />
                 </TouchableOpacity>
-    
+                <TouchableOpacity style={styles.itemContainer} onPress={() => this.props.handleTouch(emojiDictionary["🤙"])}>
+                <Icon
+                        name="asterisk"
+                        type="font-awesome"
+                        size={30}
+                    />
+                </TouchableOpacity>
+
             </View>
         )
     }
@@ -46,13 +68,13 @@ const styles = StyleSheet.create({
     rowContainer: {
         flex: 1,
         flexDirection: "row"
-    }, 
+    },
     emoji: {
         fontSize: 30
     },
     itemContainer: {
         flex: 1,
-        justifyContent: "center", 
+        justifyContent: "center",
         alignItems: "center"
     }
     // itemContainer2: {
