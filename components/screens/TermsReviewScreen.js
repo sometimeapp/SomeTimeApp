@@ -102,8 +102,8 @@ getId = async () => {
     const promisorFirstName = PROMISE['promisorFirstName'];
     const promisorLastName = PROMISE['promisorLastName'];
     const terms = PROMISE['terms'];
-    const date = moment(PROMISE['promiseDate']).format('DD-MMM-YYYY');
-    const dueDate = moment(PROMISE['promiseDueDate']).format('DD-MMM-YYYY');
+    const date = moment(PROMISE['promiseDate']).format('MMM Do YYYY');
+    const dueDate = moment(PROMISE['promiseDueDate']).format('MMM Do YYYY');
     const { promiseeFirstName, promiseeLastName } = this.state;
 
     return (
@@ -141,8 +141,8 @@ getId = async () => {
         <View style={{flex: 2}}>
           
           <View style={{flex: 1, backgroundColor: "white", borderWidth: 3, borderRadius: 10, margin: 20, padding: 8}}>
-            <Text style={{fontSize: 25, fontStyle: "italic"}}>{`I hereby acknowledge that I owe ${promiseeFirstName} ${promiseeLastName} the favor of ${terms}, and that I shall repay this debt on or before ${date}.
-
+            <Text style={{fontSize: 25, fontStyle: "italic"}}>
+            {`I hereby acknowledge that I owe ${promiseeFirstName} ${promiseeLastName} the favor of ${terms}, and that I shall repay this debt on or before ${date}.
 
 Sincerely, 
 ${promisorFirstName} ${promisorLastName}`}
