@@ -49,10 +49,10 @@ export default class PledgeCard extends React.Component {
 
                             <View style={styles.promiseDetailsContainer}>
                                 <View style={styles.detailContainer}>
-                                    <Text>{moment(this.props.pledge.promiseDate).format('DD-MMM-YYYY hh:mm A')}</Text>
+                                    <Text>{moment(this.props.pledge.promiseDate).format('MMM Do YYYY')}</Text>
                                 </View>
                                 <View style={styles.detailContainer}>
-                                    <Text>{moment(this.props.pledge.promiseDueDate).format('DD-MMM-YYYY hh:mm A')}</Text>
+                                    <Text>{moment(this.props.pledge.promiseDueDate).format('MMM Do YYYY')}</Text>
                                 </View>
                                 <View style={styles.detailContainer}>
                                     <Text>{this.props.pledge.pledgeStatus}</Text>

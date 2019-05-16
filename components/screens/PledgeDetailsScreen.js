@@ -50,8 +50,8 @@ export default class PledgeDetailsScreen extends React.Component {
               <Text>{pledge.screen === 'made' ? `${pledge.promiseeFirstName} ${pledge.promiseeLastName}`
                     : `${pledge.promisorFirstName} ${pledge.promisorLastName}`}
               </Text>
-              <Text>{moment(pledge.promiseDate).format('DD-MMM-YYYY hh:mm A')}</Text>
-              <Text>{moment(pledge.promiseDueDate).format('DD-MMM-YYYY hh:mm A')}</Text>
+              <Text>{moment(pledge.promiseDate).format('MMM Do YYYY')}</Text>
+              <Text>{moment(pledge.promiseDueDate).format('MMM Do YYYY')}</Text>
               <Text>{pledge.pledgeStatus}</Text>
             </View>
 
