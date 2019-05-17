@@ -3,9 +3,9 @@ import {
     StyleSheet,
     Text,
     View,
-    Button, 
-    Slider, 
-    TouchableOpacity
+    Slider,
+    TouchableOpacity,
+    Dimensions
 } from 'react-native';
 import { Input } from 'native-base';
 import { Auth } from 'aws-amplify';
@@ -60,11 +60,11 @@ export default class DefineTermsScreen extends React.Component {
     }
 
     onChangeDuration = (value) => {
-        this.setState({duration: value})
+        this.setState({ duration: value })
     }
 
     setStaticPledge = (value) => {
-        this.setState({terms : value})
+        this.setState({ terms: value })
     }
 
     render() {
@@ -78,20 +78,20 @@ export default class DefineTermsScreen extends React.Component {
                 <View style={styles.termsBoxContainer}>
                     <View style={styles.termsBox}>
                         {/* <Text style={styles.termsBoxText}>{this.state.terms || "(something)"}</Text> */}
-                        <Input 
-                          style={styles.termsBoxText}
-                          placeholder="(something...)"
-                          value={this.state.terms}
-                          onChangeText={text => this.setState({terms: text})}
-                          multiline={true}
-                          maxLength={140}
+                        <Input
+                            style={styles.termsBoxText}
+                            placeholder="(something...)"
+                            value={this.state.terms}
+                            onChangeText={text => this.setState({ terms: text })}
+                            multiline={true}
+                            maxLength={140}
                         />
                     </View>
                 </View>
 
                 <View style={styles.staticTermsContainer}>
-                    <StaticTermsIcons 
-                    handleTouch={ value => this.setStaticPledge(value)}
+                    <StaticTermsIcons
+                        handleTouch={value => this.setStaticPledge(value)}
                     />
                 </View>
 
@@ -112,7 +112,7 @@ export default class DefineTermsScreen extends React.Component {
                         <View style={styles.durationUnitsRow}>
                             <Text style={styles.durationText}>{this.state.duration < 2 ? 'day' : 'days'}</Text>
                         </View>
-        
+
                     </View>
 
                 </View>
@@ -120,14 +120,19 @@ export default class DefineTermsScreen extends React.Component {
 
                 <View style={styles.sliderContainer}>
                     <Slider
-                    style={{marginLeft: 10, marginRight: 10}}
-                    minimumValue={1}
-                    maximumValue={90}
-                    minimumTrackTintColor="#1EB1FC"
-                    maximumTractTintColor="#1EB1FC" 
-                    step={1}
-                    value={3}
-                    onValueChange={ value => this.onChangeDuration(value)}
+                        style={[{ marginLeft: 20, marginRight: 20 }, {
+                            transform: [
+                                { scaleX: 1.5 }, { scaleY: 1.5 }
+                            ]
+                        }, {width: Dimensions.get('window').width / 1.5}, { alignSelf: 'center'}
+                        ]}
+                        minimumValue={1}
+                        maximumValue={90}
+                        minimumTrackTintColor="#1EB1FC"
+                        maximumTractTintColor="#1EB1FC"
+                        step={1}
+                        value={3}
+                        onValueChange={value => this.onChangeDuration(value)}
 
                     />
                 </View>
@@ -138,19 +143,19 @@ export default class DefineTermsScreen extends React.Component {
                         <View style={styles.signInButtonView}>
                             <TouchableOpacity
                                 style={styles.button}
-                                onPress={ () => this.props.navigation.navigate('Home') }>
+                                onPress={() => this.props.navigation.navigate('Home')}>
                                 <Text style={styles.buttonText}>Cancel</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.signUpButtonView}>
                             <TouchableOpacity
                                 style={styles.button}
-                                onPress={ () => {
+                                onPress={() => {
                                     let today = moment();
-                                    let future = today.add(this.state.duration, 'd')
-                                    this.props.navigation.navigate('MakeQR', {...this.state, date: today, dueDate: future}) 
-                                    }
-                            }>
+                                    let future = today.clone().add(this.state.duration, 'd');
+                                    this.props.navigation.navigate('MakeQR', { ...this.state, date: today, dueDate: future })
+                                }
+                                }>
                                 <Text style={styles.buttonText}>Seal the Deal</Text>
                             </TouchableOpacity>
                         </View>
@@ -183,11 +188,11 @@ const styles = StyleSheet.create({
     termsBox: {
         borderWidth: 2.5,
         borderRadius: 10,
-        position: "absolute", 
-        height: "90%", 
+        position: "absolute",
+        height: "90%",
         width: "50%",
         alignItems: "center",
-        justifyContent: "center", 
+        justifyContent: "center",
     },
     termsBoxText: {
         fontSize: 22
@@ -196,18 +201,18 @@ const styles = StyleSheet.create({
     staticTermsContainer: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "center", 
+        justifyContent: "center",
     },
     durationTextContainer: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "center", 
+        justifyContent: "center",
     },
     durationText: {
         fontSize: 32
     },
     durationUnitsRow: {
-        flex: 1, 
+        flex: 1,
         justifyContent: "center",
         alignItems: "center"
     },
@@ -227,11 +232,11 @@ const styles = StyleSheet.create({
     durationRow: {
         borderWidth: 2.5,
         borderRadius: 10,
-        position: "absolute", 
-        height: "75%", 
+        position: "absolute",
+        height: "75%",
         width: "50%",
         alignItems: "center",
-        justifyContent: "center", 
+        justifyContent: "center",
     },
     durationNumber: {
         fontSize: 40
@@ -243,24 +248,24 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         flex: 1,
-      },
-      buttonRowContainer: {
+    },
+    buttonRowContainer: {
         flexDirection: "row",
         flex: 1,
         alignItems: "center",
         //backgroundColor: "lime"
-      },
-      signUpButtonView: {
+    },
+    signUpButtonView: {
         flex: 1,
         flexDirection: "row",
         justifyContent: "center",
-      },
-      signInButtonView: {
+    },
+    signInButtonView: {
         flex: 1,
         flexDirection: "row",
         justifyContent: "center",
-      },
-      button: {
+    },
+    button: {
         alignItems: 'center',
         justifyContent: "center",
         backgroundColor: '#DDDDDD',
@@ -268,8 +273,8 @@ const styles = StyleSheet.create({
         //height: "30%",
         width: "66%",
         borderRadius: 10
-      },
-      buttonText: {
+    },
+    buttonText: {
         fontWeight: "bold"
-      },
+    },
 });
