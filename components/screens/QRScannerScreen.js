@@ -7,7 +7,8 @@ import { Auth } from 'aws-amplify'
 export default class QRScannerScreen extends React.Component {
     state = {
         hasCameraPermission: null,
-        scanned: false
+        scanned: false,
+        userID: ''
     }
 
     async componentDidMount() {
@@ -96,7 +97,7 @@ export default class QRScannerScreen extends React.Component {
         } else if(data.screen) { //if the 'screen' attribute is present, this is a pledge submitted for resolution
             if(data.promiseeId !== this.state.userID) { //if this pledge doesn't belong to you....
                 title = 'Alert!'
-                message = 'This pledge does not belong to you!'
+                message = 'It looks like this pledge does not belong to you!'
                 btn1Text = 'Scan again';
                 btn2Text = 'Cancel';
                 btn1PressAction = () => this.setState({scanned: false});
