@@ -79,7 +79,7 @@ getId = async () => {
               refreshing={this.state.isFetching}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                      onPress={() => this.props.navigation.navigate('Details', {...item, screen: 'made'})}
+                      onPress={() => this.props.navigation.navigate('Details', {...item, screen: 'owed'})}
                     >
                     <PledgeCard pledge={item} />
 
