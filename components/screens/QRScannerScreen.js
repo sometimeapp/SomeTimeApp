@@ -11,8 +11,24 @@ export default class QRScannerScreen extends React.Component {
     }
 
     async componentDidMount() {
+
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         this.setState({ hasCameraPermission: status === 'granted' });
+
+        let userID = await this.getId();
+        this.setState({
+          userID: userID
+        });
+    }
+
+    getId = async () => {
+        try {
+          let user = await Auth.currentAuthenticatedUser();
+          userID = await user.attributes.sub;
+          return userID;
+        } catch (error) {
+          console.log(error);
+        }
     }
 
     render() {
@@ -35,7 +51,7 @@ export default class QRScannerScreen extends React.Component {
     }
 
     parseAndValidateJSON = (str) => {
-        //check for null input
+        //check for falsy input values
         if (!(!!str)) return false;
         //check that input is a string
         if( typeof( str ) !== 'string' ) return false; 
@@ -65,7 +81,7 @@ export default class QRScannerScreen extends React.Component {
         //parse scanned data to make sure its valid JSON
         data = this.parseAndValidateJSON(data);
 
-        if(!data || !data.promisorID) {  //if data is invalid, or is not a promise object
+        if(!data || (!data.screen && !data.promisorID) ) {  //if data is invalid or it is not a valid promise
             title = 'Error!';
             message = 'Invalid QR Code'
             btn1Text = 'Scan again',
@@ -75,14 +91,23 @@ export default class QRScannerScreen extends React.Component {
             title = 'Alert!'
             message = 'Pledge terms are blank -- cannot be accepted';
             btn1Text = 'Scan again',
-            btn2Text = 'cancel',
+            btn2Text = 'Cancel',
             btn1PressAction = () => this.setState({scanned: false});
         } else if(data.screen) { //if the 'screen' attribute is present, this is a pledge submitted for resolution
-            title = 'Resolve?'
-            message = `${data.promisorFirstName} claims to have resolved a pledge.`
-            btn1Text = 'Review';
-            btn2Text = 'Dismiss';
-            btn1PressAction = () => this.props.navigation.navigate('ResolveReview', data);
+            if(data.promiseeId !== this.state.userID) { //if this pledge doesn't belong to you....
+                title = 'Alert!'
+                message = 'This pledge does not belong to you!'
+                btn1Text = 'Scan again';
+                btn2Text = 'Cancel';
+                btn1PressAction = () => this.setState({scanned: false});
+            } else {
+                title = 'Resolve?'
+                message = `${data.promisorFirstName} claims to have resolved a pledge.`
+                btn1Text = 'Review';
+                btn2Text = 'Dismiss';
+                btn1PressAction = () => this.props.navigation.navigate('ResolveReview', data);
+            }
+
         } else {
             title = 'Plege Received'
             message = `${data.promisorFirstName} has made a pledge.`
