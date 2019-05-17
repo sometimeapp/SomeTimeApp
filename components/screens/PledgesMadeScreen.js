@@ -8,28 +8,26 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Auth } from 'aws-amplify';
-import { Card } from 'react-native-elements';
 import { getData } from '../../utilities/services'
 
 import PledgeCard from '../screenComponents/PledgeCard'
 
-
 export default class PledgesMadeScreen extends React.Component {
 
   state = {
-    pledgesMade: null, 
+    pledgesMade: null,
     isFetching: false
   }
 
   static navigationOptions = {
-    title: 'Pledges I Made',
+    title: "Pledges I've Made",
   };
 
   async componentDidMount() {
     console.log("I AM MOUNTING THE MADE SCREEN!")
     let userInfo = await this.getId();
     let promisorId = userInfo.userID;
-    this.setState({isFetching: true});
+    this.setState({ isFetching: true });
     const apiData = await getData(promisorId, "index");
     this.setState({
       promisorId: promisorId,
@@ -46,16 +44,9 @@ export default class PledgesMadeScreen extends React.Component {
     console.log(newPledges)
     this.setState({
       pledgesMade: newPledges,
-      isFetching: false})
- }
-
-  // getData = async (promisorId) => {
-  //   console.log("getting data from api...")
-  //   let apiName = 'PledgesCRUD';
-  //   let path = `/pledges/${promisorId}?message=index`;
-  //   let apiData = await API.get(apiName, path);
-  //   return apiData;
-  // }
+      isFetching: false
+    })
+  }
 
   getId = async () => {
     try {
@@ -63,8 +54,7 @@ export default class PledgesMadeScreen extends React.Component {
       let user = await Auth.currentAuthenticatedUser()
       userInfo.userID = await user.attributes.sub;
       userInfo.firstName = await user.attributes.name;
-      userInfo.lastName = await user.attributes.family_name;
-      //console.log(user);
+      userInfo.lastName = await user.attributes.family_name;;
       return userInfo;
     } catch (error) {
       console.log(error);
@@ -72,49 +62,53 @@ export default class PledgesMadeScreen extends React.Component {
   }
 
   render() {
-    console.log("YO! THE STATE IS:")
-    console.log(this.state.pledgesMade);
-    return (
-      <View style={styles.container}>
-        {
-          !this.state.pledgesMade ? (
-            <View style={styles.indicatorContainer}>
-            <ActivityIndicator size="large"></ActivityIndicator>
-            </View>
-          ) : (
-            
-              <FlatList
-                data={this.state.pledgesMade}
-                keyExtractor={(x, i) => i.toString()}
-                onRefresh={() => this.onRefresh()}
-                refreshing={this.state.isFetching}
+    //console.log("YO! THE STATE IS:")
+    //console.log(this.state.pledgesMade);
+    if (!this.state.pledgesMade || this.state.isFetching) {
+      return (
+        <View style={styles.indicatorContainer}>
+          <ActivityIndicator size="large"></ActivityIndicator>
+        </View>
+      )
+    } else if (this.state.pledgesMade.length === 0) {
+      return (
+        <View style={styles.contaienr}>
+          <Text style={{ fontSize: 16, textAlign: 'center', marginTop: 20 }}>You have not made any pledges.</Text>
+        </View>
+      )
+    } else {
+      return (
+        <View style={styles.container}>
+          <FlatList
+            data={this.state.pledgesMade}
+            keyExtractor={(x, i) => i.toString()}
+            onRefresh={() => this.onRefresh()}
+            refreshing={this.state.isFetching}
 
-                renderItem={({ item }) => (
-                  <View>
-                    <TouchableOpacity
-                      onPress={() => this.props.navigation.navigate('Details', {...item, screen: 'made'})}
-                    >
-                    <PledgeCard 
-                    pledge={item} 
+            renderItem={({ item }) => (
+              <View>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('Details', { ...item, screen: 'made' })}
+                >
+                  <PledgeCard
+                    pledge={item}
                     screen={this.props.navigation.state.routeName} />
 
-                    </TouchableOpacity>
-                  </View>
+                </TouchableOpacity>
+              </View>
 
-                )}
-              />
-            )
-        }
-
-      </View>
-    );
+            )}
+          />
+        </View>
+      )
+    }
   }
 }
 
 const styles = StyleSheet.create({
   indicatorContainer: {
     flex: 1,
-    justifyContent: "center", 
+    justifyContent: "center",
     alignItems: "center"
   },
   container: {
