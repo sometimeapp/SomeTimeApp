@@ -69,7 +69,7 @@ export default class QRScannerScreen extends React.Component {
             title = 'Error!';
             message = 'Invalid QR Code'
             btn1Text = 'Scan again',
-            btn2Text = 'cancel'
+            btn2Text = 'Cancel'
             btn1PressAction = () => this.setState({scanned: false});
         } else if(!data.terms) { //if the data is valid, but there are no promise terms specified
             title = 'Alert!'
