@@ -71,22 +71,6 @@ export default class PledgesOwedScreen extends React.Component {
           <ActivityIndicator size="large"></ActivityIndicator>
         </View>
       )
-    } else if (this.state.pledgesOwed.length === 0) {
-      return (
-        <View style={{flex: 1}}>
-          <View style={{flex: 1, justifyContent: "center"}}>
-            <Text style={{ fontSize: 16, textAlign: 'center' }}>You have no pledges owed to you.</Text>
-          </View>
-
-          <View style={{flex: 4, alignItems: "center"}}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={ () => this.onRefresh() }>
-                <Text style={styles.buttonText}>Refresh</Text>
-              </TouchableOpacity>
-            </View>
-        </View>
-      )
     } else {
       return (
         <View style={styles.container}>
@@ -95,7 +79,12 @@ export default class PledgesOwedScreen extends React.Component {
             keyExtractor={(x, i) => i.toString()}
             onRefresh={() => this.onRefresh()}
             refreshing={this.state.isFetching}
-
+            ListEmptyComponent={
+              <View style={{ flex: 1, justifyContent: "center", paddingTop: 25 }}>
+                <Text style={{ fontSize: 16, textAlign: 'center' }}>You have no pledges owed to you.</Text>
+                <Text style={{ fontSize: 14, textAlign: 'center', paddingTop: 10 }}>(Pull to refresh)</Text>
+              </View>
+            }
             renderItem={({ item }) => (
               <View>
                 <TouchableOpacity
@@ -107,7 +96,6 @@ export default class PledgesOwedScreen extends React.Component {
 
                 </TouchableOpacity>
               </View>
-
             )}
           />
         </View>
