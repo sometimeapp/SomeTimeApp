@@ -73,8 +73,18 @@ export default class PledgesOwedScreen extends React.Component {
       )
     } else if (this.state.pledgesOwed.length === 0) {
       return (
-        <View style={styles.contaienr}>
-          <Text style={{ fontSize: 16, textAlign: 'center', marginTop: 20 }}>You do not have any pledges owed to you.</Text>
+        <View style={{flex: 1}}>
+          <View style={{flex: 1, justifyContent: "center"}}>
+            <Text style={{ fontSize: 16, textAlign: 'center' }}>You have no pledges owed to you.</Text>
+          </View>
+
+          <View style={{flex: 4, alignItems: "center"}}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={ () => this.onRefresh() }>
+                <Text style={styles.buttonText}>Refresh</Text>
+              </TouchableOpacity>
+            </View>
         </View>
       )
     } else {
@@ -115,5 +125,17 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-  }
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: "center",
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    height: "10%",
+    width: "25%",
+    borderRadius: 10
+  },
+  buttonText: {
+    fontWeight: "bold"
+  },
 });
