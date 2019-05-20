@@ -9,7 +9,7 @@ const PROMISE =  {
   "promisorId": "bdd53477-fc16-4fa3-888a-2d22e1acea4d",
   "promisorLastName": "Daniels",
   "screen": "made",
-  "terms": "a meal"
+  "terms": "a ride from here to there"
 }
 
 import React from 'react';
@@ -17,11 +17,22 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity, 
+  PixelRatio
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Auth, API } from 'aws-amplify';
 import moment from 'moment';
+
+var smallFontSize = 14;
+if (PixelRatio.get() <= 2) {
+  smallFontSize = 10;
+}
+
+var largeFontSize = 25
+if (PixelRatio.get() <= 2) {
+  largeFontSize = 16;
+}
 
 export default class TermsReviewScreen extends React.Component {
 
@@ -94,9 +105,10 @@ getId = async () => {
   render() {
 
     // const promisorFirstName = this.props.navigation.getParam('promisorFirstName');
+    // const promisorLastName = this.props.navigation.getParam('promisorLastName');
     // const terms = this.props.navigation.getParam('terms');
-    // const date = moment(this.props.navigation.getParam('date')).format('DD-MM-YYYY');
-    // const dueDate = moment(this.props.navigation.getParam('dueDate')).format('DD-MM-YYYY');
+    // const date = moment(this.props.navigation.getParam('date')).format('MMM Do YYYY');
+    // const dueDate = moment(this.props.navigation.getParam('dueDate')).format('MMM Do YYYY');
     // const { promiseeFirstName, promiseeLastName } = this.state;
 
     const promisorFirstName = PROMISE['promisorFirstName'];
@@ -122,14 +134,14 @@ getId = async () => {
             <View style={{flex: 3}}>
               <View style={{flex: 1, flexDirection: "row", margin: 10, borderWidth: 3, borderRadius: 10}}>
                 <View style={{flex: 1, padding: 5, justifyContent: "space-between"}}>
-                  <Text>Terms:</Text>
-                  <Text>Date:</Text>
-                  <Text>Due Date:</Text>
+                  <Text style={{fontSize: smallFontSize}}>Terms:</Text>
+                  <Text style={{fontSize: smallFontSize}}>Date:</Text>
+                  <Text style={{fontSize: smallFontSize}}>Due Date:</Text>
                 </View>
                 <View style={{flex: 2, padding: 5, justifyContent: "space-between"}}>
-                  <Text>{terms}</Text>
-                  <Text>{date}</Text>
-                  <Text>{dueDate}</Text>
+                  <Text style={{fontSize: smallFontSize}}>{terms.length <= 13 ? terms : terms.substring(0, 13) + "..."}</Text>
+                  <Text style={{fontSize: smallFontSize}}>{date}</Text>
+                  <Text style={{fontSize: smallFontSize}}>{dueDate}</Text>
                 </View>
               </View>
             </View>        
@@ -141,7 +153,7 @@ getId = async () => {
         <View style={{flex: 2}}>
           
           <View style={{flex: 1, backgroundColor: "white", borderWidth: 3, borderRadius: 10, margin: 20, padding: 8}}>
-            <Text style={{fontSize: 25, fontStyle: "italic"}}>
+            <Text style={{fontSize: largeFontSize, fontStyle: "italic"}}>
             {`I hereby acknowledge that I owe ${promiseeFirstName} ${promiseeLastName} the favor of ${terms}, and that I shall repay this debt on or before ${date}.
 
 Sincerely, 
@@ -158,15 +170,15 @@ ${promisorFirstName} ${promisorLastName}`}
             <View style={styles.buttonView}>
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => this._signInAsync()}>
-                <Text style={styles.buttonText}>Sign In</Text>
+                onPress={() => this.props.navigation.navigate('Home')}>
+                <Text style={styles.buttonText}>Reject</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.buttonView}>
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => this.props.navigation.navigate('SignUp')}>
-                <Text style={styles.buttonText}>Sign Up</Text>
+                onPress={() => this.savePledge()}>
+                <Text style={styles.buttonText}>Accept</Text>
               </TouchableOpacity>
             </View>
           </View>
