@@ -28,8 +28,8 @@ export default class PledgeDetailsScreen extends React.Component {
         <View style={styles.iconContainer}>
           <Icon
             name={twoWayIconDict.revGet(pledge.terms) || "asterisk"}
-            type="font-awesome"
-            size={75}
+            type="material-community"
+            size={85}
             containerStyle={{ borderWidth: 3, padding: 15 }}
           />
         </View>

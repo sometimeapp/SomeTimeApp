@@ -26,8 +26,8 @@ export default class PledgeCard extends React.Component {
                     <View style={styles.imageContainer}>
                         <Icon
                             name={twoWayIconDict.revGet(this.props.pledge.terms) || "asterisk"}
-                            type="font-awesome"
-                            size={52}
+                            type="material-community"
+                            size={60}
                         />
                     </View>
 

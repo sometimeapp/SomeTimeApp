@@ -21,8 +21,8 @@ export default class StaticTermsIcons extends React.Component {
                         <TouchableOpacity key={item} style={styles.itemContainer} onPress={() => this.props.handleTouch(twoWayIconDict.get(item))}>
                             <Icon
                                 name={item}
-                                type="font-awesome"
-                                size={30}
+                                type='material-community'
+                                size={35}
                             />
                         </TouchableOpacity>
                     );
