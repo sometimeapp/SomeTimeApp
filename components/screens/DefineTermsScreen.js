@@ -77,13 +77,13 @@ export default class DefineTermsScreen extends React.Component {
                 <View style={styles.termsBoxContainer}>
                     <View style={styles.termsBox}>
                         {/* <Text style={styles.termsBoxText}>{this.state.terms || "(something)"}</Text> */}
-                        <Input
-                            style={styles.termsBoxText}
-                            placeholder="(something...)"
-                            value={this.state.terms}
-                            onChangeText={text => this.setState({ terms: text })}
-                            multiline={true}
-                            maxLength={140}
+                        <Input 
+                          style={styles.termsBoxText}
+                          placeholder="(something...)"
+                          value={this.state.terms}
+                          onChangeText={text => this.setState({terms: text})}
+                          multiline={true}
+                          maxLength={50}
                         />
                     </View>
                 </View>

@@ -29,8 +29,8 @@ export default class PledgeDetailsScreen extends React.Component {
           <Icon
             name={twoWayIconDict.revGet(pledge.terms) || "asterisk"}
             type="font-awesome"
-            size={100}
-            containerStyle={{ borderWidth: 3, padding: 5 }}
+            size={75}
+            containerStyle={{ borderWidth: 3, padding: 15 }}
           />
         </View>
 
@@ -52,8 +52,8 @@ export default class PledgeDetailsScreen extends React.Component {
               <Text>{pledge.screen === 'made' ? `${pledge.promiseeFirstName} ${pledge.promiseeLastName}`
                     : `${pledge.promisorFirstName} ${pledge.promisorLastName}`}
               </Text>
-              <Text>{moment(pledge.promiseDate).format('DD-MMM-YYYY hh:mm A')}</Text>
-              <Text>{moment(pledge.promiseDueDate).format('DD-MMM-YYYY hh:mm A')}</Text>
+              <Text>{moment(pledge.promiseDate).format('MMM Do YYYY')}</Text>
+              <Text>{moment(pledge.promiseDueDate).format('MMM Do YYYY')}</Text>
               <Text>{pledge.pledgeStatus}</Text>
             </View>
 
@@ -74,27 +74,6 @@ export default class PledgeDetailsScreen extends React.Component {
 
       </View>
     )
-    // return (
-    //   <View style={styles.container}>
-    //     <Text>Welcome to the Pledge Details Screen</Text>
-    //     <Text>Terms: {pledge.terms}</Text>
-    //     <Text>{pledge.screen === 'made' ? `Owed to: ${pledge.promiseeFirstName} ${pledge.promiseeLastName}`
-    //       : `Made by: ${pledge.promisorFirstName} ${pledge.promisorLastName}`}
-    //     </Text>
-    //     <Text>Date: {pledge.promiseDate}</Text>
-    //     <Text>Due Date: {pledge.promiseDueDate}</Text>
-    //     <Text>Terms: {pledge.pledgeStatus}</Text>
-    //     { pledge.screen === 'made' ? (
-    //       <View style={{ margin: 5 }}>
-    //       <Button
-    //         style={styles.button}
-    //         title="Resolve"
-    //         onPress={() => this.props.navigation.navigate('ResolveQR', pledge)}
-    //       />
-    //     </View>
-    //     ) : (null) }
-    //   </View>
-    // );
   }
 }
 
