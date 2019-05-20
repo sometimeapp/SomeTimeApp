@@ -37,7 +37,6 @@ export default class DefineTermsScreen extends React.Component {
             promisorFirstName: userInfo.firstName,
             promisorLastName: userInfo.lastName,
         });
-        //console.log('I should have been bound by now ' + this.state.promisorID)
     }
 
     getId = async () => {
