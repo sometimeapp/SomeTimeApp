@@ -24,7 +24,7 @@ import { Icon } from 'react-native-elements';
 import { Auth, API } from 'aws-amplify';
 import moment from 'moment';
 
-var smallFontSize = 14;
+var smallFontSize = 12;
 if (PixelRatio.get() <= 2) {
   smallFontSize = 10;
 }
