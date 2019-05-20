@@ -29,7 +29,7 @@ if (PixelRatio.get() <= 2) {
   smallFontSize = 10;
 }
 
-var largeFontSize = 25
+var largeFontSize = 21
 if (PixelRatio.get() <= 2) {
   largeFontSize = 16;
 }
