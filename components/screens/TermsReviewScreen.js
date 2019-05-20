@@ -24,6 +24,7 @@ import {
 import { Icon } from 'react-native-elements';
 import { Auth, API } from 'aws-amplify';
 import moment from 'moment';
+import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
 
 var smallFontSize = 12;
 if (PixelRatio.get() <= 2) {
@@ -126,7 +127,7 @@ export default class TermsReviewScreen extends React.Component {
 
             <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
               <Icon
-                name="coffee"
+                name={twoWayIconDict.revGet(terms) || "asterisk"}
                 type="font-awesome"
                 size={75}
               />
