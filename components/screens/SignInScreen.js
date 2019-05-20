@@ -6,7 +6,8 @@ import {
   View,
   SafeAreaView,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
 
 // AWS Amplify
@@ -24,6 +25,7 @@ export default class SignInScreen extends React.Component {
   state = {
     email: '',
     password: '',
+    isLoading: false
   }
 
   onChangeText = (key, value) => {
@@ -31,6 +33,7 @@ export default class SignInScreen extends React.Component {
   }
 
   _signInAsync = async () => {
+    this.setState({ isLoading: true });
     let { email, password } = this.state
     email = email.toLowerCase();
     await Auth.signIn(email, password)
@@ -39,6 +42,7 @@ export default class SignInScreen extends React.Component {
         this.props.navigation.navigate('AuthLoading')
       })
       .catch(err => {
+        this.setState({ isLoading: false });
         if (!err.message) {
           console.log('Error when signing in: ', err)
           Alert.alert('Error when signing in: ', err)
@@ -52,57 +56,64 @@ export default class SignInScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.titleText}>SomeTime</Text>
-          <Text style={styles.subtitleText}>a ledger for casual contracts</Text>
-        </View>
-        <View style={styles.inputContainer}>
-          <Input
-            placeholder="Email"
-            textContentType="emailAddress"
-            autoCorrect={false}
-            containerStyle={{ width: "95%" }}
-            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
-            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
-            onSubmitEditing={() => this.password.focus()}
-            onChangeText={value => this.onChangeText('email', value)}
-          />
-          <Input
-            placeholder="Password"
-            textContentType="password"
-            secureTextEntry={true}
-            autoCorrect={false}
-            containerStyle={{ width: "95%" }}
-            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
-            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
-            ref={ref => this.password = ref}
-            onChangeText={value => this.onChangeText('password', value)}
-          />
-        </View>
-        <View style={styles.buttonsContainer}>
-          <View style={styles.buttonRowContainer}>
-            <View style={styles.signInButtonView}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this._signInAsync()}>
-                <Text style={styles.buttonText}>Sign In</Text>
-              </TouchableOpacity>
+        <View style={this.state.isLoading ? ({opacity: 0.4, flex: 1, backgroundColor: 'black'}) : {opacity: 1, flex: 1}}>
+          {this.state.isLoading &&
+            <View style={styles.loading}>
+              <ActivityIndicator size='large' />
             </View>
-            <View style={styles.signUpButtonView}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.props.navigation.navigate('SignUp')}>
-                <Text style={styles.buttonText}>Sign Up</Text>
-              </TouchableOpacity>
+          }
+          <View style={styles.titleContainer}>
+            <Text style={styles.titleText}>SomeTime</Text>
+            <Text style={styles.subtitleText}>a ledger for casual contracts</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <Input
+              placeholder="Email"
+              textContentType="emailAddress"
+              autoCorrect={false}
+              containerStyle={{ width: "95%" }}
+              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+              onSubmitEditing={() => this.password.focus()}
+              onChangeText={value => this.onChangeText('email', value)}
+            />
+            <Input
+              placeholder="Password"
+              textContentType="password"
+              secureTextEntry={true}
+              autoCorrect={false}
+              containerStyle={{ width: "95%" }}
+              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+              ref={ref => this.password = ref}
+              onChangeText={value => this.onChangeText('password', value)}
+            />
+          </View>
+          <View style={styles.buttonsContainer}>
+            <View style={styles.buttonRowContainer}>
+              <View style={styles.signInButtonView}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => this._signInAsync()}>
+                  <Text style={styles.buttonText}>Sign In</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.signUpButtonView}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => this.props.navigation.navigate('SignUp')}>
+                  <Text style={styles.buttonText}>Sign Up</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={styles.passwordContainer}>
-          <Text
-            style={styles.buttonText}
-            onPress={() => this.props.navigation.navigate('ForgotPassword')}>
-            Forgot Password?
+          <View style={styles.passwordContainer}>
+            <Text
+              style={styles.buttonText}
+              onPress={() => this.props.navigation.navigate('ForgotPassword')}>
+              Forgot Password?
           </Text>
+          </View>
         </View>
       </SafeAreaView>
     )
@@ -160,5 +171,14 @@ const styles = StyleSheet.create({
   passwordContainer: {
     flex: 1,
     alignItems: "center",
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
