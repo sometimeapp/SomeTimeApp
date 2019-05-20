@@ -52,7 +52,7 @@ export default class HomeScreen extends React.Component {
         <View style={styles.welcomeContainer}>
           {
             this.state.firstName ? (
-              <Text style={styles.welcomeText}>Welcome {this.state.firstName}!</Text>
+              <Text style={styles.welcomeText}>Welcome, {this.state.firstName}!</Text>
             ) : (null)
           }
         </View>
