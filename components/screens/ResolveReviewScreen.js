@@ -24,6 +24,7 @@ import {
 import { Icon } from 'react-native-elements';
 import { Auth, API } from 'aws-amplify';
 import moment from 'moment';
+import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
 
 var smallFontSize = 12;
 if (PixelRatio.get() <= 2) {
@@ -101,6 +102,12 @@ export default class ResolveReviewScreen extends React.Component {
   }
 
   render() {
+    const promisorFirstName = this.props.navigation.getParam('promisorFirstName');
+    const promisorLastName = this.props.navigation.getParam('promisorLastName');
+    const terms = this.props.navigation.getParam('terms');
+    const date = moment(this.props.navigation.getParam('date')).format('MMM Do YYYY');
+    const dueDate = moment(this.props.navigation.getParam('dueDate')).format('MMM Do YYYY');
+    const { promiseeFirstName, promiseeLastName } = this.state;
 
     return (
       <View style={styles.container}>
@@ -109,7 +116,7 @@ export default class ResolveReviewScreen extends React.Component {
 
             <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
               <Icon
-                name="coffee"
+                name={twoWayIconDict.revGet(terms) || "asterisk"}
                 type="font-awesome"
                 size={75}
               />
@@ -155,7 +162,7 @@ ${promisorFirstName} ${promisorLastName}`}
                   <TouchableOpacity
                     style={styles.button}
                     onPress={() => this.props.navigation.navigate('Home')}>
-                    <Text style={styles.buttonText}>Reject</Text>
+                    <Text style={styles.buttonText}>Nope!</Text>
                   </TouchableOpacity>
                 </View>
 
@@ -163,8 +170,8 @@ ${promisorFirstName} ${promisorLastName}`}
                   <TouchableOpacity
                     style={styles.button}
                     disabled={this.state.sending ? true : false}
-                    onPress={() => this.savePledge()}>
-                    <Text style={styles.buttonText}>Accept</Text>
+                    onPress={() => this.updatePledgeStatus()}>
+                    <Text style={styles.buttonText}>Yes!</Text>
                   </TouchableOpacity>
                 </View>
               </View>
