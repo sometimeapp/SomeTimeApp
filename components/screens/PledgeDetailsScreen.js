@@ -9,6 +9,8 @@ import {
 import { Icon } from 'react-native-elements';
 import moment from 'moment';
 
+import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
+
 export default class PledgeDetailsScreen extends React.Component {
 
   static navigationOptions = {
@@ -25,7 +27,7 @@ export default class PledgeDetailsScreen extends React.Component {
 
         <View style={styles.iconContainer}>
           <Icon
-            name="coffee"
+            name={twoWayIconDict.revGet(pledge.terms) || "asterisk"}
             type="font-awesome"
             size={100}
             containerStyle={{ borderWidth: 3, padding: 5 }}
