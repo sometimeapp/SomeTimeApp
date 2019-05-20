@@ -6,13 +6,9 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-const emojiDictionary = {
-    "☕" : "a coffee",
-    "🍸" : "a drink",
-    "🍴" : "a meal",
-    "🚘" : "a ride", 
-    "🤙" : "to hang out"
-}
+import { Icon } from 'react-native-elements';
+
+import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
 
 export default class StaticTermsIcons extends React.Component {
 
@@ -20,67 +16,34 @@ export default class StaticTermsIcons extends React.Component {
         return (
             <View style={styles.rowContainer}>
 
-                <TouchableOpacity style={ styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["☕"]) }>
-                    <Text style={styles.emoji}>☕</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["🍸"]) }>
-                    <Text style={styles.emoji}>🍸</Text>
-                </TouchableOpacity>          
-                <TouchableOpacity style={styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["🍴"]) }>
-                    <Text style={styles.emoji}>🍴</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["🚘"]) }>
-                    <Text style={styles.emoji}>🚘</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.itemContainer} onPress={ () => this.props.handleTouch(emojiDictionary["🤙"]) }>
-                    <Text style={styles.emoji}>🤙</Text>
-                </TouchableOpacity>
-    
+                {Object.keys(iconDict).map((item) => {
+                    return (
+                        <TouchableOpacity key={item} style={styles.itemContainer} onPress={() => this.props.handleTouch(twoWayIconDict.get(item))}>
+                            <Icon
+                                name={item}
+                                type="font-awesome"
+                                size={30}
+                            />
+                        </TouchableOpacity>
+                    );
+                })}
+
             </View>
         )
     }
-
 }
 
 const styles = StyleSheet.create({
     rowContainer: {
         flex: 1,
         flexDirection: "row"
-    }, 
+    },
     emoji: {
         fontSize: 30
     },
     itemContainer: {
         flex: 1,
-        justifyContent: "center", 
+        justifyContent: "center",
         alignItems: "center"
     }
-    // itemContainer2: {
-    //     flex: 1,
-    //     backgroundColor: "blue", 
-    //     height: 75,
-    //     justifyContent: "center", 
-    //     alignItems: "center"
-    // },
-    // itemContainer3: {
-    //     flex: 1,
-    //     backgroundColor: "green", 
-    //     height: 75,
-    //     justifyContent: "center", 
-    //     alignItems: "center"
-    // },
-    // itemContainer4: {
-    //     flex: 1,
-    //     backgroundColor: "silver", 
-    //     height: 75,
-    //     justifyContent: "center", 
-    //     alignItems: "center"
-    // },
-    // itemContainer5: {
-    //     flex: 1,
-    //     backgroundColor: "orange", 
-    //     height: 75,
-    //     justifyContent: "center", 
-    //     alignItems: "center"
-    // },
 });

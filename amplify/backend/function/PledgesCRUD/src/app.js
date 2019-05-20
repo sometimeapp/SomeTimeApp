@@ -91,7 +91,8 @@ app.get(path + hashKeyPath, function (req, res) {
   let queryParams = {
     TableName: tableName,
     IndexName: GSIflag ? 'promisorId' : null,
-    KeyConditions: condition
+    KeyConditions: condition,
+    ScanIndexForward: false
   }
 
   dynamodb.query(queryParams, (err, data) => {

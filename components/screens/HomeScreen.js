@@ -3,61 +3,19 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
-  TouchableOpacity
+  Dimensions,
+  TouchableOpacity,
+  PixelRatio
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 
-import PledgeCard from '../screenComponents/PledgeCard'
+var buttonFontSize = 20;
+if (PixelRatio.get() <= 2) {
+  buttonFontSize = 16;
+}
 
-const staticPromiseList = [
-  {
-    "pledgeStatus": "resolved",
-    "promiseDate": "2019-05-08T20:41:40.020Z",
-    "promiseeFirstName": "Zach",
-    "promiseeId": "bdd53477-fc16-4fa3-888a-2d22e1acea4d",
-    "promiseeLastName": "Daniels",
-    "promisorFirstName": "Jonathan",
-    "promisorId": "679f22da-6818-4bfd-8a67-8a2b34168a8d",
-    "promisorLastName": "Adler",
-    "terms": "Hope",
-  },
-  {
-    "pledgeStatus": "pending",
-    "promiseDate": "2019-05-08T21:17:58.709Z",
-    "promiseeFirstName": "Zach",
-    "promiseeId": "bdd53477-fc16-4fa3-888a-2d22e1acea4d",
-    "promiseeLastName": "Daniels",
-    "promisorFirstName": "Jonathan",
-    "promisorId": "679f22da-6818-4bfd-8a67-8a2b34168a8d",
-    "promisorLastName": "Adler",
-    "terms": "This will work",
-  },
-  {
-    "pledgeStatus": "pending",
-    "promiseDate": "2019-05-09T23:06:13.491Z",
-    "promiseDueDate": "2019-05-12T23:06:13.492Z",
-    "promiseeFirstName": "Zach",
-    "promiseeId": "bdd53477-fc16-4fa3-888a-2d22e1acea4d",
-    "promiseeLastName": "Daniels",
-    "promisorFirstName": "Jonathan",
-    "promisorId": "679f22da-6818-4bfd-8a67-8a2b34168a8d",
-    "promisorLastName": "Adler",
-    "terms": "This will work or die",
-  },
-  {
-    "pledgeStatus": "pending",
-    "promiseDate": "2019-07-16T21:48:22.727Z",
-    "promiseDueDate": "2019-07-16T21:48:22.727Z",
-    "promiseeFirstName": "rusty",
-    "promiseeId": "bc3b95c3-955d-41bc-9985-343478136233",
-    "promiseeLastName": "shackleford",
-    "promisorFirstName": "Jonathan",
-    "promisorId": "679f22da-6818-4bfd-8a67-8a2b34168a8d",
-    "promisorLastName": "Adler",
-    "terms": "a coffee",
-  },
-]
+const devHeight = Dimensions.get('window').height;
+const devWidth = Dimensions.get('window').width;
 
 export default class HomeScreen extends React.Component {
   state = {
@@ -88,43 +46,32 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-  //   return (
-  //     <PledgeCard pledge={staticPromiseList[3]} />
-  //   )
-    
-  // }
-}
-
-  render() {
     console.log("rendering the home screen!")
     return (
       <View style={styles.container}>
         <View style={styles.welcomeContainer}>
-        {
-          this.state.firstName ? (
-            <Text style={styles.welcomeText}>Welcome {this.state.firstName}!</Text>
-          ) : (null)
-        }
+          {
+            this.state.firstName ? (
+              <Text style={styles.welcomeText}>Welcome {this.state.firstName}!</Text>
+            ) : (null)
+          }
         </View>
 
-          <View style={styles.makeButtonView}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.props.navigation.navigate('Terms')}>
-              <Text style={styles.buttonText}>Make a Pledge</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.makeButtonView}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Terms')}>
+            <Text style={styles.buttonText}>Make a Pledge</Text>
+          </TouchableOpacity>
+        </View>
 
-          <View style={styles.acceptButtonView}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.props.navigation.navigate('Receive')}>
-              <Text style={styles.buttonText}>Receive</Text>
-            </TouchableOpacity>
-          </View>
-
-        
-
+        <View style={styles.acceptButtonView}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Receive')}>
+            <Text style={styles.buttonText}>Receive/Resolve</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -144,13 +91,13 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   makeButtonView: {
-    flex: 2, 
+    flex: 2,
     //backgroundColor: "lime",
     justifyContent: "center",
     alignItems: "center"
   },
   acceptButtonView: {
-    flex: 2, 
+    flex: 2,
     //backgroundColor: "pink",
     //justifyContent: "center",
     alignItems: "center"
@@ -160,12 +107,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: '#DDDDDD',
     padding: 10,
-    height: "50%",
-    width: "40%",
+    height: devHeight/6,
+    width: devWidth/2,
     borderRadius: 10
   },
   buttonText: {
-    fontSize: 20,
+    fontSize: buttonFontSize,
     fontWeight: "bold"
   },
 });

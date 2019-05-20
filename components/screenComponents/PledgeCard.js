@@ -9,17 +9,23 @@ import {
 import { Icon } from 'react-native-elements';
 import moment from 'moment';
 
+import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
+
 export default class PledgeCard extends React.Component {
 
 
     render() {
+        console.log("pledge is...")
+        console.log(this.props.pledge);
+        console.log(twoWayIconDict.get(this.props.pledge.terms));
+        const { pledgeStatus } = this.props.pledge;
         return (
-            <View style={styles.container}>
-                <View style={styles.card}>
+            <View style={styles.container} >
+                <View style={pledgeStatus === 'resolved' ? {...styles.card, backgroundColor: '#d3d3d3'} : {...styles.card}}>
 
                     <View style={styles.imageContainer}>
                         <Icon
-                            name="coffee"
+                            name={twoWayIconDict.revGet(this.props.pledge.terms) || "asterisk"}
                             type="font-awesome"
                             size={52}
                         />
