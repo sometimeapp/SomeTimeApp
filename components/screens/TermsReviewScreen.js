@@ -18,7 +18,7 @@ import {
   Text,
   View,
   TouchableOpacity,
-  PixelRatio, 
+  PixelRatio,
   ActivityIndicator
 } from 'react-native';
 import { Icon } from 'react-native-elements';
@@ -163,40 +163,34 @@ ${promisorFirstName} ${promisorLastName}`}
           </View>
         </View>
         <View style={{ flex: 1 }}>
-          
+
 
           {
-          !this.state.sending ? (
-            <View style={styles.buttonRowContainer}>
-            <View style={styles.buttonView}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.props.navigation.navigate('Home')}>
-                <Text style={styles.buttonText}>Reject</Text>
-              </TouchableOpacity>
-            </View>
+            !this.state.sending ? (
+              <View style={styles.buttonRowContainer}>
+                <View style={styles.buttonView}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => this.props.navigation.navigate('Home')}>
+                    <Text style={styles.buttonText}>Reject</Text>
+                  </TouchableOpacity>
+                </View>
 
-            <View style={styles.buttonView}>
-              <TouchableOpacity
-                style={styles.button}
-                disabled={this.state.sending ? true : false}
-                onPress={() => this.savePledge()}>
-                <Text style={styles.buttonText}>Accept</Text>
-              </TouchableOpacity>
-            </View>
-            </View>
-          ) : (
-            <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-            <ActivityIndicator size="large" />
-            </View>
-          )
-        }
-
-
-
-        
-
-
+                <View style={styles.buttonView}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    disabled={this.state.sending ? true : false}
+                    onPress={() => this.savePledge()}>
+                    <Text style={styles.buttonText}>Accept</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : (
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                  <ActivityIndicator size="large" />
+                </View>
+              )
+          }
         </View>
       </View>
     )
