@@ -105,8 +105,8 @@ export default class ResolveReviewScreen extends React.Component {
     const promisorFirstName = this.props.navigation.getParam('promisorFirstName');
     const promisorLastName = this.props.navigation.getParam('promisorLastName');
     const terms = this.props.navigation.getParam('terms');
-    const date = moment(this.props.navigation.getParam('date')).format('MMM Do YYYY');
-    const dueDate = moment(this.props.navigation.getParam('dueDate')).format('MMM Do YYYY');
+    const date = moment(this.props.navigation.getParam('promiseDate')).format('MMM Do YYYY');
+    const dueDate = moment(this.props.navigation.getParam('promiseDueDate')).format('MMM Do YYYY');
     const { promiseeFirstName, promiseeLastName } = this.state;
 
     return (
@@ -117,8 +117,8 @@ export default class ResolveReviewScreen extends React.Component {
             <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
               <Icon
                 name={twoWayIconDict.revGet(terms) || "asterisk"}
-                type="font-awesome"
-                size={75}
+                type="material-community"
+                size={85}
               />
             </View>
 

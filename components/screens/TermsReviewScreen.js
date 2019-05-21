@@ -86,8 +86,8 @@ export default class TermsReviewScreen extends React.Component {
         "promiseeId": this.state.promiseeID,
         "promiseeFirstName": this.state.promiseeFirstName,
         "promiseeLastName": this.state.promiseeLastName,
-        "promiseDate": this.props.navigation.getParam('date'),
-        "promiseDueDate": this.props.navigation.getParam('dueDate'),
+        "promiseDate": this.props.navigation.getParam('promiseDate'),
+        "promiseDueDate": this.props.navigation.getParam('promiseDueDate'),
         "promisorId": this.props.navigation.getParam('promisorID'),
         "promisorFirstName": this.props.navigation.getParam('promisorFirstName'),
         "promisorLastName": this.props.navigation.getParam('promisorLastName'),
@@ -109,8 +109,8 @@ export default class TermsReviewScreen extends React.Component {
     const promisorFirstName = this.props.navigation.getParam('promisorFirstName');
     const promisorLastName = this.props.navigation.getParam('promisorLastName');
     const terms = this.props.navigation.getParam('terms');
-    const date = moment(this.props.navigation.getParam('date')).format('MMM Do YYYY');
-    const dueDate = moment(this.props.navigation.getParam('dueDate')).format('MMM Do YYYY');
+    const date = moment(this.props.navigation.getParam('promiseDate')).format('MMM Do YYYY');
+    const dueDate = moment(this.props.navigation.getParam('promiseDueDate')).format('MMM Do YYYY');
     const { promiseeFirstName, promiseeLastName } = this.state;
 
     // const promisorFirstName = PROMISE['promisorFirstName'];
@@ -128,8 +128,8 @@ export default class TermsReviewScreen extends React.Component {
             <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
               <Icon
                 name={twoWayIconDict.revGet(terms) || "asterisk"}
-                type="font-awesome"
-                size={75}
+                type="material-community"
+                size={85}
               />
             </View>
 
