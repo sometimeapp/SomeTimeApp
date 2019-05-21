@@ -37,7 +37,6 @@ export default class DefineTermsScreen extends React.Component {
             promisorFirstName: userInfo.firstName,
             promisorLastName: userInfo.lastName,
         });
-        //console.log('I should have been bound by now ' + this.state.promisorID)
     }
 
     getId = async () => {
@@ -78,13 +77,13 @@ export default class DefineTermsScreen extends React.Component {
                 <View style={styles.termsBoxContainer}>
                     <View style={styles.termsBox}>
                         {/* <Text style={styles.termsBoxText}>{this.state.terms || "(something)"}</Text> */}
-                        <Input
-                            style={styles.termsBoxText}
-                            placeholder="(something...)"
-                            value={this.state.terms}
-                            onChangeText={text => this.setState({ terms: text })}
-                            multiline={true}
-                            maxLength={140}
+                        <Input 
+                          style={styles.termsBoxText}
+                          placeholder="(something...)"
+                          value={this.state.terms}
+                          onChangeText={text => this.setState({terms: text})}
+                          multiline={true}
+                          maxLength={50}
                         />
                     </View>
                 </View>
@@ -153,7 +152,7 @@ export default class DefineTermsScreen extends React.Component {
                                 onPress={() => {
                                     let today = moment();
                                     let future = today.clone().add(this.state.duration, 'd');
-                                    this.props.navigation.navigate('MakeQR', { ...this.state, date: today, dueDate: future })
+                                    this.props.navigation.navigate('MakeQR', { ...this.state, promiseDate: today, promiseDueDate: future })
                                 }
                                 }>
                                 <Text style={styles.buttonText}>Seal the Deal</Text>

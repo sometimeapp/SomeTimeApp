@@ -8,13 +8,7 @@ import {
 
 import { Icon } from 'react-native-elements';
 
-const emojiDictionary = {
-    "☕": "a coffee",
-    "🍸": "a drink",
-    "🍴": "a meal",
-    "🚘": "a ride",
-    "🤙": "to hang out"
-}
+import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
 
 export default class StaticTermsIcons extends React.Component {
 
@@ -22,46 +16,21 @@ export default class StaticTermsIcons extends React.Component {
         return (
             <View style={styles.rowContainer}>
 
-                <TouchableOpacity style={styles.itemContainer} onPress={() => this.props.handleTouch(emojiDictionary["☕"])}>
-                    <Icon
-                        name="coffee"
-                        type="font-awesome"
-                        size={30}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.itemContainer} onPress={() => this.props.handleTouch(emojiDictionary["🍸"])}>
-                    <Icon
-                        name="glass"
-                        type="font-awesome"
-                        size={30}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.itemContainer} onPress={() => this.props.handleTouch(emojiDictionary["🍴"])}>
-                <Icon
-                        name="cutlery"
-                        type="font-awesome"
-                        size={30}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.itemContainer} onPress={() => this.props.handleTouch(emojiDictionary["🚘"])}>
-                <Icon
-                        name="automobile"
-                        type="font-awesome"
-                        size={30}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.itemContainer} onPress={() => this.props.handleTouch(emojiDictionary["🤙"])}>
-                <Icon
-                        name="asterisk"
-                        type="font-awesome"
-                        size={30}
-                    />
-                </TouchableOpacity>
+                {Object.keys(iconDict).map((item) => {
+                    return (
+                        <TouchableOpacity key={item} style={styles.itemContainer} onPress={() => this.props.handleTouch(twoWayIconDict.get(item))}>
+                            <Icon
+                                name={item}
+                                type='material-community'
+                                size={35}
+                            />
+                        </TouchableOpacity>
+                    );
+                })}
 
             </View>
         )
     }
-
 }
 
 const styles = StyleSheet.create({
@@ -77,32 +46,4 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     }
-    // itemContainer2: {
-    //     flex: 1,
-    //     backgroundColor: "blue", 
-    //     height: 75,
-    //     justifyContent: "center", 
-    //     alignItems: "center"
-    // },
-    // itemContainer3: {
-    //     flex: 1,
-    //     backgroundColor: "green", 
-    //     height: 75,
-    //     justifyContent: "center", 
-    //     alignItems: "center"
-    // },
-    // itemContainer4: {
-    //     flex: 1,
-    //     backgroundColor: "silver", 
-    //     height: 75,
-    //     justifyContent: "center", 
-    //     alignItems: "center"
-    // },
-    // itemContainer5: {
-    //     flex: 1,
-    //     backgroundColor: "orange", 
-    //     height: 75,
-    //     justifyContent: "center", 
-    //     alignItems: "center"
-    // },
 });

@@ -9,10 +9,15 @@ import {
 import { Icon } from 'react-native-elements';
 import moment from 'moment';
 
+import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
+
 export default class PledgeCard extends React.Component {
 
 
     render() {
+        console.log("pledge is...")
+        console.log(this.props.pledge);
+        console.log(twoWayIconDict.get(this.props.pledge.terms));
         const { pledgeStatus } = this.props.pledge;
         return (
             <View style={styles.container} >
@@ -20,9 +25,9 @@ export default class PledgeCard extends React.Component {
 
                     <View style={styles.imageContainer}>
                         <Icon
-                            name="coffee"
-                            type="font-awesome"
-                            size={52}
+                            name={twoWayIconDict.revGet(this.props.pledge.terms) || "asterisk"}
+                            type="material-community"
+                            size={60}
                         />
                     </View>
 
@@ -50,10 +55,10 @@ export default class PledgeCard extends React.Component {
 
                             <View style={styles.promiseDetailsContainer}>
                                 <View style={styles.detailContainer}>
-                                    <Text>{moment(this.props.pledge.promiseDate).format('DD-MMM-YYYY hh:mm A')}</Text>
+                                    <Text>{moment(this.props.pledge.promiseDate).format('MMM Do YYYY')}</Text>
                                 </View>
                                 <View style={styles.detailContainer}>
-                                    <Text>{moment(this.props.pledge.promiseDueDate).format('DD-MMM-YYYY hh:mm A')}</Text>
+                                    <Text>{moment(this.props.pledge.promiseDueDate).format('MMM Do YYYY')}</Text>
                                 </View>
                                 <View style={styles.detailContainer}>
                                     <Text>{this.props.pledge.pledgeStatus}</Text>

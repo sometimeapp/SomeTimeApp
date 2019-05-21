@@ -1,12 +1,40 @@
+const PROMISE = {
+  "pledgeStatus": "pending",
+  "promiseDate": "2019-05-15T21:27:18.723Z",
+  "promiseDueDate": "2019-06-14T21:27:18.723Z",
+  "promiseeFirstName": "Jonathan",
+  "promiseeId": "679f22da-6818-4bfd-8a67-8a2b34168a8d",
+  "promiseeLastName": "Adler",
+  "promisorFirstName": "Zach",
+  "promisorId": "bdd53477-fc16-4fa3-888a-2d22e1acea4d",
+  "promisorLastName": "Daniels",
+  "screen": "made",
+  "terms": "a ride from here to there"
+}
+
 import React from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  Button,
+  TouchableOpacity,
+  PixelRatio,
   ActivityIndicator
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { Auth, API } from 'aws-amplify';
+import moment from 'moment';
+import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
+
+var smallFontSize = 12;
+if (PixelRatio.get() <= 2) {
+  smallFontSize = 10;
+}
+
+var largeFontSize = 21
+if (PixelRatio.get() <= 2) {
+  largeFontSize = 16;
+}
 
 export default class TermsReviewScreen extends React.Component {
 
@@ -18,54 +46,48 @@ export default class TermsReviewScreen extends React.Component {
     sending: false
   }
 
+  static navigationOptions = {
+    headerTitle: 'Review Terms',
+  };
+
   async componentDidMount() {
     let userInfo = await this.getId();
     this.setState({
-        promiseeID: userInfo.userID,
-        promiseeFirstName: userInfo.firstName,
-        promiseeLastName: userInfo.lastName,
+      promiseeID: userInfo.userID,
+      promiseeFirstName: userInfo.firstName,
+      promiseeLastName: userInfo.lastName,
     });
     //console.log('I should have been bound by now ' + this.state.promisorID)
-}
+  }
 
-getId = async () => {
+  getId = async () => {
     try {
-        let userInfo = {};
-        let user = await Auth.currentAuthenticatedUser()
-        userInfo.userID = await user.attributes.sub;
-        userInfo.firstName = await user.attributes.name;
-        userInfo.lastName = await user.attributes.family_name;
-        //console.log(user);
-        return userInfo;
+      let userInfo = {};
+      let user = await Auth.currentAuthenticatedUser()
+      userInfo.userID = await user.attributes.sub;
+      userInfo.firstName = await user.attributes.name;
+      userInfo.lastName = await user.attributes.family_name;
+      //console.log(user);
+      return userInfo;
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-}
-
-
-  /*
-            promiserID: '67890876567890ghjklkjhgfyui',
-            promiseeID: '567890987656789ghjkljhghjfd',
-            status: 'pending',
-            terms: 'Beer',
-            date: new Date()
-        }
-  */
+  }
 
   savePledge = async () => {
 
-    this.setState({sending: true});
+    this.setState({ sending: true });
 
-    let apiName = 'PledgesCRUD'; 
-    let path = '/pledges'; 
+    let apiName = 'PledgesCRUD';
+    let path = '/pledges';
     let myInit = {
       response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
       body: {
         "promiseeId": this.state.promiseeID,
         "promiseeFirstName": this.state.promiseeFirstName,
         "promiseeLastName": this.state.promiseeLastName,
-        "promiseDate": this.props.navigation.getParam('date'),
-        "promiseDueDate": this.props.navigation.getParam('dueDate'),
+        "promiseDate": this.props.navigation.getParam('promiseDate'),
+        "promiseDueDate": this.props.navigation.getParam('promiseDueDate'),
         "promisorId": this.props.navigation.getParam('promisorID'),
         "promisorFirstName": this.props.navigation.getParam('promisorFirstName'),
         "promisorLastName": this.props.navigation.getParam('promisorLastName'),
@@ -84,50 +106,171 @@ getId = async () => {
 
   render() {
 
+    const promisorFirstName = this.props.navigation.getParam('promisorFirstName');
+    const promisorLastName = this.props.navigation.getParam('promisorLastName');
+    const terms = this.props.navigation.getParam('terms');
+    const date = moment(this.props.navigation.getParam('promiseDate')).format('MMM Do YYYY');
+    const dueDate = moment(this.props.navigation.getParam('promiseDueDate')).format('MMM Do YYYY');
+    const { promiseeFirstName, promiseeLastName } = this.state;
+
+    // const promisorFirstName = PROMISE['promisorFirstName'];
+    // const promisorLastName = PROMISE['promisorLastName'];
+    // const terms = PROMISE['terms'];
+    // const date = moment(PROMISE['promiseDate']).format('MMM Do YYYY');
+    // const dueDate = moment(PROMISE['promiseDueDate']).format('MMM Do YYYY');
+    // const { promiseeFirstName, promiseeLastName } = this.state;
+
     return (
-
       <View style={styles.container}>
-        <Text>{this.props.navigation.getParam('promisorID')}</Text>
-        <Text>{this.props.navigation.getParam('promisorFirstName')}</Text>
-        <Text>{this.props.navigation.getParam('promisorLastName')}</Text>
-        <Text>{this.state.promiseeID}</Text>
-        <Text>{this.props.navigation.getParam('pledgeStatus')}</Text>
-        <Text>{this.props.navigation.getParam('terms')}</Text>
-        <Text>{this.props.navigation.getParam('date')}</Text>
-        <Text>{this.props.navigation.getParam('dueDate')}</Text>
+        <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, flexDirection: "row" }}>
 
-        <View style={{ margin: 5 }}>
-        {
-          !this.state.sending ? (
-            <Button
-            onPress={() => alert("You've accepted")}
-            title="Accept"
-            onPress={() => this.savePledge()}
-          />
-          ) : (
-            <ActivityIndicator />
-          )
-        }
+            <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
+              <Icon
+                name={twoWayIconDict.revGet(terms) || "asterisk"}
+                type="material-community"
+                size={85}
+              />
+            </View>
+
+            <View style={{ flex: 3 }}>
+              <View style={{ flex: 1, flexDirection: "row", margin: 10, borderWidth: 3, borderRadius: 10 }}>
+                <View style={{ flex: 1, padding: 5, justifyContent: "space-between" }}>
+                  <Text style={{ fontSize: smallFontSize }}>Terms:</Text>
+                  <Text style={{ fontSize: smallFontSize }}>Date:</Text>
+                  <Text style={{ fontSize: smallFontSize }}>Due Date:</Text>
+                </View>
+                <View style={{ flex: 2, padding: 5, justifyContent: "space-between" }}>
+                  <Text style={{ fontSize: smallFontSize }}>{terms.length <= 13 ? terms : terms.substring(0, 13) + "..."}</Text>
+                  <Text style={{ fontSize: smallFontSize }}>{date}</Text>
+                  <Text style={{ fontSize: smallFontSize }}>{dueDate}</Text>
+                </View>
+              </View>
+            </View>
+
           </View>
-          <View style={{ margin: 5 }}>
-          <Button
-            disabled={this.state.sending ? true : false}
-            title="Reject"
-            onPress={() => this.props.navigation.navigate('Home')}
-          />
+
+        </View>
+
+        <View style={{ flex: 2 }}>
+
+          <View style={{ flex: 1, backgroundColor: "white", borderWidth: 3, borderRadius: 10, margin: 20, padding: 8 }}>
+            <Text style={{ fontSize: largeFontSize, fontStyle: "italic" }}>
+              {`I hereby acknowledge that I owe ${promiseeFirstName} ${promiseeLastName} the favor of ${terms}, and that I shall repay this debt on or before ${date}.
+
+Sincerely, 
+${promisorFirstName} ${promisorLastName}`}
+            </Text>
+          </View>
+        </View>
+        <View style={{ flex: 1 }}>
+
+
+          {
+            !this.state.sending ? (
+              <View style={styles.buttonRowContainer}>
+                <View style={styles.buttonView}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => this.props.navigation.navigate('Home')}>
+                    <Text style={styles.buttonText}>Reject</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.buttonView}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    disabled={this.state.sending ? true : false}
+                    onPress={() => this.savePledge()}>
+                    <Text style={styles.buttonText}>Accept</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : (
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                  <ActivityIndicator size="large" />
+                </View>
+              )
+          }
         </View>
       </View>
     )
+
+    // return (
+
+    //   <View style={styles.container}>
+    //     <Text>{this.props.navigation.getParam('promisorID')}</Text>
+    //     <Text>{this.props.navigation.getParam('promisorFirstName')}</Text>
+    //     <Text>{this.props.navigation.getParam('promisorLastName')}</Text>
+    //     <Text>{this.state.promiseeID}</Text>
+    //     <Text>{this.props.navigation.getParam('pledgeStatus')}</Text>
+    //     <Text>{this.props.navigation.getParam('terms')}</Text>
+    //     <Text>{this.props.navigation.getParam('date')}</Text>
+    //     <Text>{this.props.navigation.getParam('dueDate')}</Text>
+
+    //     <View style={{ margin: 5 }}>
+    // {
+    //   !this.state.sending ? (
+    //     <Button
+    //     onPress={() => alert("You've accepted")}
+    //     title="Accept"
+    //     onPress={() => this.savePledge()}
+    //   />
+    //   ) : (
+    //     <ActivityIndicator />
+    //   )
+    // }
+    //       </View>
+    //       <View style={{ margin: 5 }}>
+    //       <Button
+    //         disabled={this.state.sending ? true : false}
+    //         title="Reject"
+    //         onPress={() => this.props.navigation.navigate('Home')}
+    //       />
+    //     </View>
+    //   </View>
+    // )
 
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1
+  },
+  buttonRowContainer: {
+
+    flexDirection: "row",
     flex: 1,
+    alignItems: "center"
+  },
+  buttonView: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  button: {
     alignItems: 'center',
-    textAlign: 'center',
+    justifyContent: "center",
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    height: "30%",
+    width: "66%",
+    borderRadius: 5,
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    //backgroundColor: '#fff',
+    elevation: 10, // Android
+    //height: 50,
+    //width: 100,
     justifyContent: 'center',
-    backgroundColor: '#fff',
-  }
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  buttonText: {
+    fontWeight: "bold"
+  },
+
 });

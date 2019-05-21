@@ -1,9 +1,11 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
+import { FontAwesome } from '@expo/vector-icons';
 import AppNavigator from './navigation/AppNavigator';
 import Amplify, { API } from 'aws-amplify'
 import awsmobile from './aws-exports'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 Amplify.configure(awsmobile)
 
 export default class App extends React.Component {
@@ -38,6 +40,8 @@ export default class App extends React.Component {
         // We include SpaceMono because we use it in HomeScreen.js. Feel free
         // to remove this if you are not using it in your app
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+        ...FontAwesome.font,
+        ...MaterialCommunityIcons.font
       }),
     ]);
   };
