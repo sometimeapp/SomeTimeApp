@@ -110,7 +110,7 @@ export default class QRScannerScreen extends React.Component {
             }
 
         } else {
-            title = 'Plege Received'
+            title = 'Pledge Received'
             message = `${data.promisorFirstName} has made a pledge.`
             btn1Text = 'Review terms';
             btn2Text = 'Dismiss';
