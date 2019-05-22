@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, Text, View, Alert, ActivityIndicator } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
 import { Auth } from 'aws-amplify'
 
@@ -117,7 +117,23 @@ export default class QRScannerScreen extends React.Component {
         const { hasCameraPermission, scanned } = this.state;
 
         if (hasCameraPermission === null) {
-            return <Text>Requesting camera permission</Text>;
+            return (
+                <View style={{
+                    backgroundColor: 'black',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: 1
+                }}>
+                    <ActivityIndicator
+                        size='large'
+                    />
+                    <Text style={{
+                        color: 'white',
+                        fontSize: 20
+                    }}> Waiting for camera...
+                    </Text>
+                </View>
+            )
         }
         if (hasCameraPermission === false) {
             return <Text>No access to camera</Text>;
