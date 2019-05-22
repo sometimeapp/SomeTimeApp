@@ -24,7 +24,6 @@ export default class PledgesOwedScreen extends React.Component {
   };
 
   async componentDidMount() {
-    console.log("I AM MOUNTING THE OWED SCREEN!")
     let userInfo = await this.getId();
     let promiseeId = userInfo.userID;
     this.setState({ isFetching: true });
@@ -37,10 +36,8 @@ export default class PledgesOwedScreen extends React.Component {
   }
 
   onRefresh = async () => {
-    console.log("calling onRefresh...")
     this.setState({ isFetching: true });
     const newPledges = await getData(this.state.promiseeId, null);
-    console.log("Yo!  The new pledges are....")
     console.log(newPledges)
     this.setState({
       pledgesOwed: newPledges,
@@ -55,7 +52,6 @@ export default class PledgesOwedScreen extends React.Component {
       userInfo.userID = await user.attributes.sub;
       userInfo.firstName = await user.attributes.name;
       userInfo.lastName = await user.attributes.family_name;
-      //console.log(user);
       return userInfo;
     } catch (error) {
       console.log(error);
@@ -63,8 +59,6 @@ export default class PledgesOwedScreen extends React.Component {
   }
 
   render() {
-    // console.log("YO! THE STATE IS:")
-    // console.log(this.state.pledgesOwed);
     if (!this.state.pledgesOwed || this.state.isFetching) {
       return (
         <View style={styles.indicatorContainer}>
@@ -92,7 +86,8 @@ export default class PledgesOwedScreen extends React.Component {
                 >
                   <PledgeCard
                     pledge={item}
-                    screen={this.props.navigation.state.routeName} />
+                    screen={this.props.navigation.state.routeName}
+                  />
 
                 </TouchableOpacity>
               </View>

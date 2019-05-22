@@ -38,7 +38,6 @@ export default class HomeScreen extends React.Component {
       let userInfo = {};
       let user = await Auth.currentAuthenticatedUser()
       userInfo.firstName = await user.attributes.name;
-
       return userInfo;
     } catch (error) {
       console.log(error);
@@ -46,7 +45,6 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-    console.log("rendering the home screen!")
     return (
       <View style={styles.container}>
         <View style={styles.welcomeContainer}>
@@ -83,7 +81,6 @@ const styles = StyleSheet.create({
   },
   welcomeContainer: {
     flex: 1,
-    //ackgroundColor: "skyblue",
     justifyContent: "center",
     alignItems: "center"
   },
@@ -92,14 +89,11 @@ const styles = StyleSheet.create({
   },
   makeButtonView: {
     flex: 2,
-    //backgroundColor: "lime",
     justifyContent: "center",
     alignItems: "center"
   },
   acceptButtonView: {
     flex: 2,
-    //backgroundColor: "pink",
-    //justifyContent: "center",
     alignItems: "center"
   },
   button: {
