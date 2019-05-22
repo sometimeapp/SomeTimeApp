@@ -24,7 +24,6 @@ export default class PledgesMadeScreen extends React.Component {
   };
 
   async componentDidMount() {
-    console.log("I AM MOUNTING THE MADE SCREEN!")
     let userInfo = await this.getId();
     let promisorId = userInfo.userID;
     this.setState({ isFetching: true });
@@ -37,11 +36,8 @@ export default class PledgesMadeScreen extends React.Component {
   }
 
   onRefresh = async () => {
-    console.log("calling onRefresh...")
     this.setState({ isFetching: true });
     const newPledges = await getData(this.state.promisorId, "index");
-    console.log("Yo!  The new pledges are....")
-    console.log(newPledges)
     this.setState({
       pledgesMade: newPledges,
       isFetching: false
@@ -62,8 +58,6 @@ export default class PledgesMadeScreen extends React.Component {
   }
 
   render() {
-    //console.log("YO! THE STATE IS:")
-    //console.log(this.state.pledgesMade);
     if (!this.state.pledgesMade || this.state.isFetching) {
       return (
         <View style={styles.indicatorContainer}>

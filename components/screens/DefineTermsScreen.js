@@ -15,14 +15,11 @@ import StaticTermsIcons from '../screenComponents/StaticTermsIcons'
 
 export default class DefineTermsScreen extends React.Component {
 
-
     state = {
         promisorID: '',
         promisorFirstName: '',
         promisorLastName: '',
         duration: 3,
-        // date: moment(),
-        // dueDate: moment().add(3, 'd'),
         terms: ''
     }
 
@@ -46,13 +43,11 @@ export default class DefineTermsScreen extends React.Component {
             userInfo.userID = await user.attributes.sub;
             userInfo.firstName = await user.attributes.name;
             userInfo.lastName = await user.attributes.family_name;
-            //console.log(user);
             return userInfo;
         } catch (error) {
             console.log(error);
         }
     }
-
 
     onChangeTerms = (value) => {
         this.setState({ terms: value })
@@ -116,7 +111,6 @@ export default class DefineTermsScreen extends React.Component {
 
                 </View>
 
-
                 <View style={styles.sliderContainer}>
                     <Slider
                         style={[{ marginLeft: 20, marginRight: 20 }, {
@@ -135,7 +129,6 @@ export default class DefineTermsScreen extends React.Component {
 
                     />
                 </View>
-
 
                 <View style={styles.buttonsContainer}>
                     <View style={styles.buttonRowContainer}>
@@ -242,7 +235,6 @@ const styles = StyleSheet.create({
     },
     sliderContainer: {
         flex: 1,
-        //backgroundColor: "fuchsia",
         justifyContent: "center",
     },
     buttonsContainer: {
@@ -252,7 +244,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         flex: 1,
         alignItems: "center",
-        //backgroundColor: "lime"
     },
     signUpButtonView: {
         flex: 1,
@@ -269,7 +260,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: '#DDDDDD',
         padding: 10,
-        //height: "30%",
         width: "66%",
         borderRadius: 10
     },

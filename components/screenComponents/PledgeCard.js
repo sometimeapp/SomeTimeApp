@@ -3,21 +3,15 @@ import {
     StyleSheet,
     Text,
     View,
-    Button,
-    TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import moment from 'moment';
 
-import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
+import { twoWayIconDict } from '../../constants/iconInfo';
 
 export default class PledgeCard extends React.Component {
 
-
     render() {
-        console.log("pledge is...")
-        console.log(this.props.pledge);
-        console.log(twoWayIconDict.get(this.props.pledge.terms));
         const { pledgeStatus } = this.props.pledge;
         return (
             <View style={styles.container} >
@@ -65,7 +59,6 @@ export default class PledgeCard extends React.Component {
                                 </View>
                             </View>
                         </View>
-
                     </View>
 
                     <View style={styles.arrowContainer}>
@@ -75,6 +68,7 @@ export default class PledgeCard extends React.Component {
                             size={60}
                         />
                     </View>
+
                 </View>
             </View>
         )
@@ -96,20 +90,16 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         flex: 2,
-        //backgroundColor: "red",
 
         justifyContent: "center",
         alignItems: "center"
     },
     infoContainer: {
         flex: 6,
-        //backgroundColor: "green",
 
     },
     arrowContainer: {
         flex: 1,
-        //backgroundColor: "blue",
-
         justifyContent: "center",
         alignItems: "center"
     },
@@ -120,8 +110,7 @@ const styles = StyleSheet.create({
     },
     promiseDetailsContainer: {
         flex: 3,
-        flexDirection: "column",
-        //backgroundColor: "pink",
+        flexDirection: "column"
     },
     promiseDetailsHeadingsContainer: {
         flex: 1,
@@ -139,8 +128,7 @@ const styles = StyleSheet.create({
     },
     detailContainerContainer: {
         flex: 3,
-        flexDirection: "row",
-        //backgroundColor: "lime"
+        flexDirection: "row"
     },
     headingText: {
         fontWeight: "bold"

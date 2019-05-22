@@ -1,8 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert } from 'react-native';
-import { BarCodeScanner, Permissions, Constants } from 'expo';
+import { StyleSheet, Text, View, Alert } from 'react-native';
+import { BarCodeScanner, Permissions } from 'expo';
 import { Auth } from 'aws-amplify'
-
 
 export default class QRScannerScreen extends React.Component {
     state = {
@@ -12,50 +11,30 @@ export default class QRScannerScreen extends React.Component {
     }
 
     async componentDidMount() {
-
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         this.setState({ hasCameraPermission: status === 'granted' });
 
         let userID = await this.getId();
         this.setState({
-          userID: userID
+            userID: userID
         });
     }
 
     getId = async () => {
         try {
-          let user = await Auth.currentAuthenticatedUser();
-          userID = await user.attributes.sub;
-          return userID;
+            let user = await Auth.currentAuthenticatedUser();
+            userID = await user.attributes.sub;
+            return userID;
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-    }
-
-    render() {
-        const { hasCameraPermission, scanned } = this.state;
-
-        if (hasCameraPermission === null) {
-            return <Text>Requesting camera permission</Text>;
-        }
-        if (hasCameraPermission === false) {
-            return <Text>No access to camera</Text>;
-        }
-        return (
-            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                <BarCodeScanner
-                    onBarCodeScanned={ scanned ? undefined : this.handleBarCodeScanned}
-                    style={StyleSheet.absoluteFillObject}
-                />
-            </View>
-        );
     }
 
     parseAndValidateJSON = (str) => {
         //check for falsy input values
         if (!(!!str)) return false;
         //check that input is a string
-        if( typeof( str ) !== 'string' ) return false; 
+        if (typeof (str) !== 'string') return false;
 
         let json;
         try {
@@ -64,43 +43,42 @@ export default class QRScannerScreen extends React.Component {
             return false;
         }
         //once parsed, check that it is NOT an array
-        if( json instanceof Array ){
+        if (json instanceof Array) {
             console.log("array");
             return false;
-        } 
-
+        }
         return json;
     }
 
     handleBarCodeScanned = ({ type, data }) => {
         //alert variables
         let title, message, btn1Text, btn2Text, btn1PressAction;
-        
+
         //set scanned to 'true' to stop continuous scanning
         this.setState({ scanned: true });
 
         //parse scanned data to make sure its valid JSON
         data = this.parseAndValidateJSON(data);
 
-        if(!data || (!data.screen && !data.promisorID) ) {  //if data is invalid or it is not a valid promise
+        if (!data || (!data.screen && !data.promisorID)) {  //if data is invalid or it is not a valid promise
             title = 'Error!';
             message = 'Invalid QR Code'
             btn1Text = 'Scan again',
-            btn2Text = 'Cancel'
-            btn1PressAction = () => this.setState({scanned: false});
-        } else if(!data.terms) { //if the data is valid, but there are no promise terms specified
+                btn2Text = 'Cancel'
+            btn1PressAction = () => this.setState({ scanned: false });
+        } else if (!data.terms) { //if the data is valid, but there are no promise terms specified
             title = 'Alert!'
             message = 'Pledge terms are blank -- cannot be accepted';
             btn1Text = 'Scan again',
-            btn2Text = 'Cancel',
-            btn1PressAction = () => this.setState({scanned: false});
-        } else if(data.screen) { //if the 'screen' attribute is present, this is a pledge submitted for resolution
-            if(data.promiseeId !== this.state.userID) { //if this pledge doesn't belong to you....
+                btn2Text = 'Cancel',
+                btn1PressAction = () => this.setState({ scanned: false });
+        } else if (data.screen) { //if the 'screen' attribute is present, this is a pledge submitted for resolution
+            if (data.promiseeId !== this.state.userID) { //if this pledge doesn't belong to you....
                 title = 'Alert!'
                 message = 'It looks like this pledge does not belong to you!'
                 btn1Text = 'Scan again';
                 btn2Text = 'Cancel';
-                btn1PressAction = () => this.setState({scanned: false});
+                btn1PressAction = () => this.setState({ scanned: false });
             } else {
                 title = 'Resolve?'
                 message = `${data.promisorFirstName} claims to have resolved a pledge.`
@@ -121,17 +99,36 @@ export default class QRScannerScreen extends React.Component {
             title,
             message,
             [
-              {
-                text: btn1Text, 
-                onPress: () => btn1PressAction()
-              },
-              {
-                text: btn2Text,
-                onPress: () => this.props.navigation.navigate('Home'),
-                style: 'cancel',
-              }
+                {
+                    text: btn1Text,
+                    onPress: () => btn1PressAction()
+                },
+                {
+                    text: btn2Text,
+                    onPress: () => this.props.navigation.navigate('Home'),
+                    style: 'cancel',
+                }
             ],
-            {cancelable: false},
-          );
+            { cancelable: false },
+        );
+    }
+
+    render() {
+        const { hasCameraPermission, scanned } = this.state;
+
+        if (hasCameraPermission === null) {
+            return <Text>Requesting camera permission</Text>;
+        }
+        if (hasCameraPermission === false) {
+            return <Text>No access to camera</Text>;
+        }
+        return (
+            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                <BarCodeScanner
+                    onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
+                    style={StyleSheet.absoluteFillObject}
+                />
+            </View>
+        );
     }
 }

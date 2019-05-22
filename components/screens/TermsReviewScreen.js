@@ -1,16 +1,16 @@
-const PROMISE = {
-  "pledgeStatus": "pending",
-  "promiseDate": "2019-05-15T21:27:18.723Z",
-  "promiseDueDate": "2019-06-14T21:27:18.723Z",
-  "promiseeFirstName": "Jonathan",
-  "promiseeId": "679f22da-6818-4bfd-8a67-8a2b34168a8d",
-  "promiseeLastName": "Adler",
-  "promisorFirstName": "Zach",
-  "promisorId": "bdd53477-fc16-4fa3-888a-2d22e1acea4d",
-  "promisorLastName": "Daniels",
-  "screen": "made",
-  "terms": "a ride from here to there"
-}
+// const PROMISE = {
+//   "pledgeStatus": "pending",
+//   "promiseDate": "2019-05-15T21:27:18.723Z",
+//   "promiseDueDate": "2019-06-14T21:27:18.723Z",
+//   "promiseeFirstName": "Jonathan",
+//   "promiseeId": "679f22da-6818-4bfd-8a67-8a2b34168a8d",
+//   "promiseeLastName": "Adler",
+//   "promisorFirstName": "Zach",
+//   "promisorId": "bdd53477-fc16-4fa3-888a-2d22e1acea4d",
+//   "promisorLastName": "Daniels",
+//   "screen": "made",
+//   "terms": "a ride from here to there"
+// }
 
 import React from 'react';
 import {
@@ -24,7 +24,7 @@ import {
 import { Icon } from 'react-native-elements';
 import { Auth, API } from 'aws-amplify';
 import moment from 'moment';
-import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
+import { twoWayIconDict } from '../../constants/iconInfo';
 
 var smallFontSize = 12;
 if (PixelRatio.get() <= 2) {
@@ -57,7 +57,6 @@ export default class TermsReviewScreen extends React.Component {
       promiseeFirstName: userInfo.firstName,
       promiseeLastName: userInfo.lastName,
     });
-    //console.log('I should have been bound by now ' + this.state.promisorID)
   }
 
   getId = async () => {
@@ -67,7 +66,6 @@ export default class TermsReviewScreen extends React.Component {
       userInfo.userID = await user.attributes.sub;
       userInfo.firstName = await user.attributes.name;
       userInfo.lastName = await user.attributes.family_name;
-      //console.log(user);
       return userInfo;
     } catch (error) {
       console.log(error);
@@ -196,41 +194,6 @@ ${promisorFirstName} ${promisorLastName}`}
       </View>
     )
 
-    // return (
-
-    //   <View style={styles.container}>
-    //     <Text>{this.props.navigation.getParam('promisorID')}</Text>
-    //     <Text>{this.props.navigation.getParam('promisorFirstName')}</Text>
-    //     <Text>{this.props.navigation.getParam('promisorLastName')}</Text>
-    //     <Text>{this.state.promiseeID}</Text>
-    //     <Text>{this.props.navigation.getParam('pledgeStatus')}</Text>
-    //     <Text>{this.props.navigation.getParam('terms')}</Text>
-    //     <Text>{this.props.navigation.getParam('date')}</Text>
-    //     <Text>{this.props.navigation.getParam('dueDate')}</Text>
-
-    //     <View style={{ margin: 5 }}>
-    // {
-    //   !this.state.sending ? (
-    //     <Button
-    //     onPress={() => alert("You've accepted")}
-    //     title="Accept"
-    //     onPress={() => this.savePledge()}
-    //   />
-    //   ) : (
-    //     <ActivityIndicator />
-    //   )
-    // }
-    //       </View>
-    //       <View style={{ margin: 5 }}>
-    //       <Button
-    //         disabled={this.state.sending ? true : false}
-    //         title="Reject"
-    //         onPress={() => this.props.navigation.navigate('Home')}
-    //       />
-    //     </View>
-    //   </View>
-    // )
-
   }
 }
 
@@ -261,10 +224,7 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
-    //backgroundColor: '#fff',
     elevation: 10, // Android
-    //height: 50,
-    //width: 100,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',

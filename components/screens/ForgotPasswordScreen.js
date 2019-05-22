@@ -47,7 +47,7 @@ export default class SignInScreen extends React.Component {
         }
       })
   }
-  // Upon confirmation redirect the user to the Sign In page
+  // Upon confirmation, redirect the user to the Sign In page
   async forgotPasswordSubmit() {
     let { email, authCode, newPassword } = this.state
     email = email.toLowerCase();  
@@ -92,7 +92,6 @@ export default class SignInScreen extends React.Component {
             <Text style={styles.buttonText}>Send Code</Text>
           </TouchableOpacity>
 
-
           <Input
             placeholder="New Password"
             textContentType="password"
@@ -121,45 +120,7 @@ export default class SignInScreen extends React.Component {
             <Text style={styles.buttonText}>Confirm Password</Text>
           </TouchableOpacity>
         </View>
-
-        {/* <View style={styles.buttonView}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.forgotPassword()}>
-            <Text style={styles.buttonText}>Send Code</Text>
-          </TouchableOpacity>
-        </View> */}
-
-        {/* <View style={styles.inputContainer}>
-          <Input
-            placeholder="New Password"
-            textContentType="password"
-            secureTextEntry={true}
-            autoCorrect={false}
-            containerStyle={{ width: "95%" }}
-            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
-            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
-            onSubmitEditing={() => this.confirmationCode.focus()}
-            onChangeText={value => this.onChangeText('newPassword', value)}
-          />
-          <Input
-            placeholder="Confirmation Code"
-            keyboardType={'numeric'}
-            autoCorrect={false}
-            containerStyle={{ width: "95%" }}
-            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
-            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
-            ref={ref => this.confirmationCode = ref}
-            onChangeText={value => this.onChangeText('authCode', value)}
-          />
-            <View style={styles.buttonView}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.forgotPasswordSubmit()}>
-                <Text style={styles.buttonText}>Confirm Password</Text>
-              </TouchableOpacity>
-            </View>
-          </View> */}
+        
       </SafeAreaView>
     )
   }

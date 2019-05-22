@@ -1,9 +1,8 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
-import { FontAwesome } from '@expo/vector-icons';
+import { AppLoading, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
-import Amplify, { API } from 'aws-amplify'
+import Amplify from 'aws-amplify'
 import awsmobile from './aws-exports'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 Amplify.configure(awsmobile)
@@ -37,18 +36,14 @@ export default class App extends React.Component {
       Font.loadAsync({
         // This is the font that we are using for our tab bar
         ...Icon.Ionicons.font,
-        // We include SpaceMono because we use it in HomeScreen.js. Feel free
-        // to remove this if you are not using it in your app
+        // not using this font...yet?
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-        ...FontAwesome.font,
         ...MaterialCommunityIcons.font
       }),
     ]);
   };
 
   _handleLoadingError = error => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
     console.warn(error);
   };
 

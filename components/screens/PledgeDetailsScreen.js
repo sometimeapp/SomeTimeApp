@@ -9,7 +9,7 @@ import {
 import { Icon } from 'react-native-elements';
 import moment from 'moment';
 
-import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
+import { twoWayIconDict } from '../../constants/iconInfo';
 
 export default class PledgeDetailsScreen extends React.Component {
 
@@ -17,10 +17,8 @@ export default class PledgeDetailsScreen extends React.Component {
     title: '',
   };
 
-
   render() {
     const pledge = this.props.navigation.state.params;
-    console.log(this.props);
 
     return (
       <View style={styles.container}>
@@ -34,23 +32,22 @@ export default class PledgeDetailsScreen extends React.Component {
           />
         </View>
 
-
         <View style={styles.pledgeInfoContainer}>
 
           <View style={{ flex: 1, flexDirection: "row" }}>
-            
+
             <View style={styles.pledgeHeadingsContainer}>
-              <Text style={{fontWeight: "bold"}}>Terms:</Text>
-              <Text style={{fontWeight: "bold"}}>{pledge.screen === 'made' ? 'Owed to:' : 'Owed by:' }</Text>
-              <Text style={{fontWeight: "bold"}}>Pledge made:</Text>
-              <Text style={{fontWeight: "bold"}}>Due:</Text>
-              <Text style={{fontWeight: "bold"}}>Status:</Text>
+              <Text style={{ fontWeight: "bold" }}>Terms:</Text>
+              <Text style={{ fontWeight: "bold" }}>{pledge.screen === 'made' ? 'Owed to:' : 'Owed by:'}</Text>
+              <Text style={{ fontWeight: "bold" }}>Pledge made:</Text>
+              <Text style={{ fontWeight: "bold" }}>Due:</Text>
+              <Text style={{ fontWeight: "bold" }}>Status:</Text>
             </View>
 
             <View style={styles.pledgeDetailsContainer}>
               <Text>{pledge.terms}</Text>
               <Text>{pledge.screen === 'made' ? `${pledge.promiseeFirstName} ${pledge.promiseeLastName}`
-                    : `${pledge.promisorFirstName} ${pledge.promisorLastName}`}
+                : `${pledge.promisorFirstName} ${pledge.promisorLastName}`}
               </Text>
               <Text>{moment(pledge.promiseDate).format('MMM Do YYYY')}</Text>
               <Text>{moment(pledge.promiseDueDate).format('MMM Do YYYY')}</Text>
@@ -64,10 +61,10 @@ export default class PledgeDetailsScreen extends React.Component {
         <View style={styles.buttonContainer}>
           {pledge.screen === 'made' && pledge.pledgeStatus !== 'resolved' ? (
             <TouchableOpacity
-                style={styles.button}
-                onPress={ () => this.props.navigation.navigate('ResolveQR', pledge) }>
-                <Text style={styles.buttonText}>Make Good</Text>
-              </TouchableOpacity>
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate('ResolveQR', pledge)}>
+              <Text style={styles.buttonText}>Make Good</Text>
+            </TouchableOpacity>
           ) : (null)
           }
         </View>
@@ -91,18 +88,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    //backgroundColor: "yellow"
   },
   pledgeHeadingsContainer: {
     flex: 4,
     flexDirection: "column",
-    //backgroundColor: "lime",
     justifyContent: "space-between",
     marginLeft: 15,
   },
   pledgeDetailsContainer: {
     flex: 6,
-    //backgroundColor: "skyblue", 
     justifyContent: "space-between",
     marginRight: 15
   },
@@ -111,7 +105,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    //backgroundColor: "pink"
   },
   button: {
     alignItems: 'center',
@@ -124,6 +117,5 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: "bold"
-  },
-
+  }
 });

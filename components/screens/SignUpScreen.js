@@ -5,9 +5,6 @@ import {
   Text,
   View,
   SafeAreaView,
-  StatusBar,
-  KeyboardAvoidingView,
-  Keyboard,
   Alert,
   TouchableOpacity,
   ScrollView
@@ -148,13 +145,13 @@ export default class SignUpScreen extends React.Component {
               onChangeText={value => this.onChangeText('password', value)}
             />
           </View>
-            <View style={styles.buttonView}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.signUp()}>
-                <Text style={styles.buttonText}>Sign Up</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.buttonView}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.signUp()}>
+              <Text style={styles.buttonText}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
           <View style={styles.inputContainer}>
             <Input
               placeholder="Confirmation Code"
@@ -167,9 +164,9 @@ export default class SignUpScreen extends React.Component {
               onChangeText={value => this.onChangeText('authCode', value)}
             />
           </View>
-          
 
-            <View style={styles.bottomButtonsView}>
+
+          <View style={styles.bottomButtonsView}>
             <TouchableOpacity
               onPress={() => this.confirmSignUp()}
               style={styles.button}>
@@ -177,9 +174,9 @@ export default class SignUpScreen extends React.Component {
                 Confirm Sign Up
               </Text>
             </TouchableOpacity>
-            </View>
-            
-            <View style={styles.bottomButtonsView}>
+          </View>
+
+          <View style={styles.bottomButtonsView}>
             <TouchableOpacity
               onPress={() => this.resendSignUp()}
               style={styles.button}>
@@ -187,9 +184,8 @@ export default class SignUpScreen extends React.Component {
                 Resend code
               </Text>
             </TouchableOpacity>
-            </View>
-            
-         
+          </View>
+
         </ScrollView>
 
       </SafeAreaView>

@@ -10,7 +10,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-// AWS Amplify
+// AWS Amplifyß
 import Auth from '@aws-amplify/auth'
 
 import {
@@ -56,7 +56,7 @@ export default class SignInScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={this.state.isLoading ? ({opacity: 0.4, flex: 1, backgroundColor: 'black'}) : {opacity: 1, flex: 1}}>
+        <View style={this.state.isLoading ? ({ opacity: 0.4, flex: 1, backgroundColor: 'black' }) : { opacity: 1, flex: 1 }}>
           {this.state.isLoading &&
             <View style={styles.loading}>
               <ActivityIndicator size='large' />
