@@ -1,14 +1,24 @@
 import React from 'react';
-import { StyleSheet, Text, View, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
-import { Auth } from 'aws-amplify'
+import { Auth } from 'aws-amplify';
+
+import Layout from '../../constants/Layout';
 
 export default class QRScannerScreen extends React.Component {
     state = {
         hasCameraPermission: null,
+        scannerIsVisible: false,
         scanned: false,
         userID: ''
-    }
+    };
+
+    static navigationOptions = {
+        header: null,
+    };
+
+    //flag to ensure loading screen renders before camera opens -- see additional comments in render
+    openedOnce = false;
 
     async componentDidMount() {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -113,10 +123,29 @@ export default class QRScannerScreen extends React.Component {
         );
     }
 
+    //set opendedOnce back to false when leaving the screen
+    componentWillUnmount() {
+        this.openedOnce = false;
+    }
+
     render() {
+        console.log("Hi Jon and Zach -- part6");
+        /*
+            When the screen first renders, openedOnce flag is false, and so this.state.scannerIsVisible.
+            Wait 800ms, then set scannerIsVisible to true.  This allows the 'waiting for camera' view to
+            render before the laggy request to open the camera is made.  Toggle openedOnce to 'true' afterward
+            to prevent constant re-renders.
+        */
+        if (!this.openedOnce) {
+            setTimeout(() => {
+                this.setState({ scannerIsVisible: true });
+                this.openedOnce = true;
+            }, 800);
+        }
+
         const { hasCameraPermission, scanned } = this.state;
 
-        if (hasCameraPermission === null) {
+        if (hasCameraPermission === null || !this.state.scannerIsVisible) {
             return (
                 <View style={{
                     backgroundColor: 'black',
@@ -139,12 +168,143 @@ export default class QRScannerScreen extends React.Component {
             return <Text>No access to camera</Text>;
         }
         return (
-            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+            <View style={styles.container}>
                 <BarCodeScanner
                     onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
                     style={StyleSheet.absoluteFillObject}
                 />
+                <View style={styles.topOverlay} />
+                <View style={styles.leftOverlay} />
+                <View style={styles.rightOverlay} />
+                <View style={styles.bottomOverlay} />
+                <View style={styles.topLeftCorner} />
+                <View style={styles.topRightCorner} />
+                <View style={styles.bottomLeftCorner} />
+                <View style={styles.bottomRightCorner} />
+
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>Scan Pledge Code</Text>
+                </View>
+
+                <View style={styles.footer}>
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.goBack()}
+                        hitSlop={{ top: 40, bottom: 40, right: 40, left: 40 }}>
+                        <Text style={styles.cancelText}>Cancel</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
 }
+
+const BOX_MARGIN = 30;
+const BOX_SIZE = Layout.window.width - BOX_MARGIN * 2;
+const BOX_TOP = Layout.window.height / 2 - BOX_SIZE / 2;
+const BOX_BOTTOM = BOX_TOP + BOX_SIZE;
+const BOX_LEFT = BOX_MARGIN;
+const BOX_RIGHT = Layout.window.width - BOX_MARGIN;
+
+const overlayBaseStyle = {
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.6)',
+};
+
+const cornerBaseStyle = {
+    position: 'absolute',
+    borderColor: '#fff',
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    width: 10,
+    height: 10,
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#000',
+    },
+    topLeftCorner: {
+        ...cornerBaseStyle,
+        top: BOX_TOP - 1,
+        left: BOX_MARGIN - 1,
+        borderBottomWidth: 0,
+        borderRightWidth: 0,
+    },
+    topRightCorner: {
+        ...cornerBaseStyle,
+        top: BOX_TOP - 1,
+        right: BOX_MARGIN - 1,
+        borderBottomWidth: 0,
+        borderLeftWidth: 0,
+    },
+    bottomLeftCorner: {
+        ...cornerBaseStyle,
+        bottom: Layout.window.height - BOX_BOTTOM - 1,
+        left: BOX_MARGIN - 1,
+        borderTopWidth: 0,
+        borderRightWidth: 0,
+    },
+    bottomRightCorner: {
+        ...cornerBaseStyle,
+        bottom: Layout.window.height - BOX_BOTTOM - 1,
+        right: BOX_MARGIN - 1,
+        borderTopWidth: 0,
+        borderLeftWidth: 0,
+    },
+    topOverlay: {
+        ...overlayBaseStyle,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: Layout.window.height - BOX_TOP,
+    },
+    leftOverlay: {
+        ...overlayBaseStyle,
+        top: BOX_TOP,
+        left: 0,
+        right: BOX_RIGHT,
+        bottom: Layout.window.height - BOX_BOTTOM,
+    },
+    rightOverlay: {
+        ...overlayBaseStyle,
+        top: BOX_TOP,
+        left: BOX_RIGHT,
+        right: 0,
+        bottom: Layout.window.height - BOX_BOTTOM,
+    },
+    bottomOverlay: {
+        ...overlayBaseStyle,
+        top: BOX_BOTTOM,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    },
+    header: {
+        position: 'absolute',
+        top: 40,
+        right: 0,
+        alignItems: 'flex-start',
+        left: 25,
+    },
+    headerText: {
+        color: '#fff',
+        backgroundColor: 'transparent',
+        fontSize: 22,
+        fontWeight: '400',
+    },
+    footer: {
+        position: 'absolute',
+        bottom: 30,
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+    },
+    cancelText: {
+        color: '#fff',
+        backgroundColor: 'transparent',
+        fontSize: 17,
+        fontWeight: '500',
+        textAlign: 'center',
+    },
+});
