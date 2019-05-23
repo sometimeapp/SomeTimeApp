@@ -66,6 +66,7 @@ export default class SignInScreen extends React.Component {
             <Text style={styles.titleText}>SomeTime</Text>
             <Text style={styles.subtitleText}>a ledger for casual contracts</Text>
           </View>
+
           <View style={styles.inputContainer}>
             <Input
               placeholder="Email"
@@ -73,7 +74,7 @@ export default class SignInScreen extends React.Component {
               autoCorrect={false}
               containerStyle={{ width: "95%" }}
               inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
-              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+              inputContainerStyle={{ borderBottomWidth: 0 }}
               onSubmitEditing={() => this.password.focus()}
               onChangeText={value => this.onChangeText('email', value)}
             />
@@ -84,36 +85,40 @@ export default class SignInScreen extends React.Component {
               autoCorrect={false}
               containerStyle={{ width: "95%" }}
               inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
-              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+              inputContainerStyle={{ borderBottomWidth: 0 }}
               ref={ref => this.password = ref}
               onChangeText={value => this.onChangeText('password', value)}
             />
           </View>
+
           <View style={styles.buttonsContainer}>
-            <View style={styles.buttonRowContainer}>
-              <View style={styles.signInButtonView}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => this._signInAsync()}>
-                  <Text style={styles.buttonText}>Sign In</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.signUpButtonView}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => this.props.navigation.navigate('SignUp')}>
-                  <Text style={styles.buttonText}>Sign Up</Text>
-                </TouchableOpacity>
-              </View>
+
+            <View style={styles.buttonRow}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => this.props.navigation.navigate('SignUp')}>
+                <Text style={styles.buttonText}>Sign Up</Text>
+              </TouchableOpacity>
             </View>
+
+            <View style={styles.buttonRow}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => this._signInAsync()}>
+                <Text style={styles.buttonText}>Sign In</Text>
+              </TouchableOpacity>
+            </View>
+
           </View>
-          <View style={styles.passwordContainer}>
+
+          <View style={styles.forgotPasswordContainer}>
             <Text
               style={styles.buttonText}
               onPress={() => this.props.navigation.navigate('ForgotPassword')}>
               Forgot Password?
-          </Text>
+            </Text>
           </View>
+
         </View>
       </SafeAreaView>
     )
@@ -121,64 +126,55 @@ export default class SignInScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  titleContainer: {
-    flex: 2,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  titleText: {
-    fontSize: 40
-  },
-  subtitleText: {
-    fontSize: 16
-  },
-  inputContainer: {
-    flex: 1,
-    alignItems: "center"
-  },
-  buttonsContainer: {
-    flex: 1,
-  },
-  buttonRowContainer: {
-    flexDirection: "row",
-    flex: 1,
-  },
-  signUpButtonView: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  signInButtonView: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: "center",
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    height: "30%",
-    width: "66%",
-    borderRadius: 10
-  },
-  buttonText: {
-    fontWeight: "bold"
-  },
-  passwordContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
-  loading: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+ container: {
+  flex: 1,
+ },
+ titleContainer: {
+  flex: 2,
+  alignItems: "center",
+  justifyContent: "center", 
+  //backgroundColor: "pink"
+ },
+ titleText: {
+  fontSize: 40
+ },
+ subtitleText: {
+  fontSize: 16
+ },
+ inputContainer: {
+  flex: 1,
+  //backgroundColor: "lime",
+  alignItems: "center", 
+  justifyContent: "space-around"
+ },
+ buttonsContainer: {
+  flex: 1,
+  flexDirection: "row",
+  //backgroundColor: "yellow"
+ },
+ buttonRow: {
+  flex: 1, 
+  flexDirection: "row", 
+  //backgroundColor: "silver", 
+  justifyContent: "center", 
+  alignItems: "center"
+ },
+ button: {
+  alignItems: 'center',
+  justifyContent: "center",
+  backgroundColor: '#DDDDDD',
+  padding: 10,
+  height: (devHeight/15), 
+  width: (devWidth/3),
+  borderRadius: 10
+ },
+ buttonText: { 
+  fontSize: buttonFontSize,
+  fontWeight: "bold"
+ },
+ forgotPasswordContainer: {
+  flex: 1,
+  alignItems: "center",
+  //backgroundColor: "aqua"
+ }
 })
