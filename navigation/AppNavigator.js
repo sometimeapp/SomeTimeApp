@@ -4,6 +4,7 @@ import SignInScreen from '../components/screens/SignInScreen';
 import SignUpScreen from '../components/screens/SignUpScreen';
 import ForgotPasswordScreen from '../components/screens/ForgotPasswordScreen';
 import AuthLoadingScreen from '../components/screens/AuthLoadingScreen';
+import ConfirmScreen from '../components/screens/ConfirmScreen';
 
 /*
   This nav stack is specific to the all authentication paths
@@ -11,6 +12,7 @@ import AuthLoadingScreen from '../components/screens/AuthLoadingScreen';
 const AuthStack = createStackNavigator({
   SignIn: SignInScreen,
   SignUp: SignUpScreen,
+  Confirm: ConfirmScreen,
   ForgotPassword: ForgotPasswordScreen
 });
 

@@ -46,6 +46,7 @@ export default class SignUpScreen extends React.Component {
     })
       .then(() => {
         console.log('Sign up successful!')
+        this.props.navigation.navigate('Confirm');
         Alert.alert('Enter the confirmation code sent to your email address')
       })
       .catch(err => {
@@ -82,7 +83,11 @@ export default class SignUpScreen extends React.Component {
     let { email } = this.state
     email = email.toLowerCase();
     await Auth.resendSignUp(email)
-      .then(() => console.log('Confirmation code resent successfully'))
+      .then(() => {
+        console.log('Confirmation code resent successfully');
+        this.props.navigation.navigate('Confirm');
+        Alert.alert('Enter the confirmation code sent to your email address');
+      })
       .catch(err => {
         if (!err.message) {
           console.log('Error requesting new confirmation code: ', err)
