@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   Alert,
   TouchableOpacity,
-  ScrollView
+  PixelRatio
 } from 'react-native';
 
 // AWS Amplify
@@ -16,6 +16,14 @@ import Auth from '@aws-amplify/auth'
 import {
   Input,
 } from 'react-native-elements'
+
+import ConfirmSignup from '../screenComponents/ConfirmScreen';
+import Layout from '../../constants/Layout';
+
+var buttonFontSize = 16;
+if (PixelRatio.get() <= 2) {
+  buttonFontSize = 12;
+}
 
 export default class SignUpScreen extends React.Component {
   static navigationOptions = {
@@ -28,6 +36,8 @@ export default class SignUpScreen extends React.Component {
     lastname: '',
     password: '',
     authCode: '',
+    confirmationPending: false,
+    passwordOnFocus: false
   }
   onChangeText = (key, value) => {
     this.setState({ [key]: value.trim() })
@@ -45,8 +55,8 @@ export default class SignUpScreen extends React.Component {
       attributes: { email, family_name, name }
     })
       .then(() => {
+        this.setState({ confirmationPending: true });
         console.log('Sign up successful!')
-        this.props.navigation.navigate('Confirm');
         Alert.alert('Enter the confirmation code sent to your email address')
       })
       .catch(err => {
@@ -60,12 +70,13 @@ export default class SignUpScreen extends React.Component {
       })
   }
 
-  async confirmSignUp() {
+  confirmSignUp = async () => {
     let { email, authCode } = this.state
     email = email.toLowerCase();
     await Auth.confirmSignUp(email, authCode)
       .then(() => {
         this.props.navigation.navigate('SignIn')
+        Alert.alert('Account confirmed!');
         console.log('Confirm sign up successful')
       })
       .catch(err => {
@@ -79,13 +90,13 @@ export default class SignUpScreen extends React.Component {
       })
   }
 
-  async resendSignUp() {
+  resendSignUp = async () => {
     let { email } = this.state
     email = email.toLowerCase();
     await Auth.resendSignUp(email)
       .then(() => {
+        this.setState({ confirmationPending: true });
         console.log('Confirmation code resent successfully');
-        this.props.navigation.navigate('Confirm');
         Alert.alert('Enter the confirmation code sent to your email address');
       })
       .catch(err => {
@@ -100,13 +111,18 @@ export default class SignUpScreen extends React.Component {
   }
 
   render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView>
-          <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>SomeTime</Text>
-            <Text style={styles.subtitleText}>a ledger for casual contracts</Text>
-          </View>
+    if (this.state.confirmationPending) {
+      return (
+        <ConfirmSignup
+          confirmSignUp={this.confirmSignUp}
+          resendSignUp={this.resendSignUp}
+          onChangeText={this.onChangeText}
+        />
+      )
+    }
+    else {
+      return (
+        <SafeAreaView style={styles.container}>
           <View style={styles.inputContainer}>
             <Input
               placeholder="Email"
@@ -114,7 +130,7 @@ export default class SignUpScreen extends React.Component {
               autoCorrect={false}
               containerStyle={{ width: "95%" }}
               inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
-              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+              inputContainerStyle={{ borderBottomWidth: 0 }}
               onSubmitEditing={() => this.firstname.focus()}
               onChangeText={value => this.onChangeText('email', value)}
             />
@@ -123,7 +139,7 @@ export default class SignUpScreen extends React.Component {
               autoCorrect={false}
               containerStyle={{ width: "95%" }}
               inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
-              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+              inputContainerStyle={{ borderBottomWidth: 0 }}
               onSubmitEditing={() => this.lastname.focus()}
               ref={ref => this.firstname = ref}
               onChangeText={value => this.onChangeText('firstname', value)}
@@ -133,7 +149,7 @@ export default class SignUpScreen extends React.Component {
               autoCorrect={false}
               containerStyle={{ width: "95%" }}
               inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
-              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+              inputContainerStyle={{ borderBottomWidth: 0 }}
               onSubmitEditing={() => this.password.focus()}
               ref={ref => this.lastname = ref}
               onChangeText={value => this.onChangeText('lastname', value)}
@@ -145,56 +161,34 @@ export default class SignUpScreen extends React.Component {
               autoCorrect={false}
               containerStyle={{ width: "95%" }}
               inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
-              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+              inputContainerStyle={{ borderBottomWidth: 0 }}
               ref={ref => this.password = ref}
               onChangeText={value => this.onChangeText('password', value)}
+              onFocus={() => this.setState({ passwordOnFocus: true })}
             />
+            {this.state.passwordOnFocus ? (<Text style={{ alignSelf: "flex-start" }}>Password requirements</Text>) : (null)}
           </View>
-          <View style={styles.buttonView}>
+
+          <View style={styles.resendContainer}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => this.signUp()}>
+              onPress={() => this.signUp()}
+            >
               <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
-          </View>
-          <View style={styles.inputContainer}>
-            <Input
-              placeholder="Confirmation Code"
-              keyboardType="numeric"
-              returnKeyType="done"
-              autoCorrect={false}
-              containerStyle={{ width: "95%" }}
-              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
-              inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
-              onChangeText={value => this.onChangeText('authCode', value)}
-            />
-          </View>
 
-
-          <View style={styles.bottomButtonsView}>
-            <TouchableOpacity
-              onPress={() => this.confirmSignUp()}
-              style={styles.button}>
-              <Text style={styles.buttonText}>
-                Confirm Sign Up
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.bottomButtonsView}>
             <TouchableOpacity
               onPress={() => this.resendSignUp()}
-              style={styles.button}>
+              style={styles.resendText}
+            >
               <Text style={styles.buttonText}>
                 Resend code
               </Text>
             </TouchableOpacity>
           </View>
-
-        </ScrollView>
-
-      </SafeAreaView>
-    )
+        </SafeAreaView>
+      )
+    }
   }
 }
 
@@ -202,39 +196,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  titleContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  titleText: {
-    fontSize: 40
-  },
-  subtitleText: {
-    fontSize: 16
-  },
   inputContainer: {
-    flex: 1,
+    //backgroundColor: "pink",
+    flex: 4,
+    justifyContent: "space-around",
     alignItems: "center"
   },
-  buttonView: {
-    flex: 1,
+  resendContainer: {
+    flex: 3,
+    //backgroundColor: "lime", 
     alignItems: "center",
-  },
-  bottomButtonsView: {
-    flex: 1,
-    alignItems: "center",
-    marginBottom: 15
   },
   button: {
     alignItems: 'center',
     justifyContent: "center",
     backgroundColor: '#DDDDDD',
     padding: 10,
-    width: "83%",
+    height: (Layout.window.height / 15),
+    width: (Layout.window.width / 3),
     borderRadius: 10
   },
   buttonText: {
+    fontSize: buttonFontSize,
     fontWeight: "bold"
+  },
+  resendText: {
+    alignItems: 'center',
+    justifyContent: "center",
+    padding: 10,
+    borderRadius: 10
   }
 })
