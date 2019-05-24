@@ -7,8 +7,12 @@ import {
   SafeAreaView,
   Alert,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator, 
+  PixelRatio
 } from 'react-native';
+
+import Layout from '../../constants/Layout';
+
 
 // AWS Amplifyß
 import Auth from '@aws-amplify/auth'
@@ -16,6 +20,11 @@ import Auth from '@aws-amplify/auth'
 import {
   Input,
 } from 'react-native-elements'
+
+var buttonFontSize = 16;
+if (PixelRatio.get() <= 2) {
+  buttonFontSize = 12;
+}
 
 export default class SignInScreen extends React.Component {
   static navigationOptions = {
@@ -93,7 +102,7 @@ export default class SignInScreen extends React.Component {
 
           <View style={styles.buttonsContainer}>
 
-            <View style={styles.buttonRow}>
+            <View style={{...styles.buttonRow, justifyContent: "flex-start"}}>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => this.props.navigation.navigate('SignUp')}>
@@ -101,7 +110,7 @@ export default class SignInScreen extends React.Component {
               </TouchableOpacity>
             </View>
 
-            <View style={styles.buttonRow}>
+            <View style={{...styles.buttonRow, justifyContent: "flex-end"}}>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => this._signInAsync()}>
@@ -157,15 +166,16 @@ const styles = StyleSheet.create({
   flexDirection: "row", 
   //backgroundColor: "silver", 
   justifyContent: "center", 
-  alignItems: "center"
+  alignItems: "center", 
+  margin: (Layout.window.width * .05)
  },
  button: {
   alignItems: 'center',
   justifyContent: "center",
   backgroundColor: '#DDDDDD',
   padding: 10,
-  height: (devHeight/15), 
-  width: (devWidth/3),
+  height: (Layout.window.height/15), 
+  width: (Layout.window.width/3),
   borderRadius: 10
  },
  buttonText: { 
