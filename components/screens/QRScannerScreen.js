@@ -171,7 +171,7 @@ export default class QRScannerScreen extends React.Component {
             <View style={styles.container}>
                 <BarCodeScanner
                     onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
-                    style={StyleSheet.absoluteFillObject}
+                    style={StyleSheet.absoluteFill}
                 />
                 <View style={styles.topOverlay} />
                 <View style={styles.leftOverlay} />
