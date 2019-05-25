@@ -15,10 +15,10 @@ import PledgeDetailsScreen from '../components/screens/PledgeDetailsScreen';
 import ResolveReviewScreeen from '../components/screens/ResolveReviewScreen';
 
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,
-  Receive: QRScannerScreen,
-  MakeQR: GeneratedQRCodeScreen,
-  Review: TermsReviewScreen,
+  //Home: HomeScreen,
+  //Receive: QRScannerScreen,
+  //MakeQR: GeneratedQRCodeScreen,
+  //Review: TermsReviewScreen,
   Terms: DefineTermsScreen,
 });
 

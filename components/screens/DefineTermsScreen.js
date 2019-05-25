@@ -20,7 +20,8 @@ export default class DefineTermsScreen extends React.Component {
         promisorFirstName: '',
         promisorLastName: '',
         duration: 3,
-        terms: ''
+        terms: '',
+        otherSelected: false
     }
 
     static navigationOptions = {
@@ -58,8 +59,12 @@ export default class DefineTermsScreen extends React.Component {
     }
 
     setStaticPledge = (value) => {
-        this.setState({ terms: value })
+        value === 'other' ? 
+        this.setState({ terms: value, otherSelected: true })
+        :
+        this.setState({terms: value, otherSelected: false})
     }
+
 
     render() {
         return (
@@ -71,15 +76,24 @@ export default class DefineTermsScreen extends React.Component {
 
                 <View style={styles.termsBoxContainer}>
                     <View style={styles.termsBox}>
-                        {/* <Text style={styles.termsBoxText}>{this.state.terms || "(something)"}</Text> */}
-                        <Input 
-                          style={styles.termsBoxText}
-                          placeholder="(something...)"
-                          value={this.state.terms}
-                          onChangeText={text => this.setState({terms: text})}
-                          multiline={true}
-                          maxLength={50}
-                        />
+                        {
+                            this.state.otherSelected ?
+                                (
+                                    <Input
+                                        style={styles.termsBoxText}
+                                        placeholder="custom pledge"
+                                        placeholderTextColor="#888888"
+                                        onChangeText={text => this.setState({ terms: text })}
+                                        multiline={true}
+                                        maxLength={50}
+                                    />
+                                ) :
+                                (
+                                    <Text style={styles.termsBoxText}>{this.state.terms || "(something)"}</Text>
+                                )
+                        }
+
+
                     </View>
                 </View>
 
@@ -117,7 +131,7 @@ export default class DefineTermsScreen extends React.Component {
                             transform: [
                                 { scaleX: 1.5 }, { scaleY: 1.5 }
                             ]
-                        }, {width: Dimensions.get('window').width / 1.5}, { alignSelf: 'center'}
+                        }, { width: Dimensions.get('window').width / 1.5 }, { alignSelf: 'center' }
                         ]}
                         minimumValue={1}
                         maximumValue={90}
