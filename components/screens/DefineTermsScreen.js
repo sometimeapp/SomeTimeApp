@@ -86,7 +86,6 @@ export default class DefineTermsScreen extends React.Component {
                                             placeholder="touch here"
                                             placeholderTextColor="#888888"
                                             onChangeText={text => this.setState({ terms: text })}
-                                            ref={ref => this.custom = ref}
                                             multiline={true}
                                             maxLength={50}
                                         />
