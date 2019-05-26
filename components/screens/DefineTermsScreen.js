@@ -62,7 +62,7 @@ export default class DefineTermsScreen extends React.Component {
         value === 'other' ? 
         this.setState({ terms: value, otherSelected: true })
         :
-        this.setState({terms: value, otherSelected: false})
+        this.setState({terms: value, otherSelected: false});
     }
 
 
@@ -71,7 +71,7 @@ export default class DefineTermsScreen extends React.Component {
             <View style={styles.container}>
 
                 <View style={styles.introContainer}>
-                    <Text style={styles.introText}>I promise...</Text>
+                    <Text style={styles.introText}>I pledge...</Text>
                 </View>
 
                 <View style={styles.termsBoxContainer}>
@@ -79,17 +79,21 @@ export default class DefineTermsScreen extends React.Component {
                         {
                             this.state.otherSelected ?
                                 (
-                                    <Input
-                                        style={styles.termsBoxText}
-                                        placeholder="custom pledge"
-                                        placeholderTextColor="#888888"
-                                        onChangeText={text => this.setState({ terms: text })}
-                                        multiline={true}
-                                        maxLength={50}
-                                    />
+                                    <View>
+                                        <Text>(Enter custom pledge)</Text>
+                                        <Input
+                                            style={styles.termsBoxText}
+                                            placeholder="touch here"
+                                            placeholderTextColor="#888888"
+                                            onChangeText={text => this.setState({ terms: text })}
+                                            ref={ref => this.custom = ref}
+                                            multiline={true}
+                                            maxLength={50}
+                                        />
+                                    </View>
                                 ) :
                                 (
-                                    <Text style={styles.termsBoxText}>{this.state.terms || "(something)"}</Text>
+                                    <Text style={styles.termsBoxText}>{this.state.terms || "(choose)"}</Text>
                                 )
                         }
 
