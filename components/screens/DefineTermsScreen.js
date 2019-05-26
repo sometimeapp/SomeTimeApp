@@ -59,10 +59,10 @@ export default class DefineTermsScreen extends React.Component {
     }
 
     setStaticPledge = (value) => {
-        value === 'other' ? 
-        this.setState({ terms: value, otherSelected: true })
-        :
-        this.setState({terms: value, otherSelected: false});
+        value === 'other' ?
+            this.setState({ terms: value, otherSelected: true })
+            :
+            this.setState({ terms: value, otherSelected: false });
     }
 
 
@@ -83,7 +83,7 @@ export default class DefineTermsScreen extends React.Component {
                                         <Text>(Enter custom pledge)</Text>
                                         <Input
                                             style={styles.termsBoxText}
-                                            placeholder="touch here"
+                                            placeholder="   touch here"
                                             placeholderTextColor="#888888"
                                             onChangeText={text => this.setState({ terms: text })}
                                             multiline={true}
@@ -106,25 +106,11 @@ export default class DefineTermsScreen extends React.Component {
                     />
                 </View>
 
-                <View style={styles.durationTextContainer}>
-                    <Text style={styles.durationText}>within...</Text>
-                </View>
+
 
                 <View style={styles.durationColumnBox}>
 
-                    <View style={styles.durationRowBox}>
-
-                        <View style={styles.durationBorderBox}>
-                            <View style={styles.durationRow}>
-                                <Text style={styles.durationNumber}>{this.state.duration}</Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.durationUnitsRow}>
-                            <Text style={styles.durationText}>{this.state.duration < 2 ? 'day' : 'days'}</Text>
-                        </View>
-
-                    </View>
+                    <Text style={{fontSize: 28}}>Within   <Text style={{fontSize: 32, color: "teal"}}>{this.state.duration}</Text>   {this.state.duration < 2 ? 'day' : 'days'}</Text>
 
                 </View>
 
@@ -212,50 +198,19 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    durationTextContainer: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    durationText: {
-        fontSize: 32
-    },
-    durationUnitsRow: {
+
+    durationColumnBox: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center"
     },
-    durationColumnBox: {
-        flex: 2,
-    },
-    durationRowBox: {
-        flex: 1,
-        flexDirection: "row"
-    },
-    durationBorderBox: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative"
-    },
-    durationRow: {
-        borderWidth: 2.5,
-        borderRadius: 10,
-        position: "absolute",
-        height: "75%",
-        width: "50%",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    durationNumber: {
-        fontSize: 40
-    },
     sliderContainer: {
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "flex-end",
+        //backgroundColor: "lime"
     },
     buttonsContainer: {
-        flex: 1,
+        flex: 2,
     },
     buttonRowContainer: {
         flexDirection: "row",
