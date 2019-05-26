@@ -5,20 +5,23 @@ import {
     View,
     Slider,
     TouchableOpacity,
-    Dimensions, 
-    PixelRatio
+    Dimensions,
+    PixelRatio,
+    Platform
 } from 'react-native';
 import { Input } from 'native-base';
+import { Icon } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
 import moment from 'moment';
 
-import Layout from '../../constants/Layout'
+import Layout from '../../constants/Layout';
 
 import StaticTermsIcons from '../screenComponents/StaticTermsIcons';
+import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
 
 var buttonFontSize = 16;
 if (PixelRatio.get() <= 2) {
-  buttonFontSize = 12;
+    buttonFontSize = 12;
 }
 
 export default class DefineTermsScreen extends React.Component {
@@ -73,7 +76,6 @@ export default class DefineTermsScreen extends React.Component {
             this.setState({ terms: value, otherSelected: false });
     }
 
-
     render() {
         return (
             <View style={styles.container}>
@@ -90,7 +92,7 @@ export default class DefineTermsScreen extends React.Component {
                                     <View>
                                         <Text>(Enter custom pledge)</Text>
                                         <Input
-                                            style={styles.termsBoxText}
+                                            style={{fontSize: 22, color: "teal"}}
                                             placeholder="   touch here"
                                             placeholderTextColor="#888888"
                                             onChangeText={text => this.setState({ terms: text })}
@@ -100,10 +102,16 @@ export default class DefineTermsScreen extends React.Component {
                                     </View>
                                 ) :
                                 (
-                                    <Text style={styles.termsBoxText}>{this.state.terms || "(choose)"}</Text>
+                                    <View style={{flex: 1, justifyContent: "center", alignContent:"center"}}>
+                                        <Icon
+                                            name={twoWayIconDict.revGet(this.state.terms)}
+                                            type='material-community'
+                                            size={75}
+                                        />
+                                        <Text style={styles.termsBoxText}>{this.state.terms || "(choose)"}</Text>
+                                    </View>
                                 )
                         }
-
 
                     </View>
                 </View>
@@ -114,12 +122,8 @@ export default class DefineTermsScreen extends React.Component {
                     />
                 </View>
 
-
-
                 <View style={styles.durationColumnBox}>
-
-                    <Text style={{fontSize: 28}}>within   <Text style={{fontSize: 32, color: "teal"}}>{this.state.duration}</Text>   {this.state.duration < 2 ? 'day' : 'days'}</Text>
-
+                    <Text style={{ fontSize: 28 }}>within   <Text style={{ fontSize: 32, color: "teal" }}>{this.state.duration}</Text>   {this.state.duration < 2 ? 'day' : 'days'}</Text>
                 </View>
 
                 <View style={styles.sliderContainer}>
@@ -189,8 +193,9 @@ const styles = StyleSheet.create({
         position: "relative"
     },
     termsBox: {
-        borderWidth: 2.5,
+        //borderWidth: 2.5,
         borderRadius: 10,
+        backgroundColor: "#eeeeee",
         position: "absolute",
         height: "90%",
         width: "50%",
@@ -198,7 +203,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     termsBoxText: {
-        fontSize: 22
+        fontSize: 22,
+        fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+        color: "teal"
     },
 
     staticTermsContainer: {
@@ -240,18 +247,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: '#DDDDDD',
         padding: 10,
-        height: (Layout.window.height/15), 
-        width: (Layout.window.width/3),
+        height: (Layout.window.height / 15),
+        width: (Layout.window.width / 3),
         borderRadius: 10,
         shadowColor: 'rgba(0,0,0, .4)', // IOS
         shadowOffset: { height: 1, width: 1 }, // IOS
         shadowOpacity: 1, // IOS
         shadowRadius: 1, //IOS
         elevation: 10, // Android
-       },
-       buttonText: { 
+    },
+    buttonText: {
         fontSize: buttonFontSize,
         fontWeight: "bold"
-       },
-    
+    },
+
 });
