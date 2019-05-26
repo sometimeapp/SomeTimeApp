@@ -118,7 +118,7 @@ export default class DefineTermsScreen extends React.Component {
 
                 <View style={styles.durationColumnBox}>
 
-                    <Text style={{fontSize: 28}}>Within   <Text style={{fontSize: 32, color: "teal"}}>{this.state.duration}</Text>   {this.state.duration < 2 ? 'day' : 'days'}</Text>
+                    <Text style={{fontSize: 28}}>within   <Text style={{fontSize: 32, color: "teal"}}>{this.state.duration}</Text>   {this.state.duration < 2 ? 'day' : 'days'}</Text>
 
                 </View>
 
