@@ -5,13 +5,21 @@ import {
     View,
     Slider,
     TouchableOpacity,
-    Dimensions
+    Dimensions, 
+    PixelRatio
 } from 'react-native';
 import { Input } from 'native-base';
 import { Auth } from 'aws-amplify';
 import moment from 'moment';
 
-import StaticTermsIcons from '../screenComponents/StaticTermsIcons'
+import Layout from '../../constants/Layout'
+
+import StaticTermsIcons from '../screenComponents/StaticTermsIcons';
+
+var buttonFontSize = 16;
+if (PixelRatio.get() <= 2) {
+  buttonFontSize = 12;
+}
 
 export default class DefineTermsScreen extends React.Component {
 
@@ -232,10 +240,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: '#DDDDDD',
         padding: 10,
-        width: "66%",
-        borderRadius: 10
-    },
-    buttonText: {
+        height: (Layout.window.height/15), 
+        width: (Layout.window.width/3),
+        borderRadius: 10,
+        shadowColor: 'rgba(0,0,0, .4)', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 1, //IOS
+        elevation: 10, // Android
+       },
+       buttonText: { 
+        fontSize: buttonFontSize,
         fontWeight: "bold"
-    },
+       },
+    
 });
