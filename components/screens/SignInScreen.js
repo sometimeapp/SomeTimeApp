@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   Alert,
   TouchableOpacity,
-  ActivityIndicator, 
+  ActivityIndicator,
   PixelRatio
 } from 'react-native';
 
@@ -102,7 +102,7 @@ export default class SignInScreen extends React.Component {
 
           <View style={styles.buttonsContainer}>
 
-            <View style={{...styles.buttonRow, justifyContent: "flex-start"}}>
+            <View style={{ ...styles.buttonRow, justifyContent: "flex-start" }}>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => this.props.navigation.navigate('SignUp')}>
@@ -110,7 +110,7 @@ export default class SignInScreen extends React.Component {
               </TouchableOpacity>
             </View>
 
-            <View style={{...styles.buttonRow, justifyContent: "flex-end"}}>
+            <View style={{ ...styles.buttonRow, justifyContent: "flex-end" }}>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => this._signInAsync()}>
@@ -135,56 +135,70 @@ export default class SignInScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
- container: {
-  flex: 1,
- },
- titleContainer: {
-  flex: 2,
-  alignItems: "center",
-  justifyContent: "center", 
-  //backgroundColor: "pink"
- },
- titleText: {
-  fontSize: 40
- },
- subtitleText: {
-  fontSize: 16
- },
- inputContainer: {
-  flex: 1,
-  //backgroundColor: "lime",
-  alignItems: "center", 
-  justifyContent: "space-around"
- },
- buttonsContainer: {
-  flex: 1,
-  flexDirection: "row",
-  //backgroundColor: "yellow"
- },
- buttonRow: {
-  flex: 1, 
-  flexDirection: "row", 
-  //backgroundColor: "silver", 
-  justifyContent: "center", 
-  alignItems: "center", 
-  margin: (Layout.window.width * .05)
- },
- button: {
-  alignItems: 'center',
-  justifyContent: "center",
-  backgroundColor: '#DDDDDD',
-  padding: 10,
-  height: (Layout.window.height/15), 
-  width: (Layout.window.width/3),
-  borderRadius: 10
- },
- buttonText: { 
-  fontSize: buttonFontSize,
-  fontWeight: "bold"
- },
- forgotPasswordContainer: {
-  flex: 1,
-  alignItems: "center",
-  //backgroundColor: "aqua"
- }
+  container: {
+    flex: 1,
+  },
+  titleContainer: {
+    flex: 2,
+    alignItems: "center",
+    justifyContent: "center",
+    //backgroundColor: "pink"
+  },
+  titleText: {
+    fontSize: 40
+  },
+  subtitleText: {
+    fontSize: 16
+  },
+  inputContainer: {
+    flex: 1,
+    //backgroundColor: "lime",
+    alignItems: "center",
+    justifyContent: "space-around"
+  },
+  buttonsContainer: {
+    flex: 1,
+    flexDirection: "row",
+    //backgroundColor: "yellow"
+  },
+  buttonRow: {
+    flex: 1,
+    flexDirection: "row",
+    //backgroundColor: "silver", 
+    justifyContent: "center",
+    alignItems: "center",
+    margin: (Layout.window.width * .05)
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: "center",
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    height: (Layout.window.height / 15),
+    width: (Layout.window.width / 3),
+    borderRadius: 10,
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    elevation: 10, // Android
+  },
+  buttonText: {
+    fontSize: buttonFontSize,
+    fontWeight: "bold"
+  },
+  forgotPasswordContainer: {
+    flex: 1,
+    alignItems: "center",
+    //backgroundColor: "aqua"
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 })
