@@ -36,6 +36,13 @@ if (PixelRatio.get() <= 2) {
   largeFontSize = 16;
 }
 
+var buttonFontSize = 16;
+if (PixelRatio.get() <= 2) {
+  buttonFontSize = 12;
+}
+
+import Layout from '../../constants/Layout';
+
 export default class ResolveReviewScreen extends React.Component {
 
   state = {
@@ -203,19 +210,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: '#DDDDDD',
     padding: 10,
-    height: "30%",
-    width: "66%",
-    borderRadius: 5,
+    height: (Layout.window.height / 15),
+    width: (Layout.window.width / 3),
+    borderRadius: 10,
     shadowColor: 'rgba(0,0,0, .4)', // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
     elevation: 10, // Android
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
   },
   buttonText: {
+    fontSize: buttonFontSize,
     fontWeight: "bold"
   },
 

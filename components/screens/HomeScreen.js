@@ -103,7 +103,12 @@ const styles = StyleSheet.create({
     padding: 10,
     height: devHeight/6,
     width: devWidth/2,
-    borderRadius: 10
+    borderRadius: 10,
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    elevation: 10, // Android
   },
   buttonText: {
     fontSize: buttonFontSize,

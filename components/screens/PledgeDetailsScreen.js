@@ -3,13 +3,21 @@ import {
   Text,
   StyleSheet,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  PixelRatio
 } from 'react-native';
 
 import { Icon } from 'react-native-elements';
 import moment from 'moment';
 
 import { twoWayIconDict } from '../../constants/iconInfo';
+
+import Layout from '../../constants/Layout';
+
+var buttonFontSize = 16;
+if (PixelRatio.get() <= 2) {
+  buttonFontSize = 12;
+}
 
 export default class PledgeDetailsScreen extends React.Component {
 
@@ -111,11 +119,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: '#DDDDDD',
     padding: 10,
-    height: "20%",
-    width: "40%",
-    borderRadius: 10
+    height: (Layout.window.height / 15),
+    width: (Layout.window.width / 3),
+    borderRadius: 10,
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    elevation: 10, // Android
   },
   buttonText: {
+    fontSize: buttonFontSize,
     fontWeight: "bold"
-  }
+  },
 });
