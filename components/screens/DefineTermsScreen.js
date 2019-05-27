@@ -7,9 +7,10 @@ import {
     TouchableOpacity,
     Dimensions,
     PixelRatio,
-    Platform
+    Platform, 
+    TextInput,
 } from 'react-native';
-import { Input } from 'native-base';
+
 import { Icon } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
 import moment from 'moment';
@@ -17,7 +18,7 @@ import moment from 'moment';
 import Layout from '../../constants/Layout';
 
 import StaticTermsIcons from '../screenComponents/StaticTermsIcons';
-import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
+import { twoWayIconDict } from '../../constants/iconInfo';
 
 var buttonFontSize = 16;
 if (PixelRatio.get() <= 2) {
@@ -32,7 +33,8 @@ export default class DefineTermsScreen extends React.Component {
         promisorLastName: '',
         duration: 3,
         terms: '',
-        otherSelected: false
+        otherSelected: false,
+        inputHasFocus: false
     }
 
     static navigationOptions = {
@@ -89,16 +91,20 @@ export default class DefineTermsScreen extends React.Component {
                         {
                             this.state.otherSelected ?
                                 (
+                                    
                                     <View>
-                                        <Text>(Enter custom pledge)</Text>
-                                        <Input
+                                        {!this.state.inputHasFocus && <Text style={{marginBottom: 10}}>(Enter custom pledge)</Text> }
+                                        
+                                        <TextInput
                                             style={{fontSize: 22, color: "teal"}}
-                                            placeholder="   touch here"
+                                            placeholder="  touch here"
                                             placeholderTextColor="#888888"
                                             onChangeText={text => this.setState({ terms: text })}
                                             multiline={true}
                                             maxLength={50}
+                                            onFocus={() => this.setState({inputHasFocus: true})}
                                         />
+                                       
                                     </View>
                                 ) :
                                 (
@@ -141,7 +147,6 @@ export default class DefineTermsScreen extends React.Component {
                         step={1}
                         value={3}
                         onValueChange={value => this.onChangeDuration(value)}
-
                     />
                 </View>
 
@@ -193,8 +198,7 @@ const styles = StyleSheet.create({
         position: "relative"
     },
     termsBox: {
-        //borderWidth: 2.5,
-        borderRadius: 10,
+        borderRadius: 5,
         backgroundColor: "#eeeeee",
         position: "absolute",
         height: "90%",
@@ -222,7 +226,6 @@ const styles = StyleSheet.create({
     sliderContainer: {
         flex: 1,
         justifyContent: "flex-end",
-        //backgroundColor: "lime"
     },
     buttonsContainer: {
         flex: 2,
