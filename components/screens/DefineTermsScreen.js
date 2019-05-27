@@ -5,13 +5,25 @@ import {
     View,
     Slider,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    PixelRatio,
+    Platform, 
+    TextInput,
 } from 'react-native';
-import { Input } from 'native-base';
+
+import { Icon } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
 import moment from 'moment';
 
-import StaticTermsIcons from '../screenComponents/StaticTermsIcons'
+import Layout from '../../constants/Layout';
+
+import StaticTermsIcons from '../screenComponents/StaticTermsIcons';
+import { twoWayIconDict } from '../../constants/iconInfo';
+
+var buttonFontSize = 16;
+if (PixelRatio.get() <= 2) {
+    buttonFontSize = 12;
+}
 
 export default class DefineTermsScreen extends React.Component {
 
@@ -20,7 +32,9 @@ export default class DefineTermsScreen extends React.Component {
         promisorFirstName: '',
         promisorLastName: '',
         duration: 3,
-        terms: ''
+        terms: '',
+        otherSelected: false,
+        inputHasFocus: false
     }
 
     static navigationOptions = {
@@ -58,7 +72,10 @@ export default class DefineTermsScreen extends React.Component {
     }
 
     setStaticPledge = (value) => {
-        this.setState({ terms: value })
+        value === 'other' ?
+            this.setState({ terms: value, otherSelected: true })
+            :
+            this.setState({ terms: value, otherSelected: false });
     }
 
     render() {
@@ -66,20 +83,42 @@ export default class DefineTermsScreen extends React.Component {
             <View style={styles.container}>
 
                 <View style={styles.introContainer}>
-                    <Text style={styles.introText}>I promise...</Text>
+                    <Text style={styles.introText}>I pledge...</Text>
                 </View>
 
                 <View style={styles.termsBoxContainer}>
                     <View style={styles.termsBox}>
-                        {/* <Text style={styles.termsBoxText}>{this.state.terms || "(something)"}</Text> */}
-                        <Input 
-                          style={styles.termsBoxText}
-                          placeholder="(something...)"
-                          value={this.state.terms}
-                          onChangeText={text => this.setState({terms: text})}
-                          multiline={true}
-                          maxLength={50}
-                        />
+                        {
+                            this.state.otherSelected ?
+                                (
+                                    
+                                    <View>
+                                        {!this.state.inputHasFocus && <Text style={{marginBottom: 10}}>(Enter custom pledge)</Text> }
+                                        
+                                        <TextInput
+                                            style={{fontSize: 22, color: "teal"}}
+                                            placeholder="  touch here"
+                                            placeholderTextColor="#888888"
+                                            onChangeText={text => this.setState({ terms: text })}
+                                            multiline={true}
+                                            maxLength={50}
+                                            onFocus={() => this.setState({inputHasFocus: true})}
+                                        />
+                                       
+                                    </View>
+                                ) :
+                                (
+                                    <View style={{flex: 1, justifyContent: "center", alignContent:"center"}}>
+                                        <Icon
+                                            name={twoWayIconDict.revGet(this.state.terms)}
+                                            type='material-community'
+                                            size={75}
+                                        />
+                                        <Text style={styles.termsBoxText}>{this.state.terms || "(choose)"}</Text>
+                                    </View>
+                                )
+                        }
+
                     </View>
                 </View>
 
@@ -89,26 +128,8 @@ export default class DefineTermsScreen extends React.Component {
                     />
                 </View>
 
-                <View style={styles.durationTextContainer}>
-                    <Text style={styles.durationText}>within...</Text>
-                </View>
-
                 <View style={styles.durationColumnBox}>
-
-                    <View style={styles.durationRowBox}>
-
-                        <View style={styles.durationBorderBox}>
-                            <View style={styles.durationRow}>
-                                <Text style={styles.durationNumber}>{this.state.duration}</Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.durationUnitsRow}>
-                            <Text style={styles.durationText}>{this.state.duration < 2 ? 'day' : 'days'}</Text>
-                        </View>
-
-                    </View>
-
+                    <Text style={{ fontSize: 28 }}>within   <Text style={{ fontSize: 32, color: "teal" }}>{this.state.duration}</Text>   {this.state.duration < 2 ? 'day' : 'days'}</Text>
                 </View>
 
                 <View style={styles.sliderContainer}>
@@ -117,7 +138,7 @@ export default class DefineTermsScreen extends React.Component {
                             transform: [
                                 { scaleX: 1.5 }, { scaleY: 1.5 }
                             ]
-                        }, {width: Dimensions.get('window').width / 1.5}, { alignSelf: 'center'}
+                        }, { width: Dimensions.get('window').width / 1.5 }, { alignSelf: 'center' }
                         ]}
                         minimumValue={1}
                         maximumValue={90}
@@ -126,7 +147,6 @@ export default class DefineTermsScreen extends React.Component {
                         step={1}
                         value={3}
                         onValueChange={value => this.onChangeDuration(value)}
-
                     />
                 </View>
 
@@ -178,8 +198,8 @@ const styles = StyleSheet.create({
         position: "relative"
     },
     termsBox: {
-        borderWidth: 2.5,
-        borderRadius: 10,
+        borderRadius: 5,
+        backgroundColor: "#eeeeee",
         position: "absolute",
         height: "90%",
         width: "50%",
@@ -187,7 +207,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     termsBoxText: {
-        fontSize: 22
+        fontSize: 22,
+        fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+        color: "teal"
     },
 
     staticTermsContainer: {
@@ -195,50 +217,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    durationTextContainer: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    durationText: {
-        fontSize: 32
-    },
-    durationUnitsRow: {
+
+    durationColumnBox: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center"
     },
-    durationColumnBox: {
-        flex: 2,
-    },
-    durationRowBox: {
-        flex: 1,
-        flexDirection: "row"
-    },
-    durationBorderBox: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative"
-    },
-    durationRow: {
-        borderWidth: 2.5,
-        borderRadius: 10,
-        position: "absolute",
-        height: "75%",
-        width: "50%",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    durationNumber: {
-        fontSize: 40
-    },
     sliderContainer: {
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "flex-end",
     },
     buttonsContainer: {
-        flex: 1,
+        flex: 2,
     },
     buttonRowContainer: {
         flexDirection: "row",
@@ -260,10 +250,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: '#DDDDDD',
         padding: 10,
-        width: "66%",
-        borderRadius: 10
+        height: (Layout.window.height / 15),
+        width: (Layout.window.width / 3),
+        borderRadius: 10,
+        shadowColor: 'rgba(0,0,0, .4)', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 1, //IOS
+        elevation: 10, // Android
     },
     buttonText: {
+        fontSize: buttonFontSize,
         fontWeight: "bold"
     },
+
 });
