@@ -8,7 +8,8 @@ import {
   Alert,
   TouchableOpacity,
   ActivityIndicator,
-  PixelRatio
+  PixelRatio,
+  Image
 } from 'react-native';
 
 import Layout from '../../constants/Layout';
@@ -72,8 +73,11 @@ export default class SignInScreen extends React.Component {
             </View>
           }
           <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>SomeTime</Text>
-            <Text style={styles.subtitleText}>a ledger for casual contracts</Text>
+            {/* <Text style={styles.titleText}>SomeTime</Text>
+            <Text style={styles.subtitleText}>a ledger for casual contracts</Text> */}
+            <Image
+              source={require('../../assets/images/handshakeSmall2.png')}
+            />
           </View>
 
           <View style={styles.inputContainer}>
