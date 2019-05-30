@@ -70,7 +70,7 @@ export default class HomeScreen extends React.Component {
             style={{ ...styles.button, backgroundColor: Colors.sometimeBackground}}
             onPress={() => this.props.navigation.navigate('Terms')}>
             <CustomIcon name="handshake" size={90} color={Colors.sometimePrimary}/>
-            <Text style={{ ...styles.buttonText, color: Colors.sometimePrimary}}>Make a Pledge</Text>
+            <Text style={{ ...styles.buttonText}}>Make a Pledge</Text>
           </TouchableOpacity>
         </View>
 
@@ -79,7 +79,7 @@ export default class HomeScreen extends React.Component {
           style={{ ...styles.button, backgroundColor: Colors.sometimeBackground}}
             onPress={() => this.props.navigation.navigate('Receive')}>
             <MaterialCommunityIcons name="qrcode-scan" size={90} color={Colors.sometimeSecondary}/>
-            <Text style={{ ...styles.buttonText, color: Colors.sometimeSecondary}}>Receive/Resolve</Text>
+            <Text style={{ ...styles.buttonText}}>Receive/Resolve</Text>
           </TouchableOpacity>
         </View>
 
@@ -129,5 +129,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: buttonFontSize,
      fontWeight: "bold",
+     color: 'black'
   },
 });

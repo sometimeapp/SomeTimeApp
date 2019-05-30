@@ -77,7 +77,7 @@ export default class SignInScreen extends React.Component {
             {/* <Text style={styles.titleText}>SomeTime</Text>
             <Text style={styles.subtitleText}>a ledger for casual contracts</Text> */}
             <Image
-              source={require('../../assets/images/handshakeSmall2.png')}
+              source={require('../../assets/images/handshakeSmall-transparent.png')}
             />
           </View>
 
