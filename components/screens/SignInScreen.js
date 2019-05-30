@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import Layout from '../../constants/Layout';
+import Colors from '../../constants/Colors';
 
 
 // AWS Amplifyß
@@ -108,7 +109,7 @@ export default class SignInScreen extends React.Component {
 
             <View style={{ ...styles.buttonRow, justifyContent: "flex-start" }}>
               <TouchableOpacity
-                style={styles.button}
+                style={{...styles.button, backgroundColor: Colors.sometimePrimary}}
                 onPress={() => this.props.navigation.navigate('SignUp')}>
                 <Text style={styles.buttonText}>Sign Up</Text>
               </TouchableOpacity>
@@ -116,7 +117,7 @@ export default class SignInScreen extends React.Component {
 
             <View style={{ ...styles.buttonRow, justifyContent: "flex-end" }}>
               <TouchableOpacity
-                style={styles.button}
+                style={{...styles.button, backgroundColor: Colors.sometimeSecondary}}
                 onPress={() => this._signInAsync()}>
                 <Text style={styles.buttonText}>Sign In</Text>
               </TouchableOpacity>
@@ -141,6 +142,7 @@ export default class SignInScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.sometimeBackground
   },
   titleContainer: {
     flex: 2,
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
-    elevation: 10, // Android
+    elevation: 2, // Android
   },
   buttonText: {
     fontSize: buttonFontSize,

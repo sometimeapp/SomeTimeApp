@@ -17,6 +17,8 @@ if (PixelRatio.get() <= 2) {
 const devHeight = Dimensions.get('window').height;
 const devWidth = Dimensions.get('window').width;
 
+import Colors from '../../constants/Colors';
+
 export default class HomeScreen extends React.Component {
   state = {
     firstName: ''
@@ -24,6 +26,10 @@ export default class HomeScreen extends React.Component {
 
   static navigationOptions = {
     headerTitle: 'Home',
+    headerStyle: {
+      backgroundColor: Colors.sometimeHeader
+    },
+    headerTintColor: Colors.sometimeSecondaryText
   };
 
   async componentDidMount() {
@@ -57,17 +63,17 @@ export default class HomeScreen extends React.Component {
 
         <View style={styles.makeButtonView}>
           <TouchableOpacity
-            style={styles.button}
+            style={{...styles.button, backgroundColor: Colors.sometimePrimary}}
             onPress={() => this.props.navigation.navigate('Terms')}>
-            <Text style={styles.buttonText}>Make a Pledge</Text>
+            <Text style={{...styles.buttonText, color: Colors.sometimePrimaryText}}>Make a Pledge</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.acceptButtonView}>
           <TouchableOpacity
-            style={styles.button}
+            style={{...styles.button, backgroundColor: Colors.sometimeSecondary}}
             onPress={() => this.props.navigation.navigate('Receive')}>
-            <Text style={styles.buttonText}>Receive/Resolve</Text>
+            <Text style={{...styles.buttonText, color: Colors.sometimeSecondaryText}}>Receive/Resolve</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -77,15 +83,18 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: Colors.sometimeBackground
   },
   welcomeContainer: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   welcomeText: {
-    fontSize: 18
+    fontSize: 18,
+    color: Colors.sometimeBackgroundText,
+    fontWeight: 'bold'
   },
   makeButtonView: {
     flex: 2,
@@ -112,6 +121,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: buttonFontSize,
-    fontWeight: "bold"
+    // fontWeight: "bold",
   },
 });
