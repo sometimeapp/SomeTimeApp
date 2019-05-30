@@ -7,7 +7,13 @@ import {
   TouchableOpacity,
   PixelRatio
 } from 'react-native';
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 import { Auth } from 'aws-amplify';
+
+import { CustomIcon } from '../../constants/iconInfo';
+import Colors from '../../constants/Colors';
 
 var buttonFontSize = 20;
 if (PixelRatio.get() <= 2) {
@@ -16,8 +22,6 @@ if (PixelRatio.get() <= 2) {
 
 const devHeight = Dimensions.get('window').height;
 const devWidth = Dimensions.get('window').width;
-
-import Colors from '../../constants/Colors';
 
 export default class HomeScreen extends React.Component {
   state = {
@@ -63,19 +67,22 @@ export default class HomeScreen extends React.Component {
 
         <View style={styles.makeButtonView}>
           <TouchableOpacity
-            style={{...styles.button, backgroundColor: Colors.sometimePrimary}}
+            style={{ ...styles.button, backgroundColor: Colors.sometimePrimary }}
             onPress={() => this.props.navigation.navigate('Terms')}>
-            <Text style={{...styles.buttonText, color: Colors.sometimePrimaryText}}>Make a Pledge</Text>
+            <CustomIcon name="handshake" size={90} />
+            <Text style={{ ...styles.buttonText, color: 'black' }}>Make a Pledge</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.acceptButtonView}>
           <TouchableOpacity
-            style={{...styles.button, backgroundColor: Colors.sometimeSecondary}}
+            style={{ ...styles.button, backgroundColor: Colors.sometimeSecondary }}
             onPress={() => this.props.navigation.navigate('Receive')}>
-            <Text style={{...styles.buttonText, color: Colors.sometimeSecondaryText}}>Receive/Resolve</Text>
+            <MaterialCommunityIcons name="qrcode-scan" size={90} />
+            <Text style={{ ...styles.buttonText, color: Colors.sometimeSecondaryText }}>Receive/Resolve</Text>
           </TouchableOpacity>
         </View>
+
       </View>
     );
   }
@@ -99,7 +106,7 @@ const styles = StyleSheet.create({
   makeButtonView: {
     flex: 2,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   acceptButtonView: {
     flex: 2,
@@ -110,8 +117,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: '#DDDDDD',
     padding: 10,
-    height: devHeight/6,
-    width: devWidth/2,
+    height: devHeight / 6,
+    width: devWidth / 2,
     borderRadius: 10,
     shadowColor: 'rgba(0,0,0, .4)', // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS

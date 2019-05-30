@@ -38,7 +38,8 @@ export default class App extends React.Component {
         ...Icon.Ionicons.font,
         // not using this font...yet?
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-        ...MaterialCommunityIcons.font
+        ...MaterialCommunityIcons.font,
+        'fontawesome-free': require('./assets/fonts/fa-solid-900.ttf')
       }),
     ]);
   };

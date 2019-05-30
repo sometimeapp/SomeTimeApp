@@ -166,7 +166,9 @@ export default class SignUpScreen extends React.Component {
               onChangeText={value => this.onChangeText('password', value)}
               onFocus={() => this.setState({ passwordOnFocus: true })}
             />
-            {this.state.passwordOnFocus ? (<Text style={{ alignSelf: "flex-start" }}>Password requirements</Text>) : (null)}
+            {this.state.passwordOnFocus ?
+              (<Text style={{ alignSelf: "flex-start" }}>Password Requirements:</Text>)
+              : (null)}
           </View>
 
           <View style={styles.resendContainer}>
