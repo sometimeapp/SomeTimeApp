@@ -1,5 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
@@ -49,7 +50,15 @@ const PledgesTab = createMaterialTopTabNavigator({
 })
 
 PledgesTab.navigationOptions = {
-  title: 'Pledges'
+  title: 'Pledges',
+  headerRight: (
+  <Icon
+      name={'dots-vertical'}
+      type={'material-community'}
+      size={30}
+      color='#000000'
+  />
+  ),
 }
 
 const PledgesStack = createStackNavigator({

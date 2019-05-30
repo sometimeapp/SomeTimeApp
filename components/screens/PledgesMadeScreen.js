@@ -5,7 +5,8 @@ import {
   View,
   FlatList,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity, 
+  Button
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { getData } from '../../utilities/services'
@@ -58,6 +59,7 @@ export default class PledgesMadeScreen extends React.Component {
   }
 
   render() {
+    console.log(this.state.pledgesMade);
     if (!this.state.pledgesMade || this.state.isFetching) {
       return (
         <View style={styles.indicatorContainer}>
