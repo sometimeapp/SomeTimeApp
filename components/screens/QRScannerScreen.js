@@ -129,7 +129,6 @@ export default class QRScannerScreen extends React.Component {
     }
 
     render() {
-        console.log("Hi Jon and Zach -- part6");
         /*
             When the screen first renders, openedOnce flag is false, and so this.state.scannerIsVisible.
             Wait 800ms, then set scannerIsVisible to true.  This allows the 'waiting for camera' view to

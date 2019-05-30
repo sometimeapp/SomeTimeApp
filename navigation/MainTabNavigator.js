@@ -14,6 +14,8 @@ import DefineTermsScreen from '../components/screens/DefineTermsScreen';
 import PledgeDetailsScreen from '../components/screens/PledgeDetailsScreen';
 import ResolveReviewScreeen from '../components/screens/ResolveReviewScreen';
 
+import Colors from './../constants/Colors';
+
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Receive: QRScannerScreen,
@@ -90,8 +92,17 @@ SettingsStack.navigationOptions = {
   ),
 };
 
+const bottomNavConfig = {
+  tabBarOptions: {
+    activeBackgroundColor: Colors.sometimeHeader,
+    inactiveBackgroundColor: Colors.sometimeHeader,
+    activeTintColor: Colors.sometimeSecondaryText,
+    inactiveTintColor: 'black'
+  }
+}
+
 export default createBottomTabNavigator({
   HomeStack,
   PledgesStack,
   SettingsStack,
-});
+}, bottomNavConfig);

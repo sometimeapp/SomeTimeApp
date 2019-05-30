@@ -7,7 +7,13 @@ import {
   TouchableOpacity,
   PixelRatio
 } from 'react-native';
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 import { Auth } from 'aws-amplify';
+
+import { CustomIcon } from '../../constants/iconInfo';
+import Colors from '../../constants/Colors';
 
 var buttonFontSize = 20;
 if (PixelRatio.get() <= 2) {
@@ -24,6 +30,10 @@ export default class HomeScreen extends React.Component {
 
   static navigationOptions = {
     headerTitle: 'Home',
+    headerStyle: {
+      backgroundColor: Colors.sometimeHeader
+    },
+    headerTintColor: Colors.sometimeSecondaryText
   };
 
   async componentDidMount() {
@@ -57,19 +67,22 @@ export default class HomeScreen extends React.Component {
 
         <View style={styles.makeButtonView}>
           <TouchableOpacity
-            style={styles.button}
+            style={{ ...styles.button, backgroundColor: Colors.sometimeBackground}}
             onPress={() => this.props.navigation.navigate('Terms')}>
-            <Text style={styles.buttonText}>Make a Pledge</Text>
+            <CustomIcon name="handshake" size={90} color={Colors.sometimePrimary}/>
+            <Text style={{ ...styles.buttonText}}>Make a Pledge</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.acceptButtonView}>
           <TouchableOpacity
-            style={styles.button}
+          style={{ ...styles.button, backgroundColor: Colors.sometimeBackground}}
             onPress={() => this.props.navigation.navigate('Receive')}>
-            <Text style={styles.buttonText}>Receive/Resolve</Text>
+            <MaterialCommunityIcons name="qrcode-scan" size={90} color={Colors.sometimeSecondary}/>
+            <Text style={{ ...styles.buttonText}}>Receive/Resolve</Text>
           </TouchableOpacity>
         </View>
+
       </View>
     );
   }
@@ -77,20 +90,23 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: Colors.sometimeBackground
   },
   welcomeContainer: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   welcomeText: {
-    fontSize: 18
+    fontSize: 18,
+    color: Colors.sometimeBackgroundText,
+    fontWeight: 'bold'
   },
   makeButtonView: {
     flex: 2,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   acceptButtonView: {
     flex: 2,
@@ -101,17 +117,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: '#DDDDDD',
     padding: 10,
-    height: devHeight/6,
-    width: devWidth/2,
-    borderRadius: 10,
-    shadowColor: 'rgba(0,0,0, .4)', // IOS
-    shadowOffset: { height: 1, width: 1 }, // IOS
-    shadowOpacity: 1, // IOS
-    shadowRadius: 1, //IOS
-    elevation: 10, // Android
+    height: devHeight / 6,
+    width: devWidth / 2,
+    // borderRadius: 10,
+    // shadowColor: 'rgba(0,0,0, .4)', // IOS
+    // shadowOffset: { height: 1, width: 1 }, // IOS
+    // shadowOpacity: 1, // IOS
+    // shadowRadius: 1, //IOS
+    // elevation: 10, // Android
   },
   buttonText: {
     fontSize: buttonFontSize,
-    fontWeight: "bold"
+     fontWeight: "bold",
+     color: 'black'
   },
 });

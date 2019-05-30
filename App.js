@@ -1,6 +1,6 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Font, Icon } from 'expo';
+import { Platform, StatusBar, StyleSheet, View, Image } from 'react-native';
+import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import Amplify from 'aws-amplify'
 import awsmobile from './aws-exports'
@@ -38,8 +38,10 @@ export default class App extends React.Component {
         ...Icon.Ionicons.font,
         // not using this font...yet?
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-        ...MaterialCommunityIcons.font
+        ...MaterialCommunityIcons.font,
+        'fontawesome-free': require('./assets/fonts/fa-solid-900.ttf')
       }),
+      Expo.Asset.fromModule(require('./assets/images/handshakeSmall-transparent.png')).downloadAsync()
     ]);
   };
 
@@ -55,6 +57,5 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
 });

@@ -1,4 +1,4 @@
-
+import { createIconSet } from '@expo/vector-icons';
 import TwoWayMap from '../utilities/TwoWayMap';
 
 const iconDict = {
@@ -11,4 +11,8 @@ const iconDict = {
 
 const twoWayIconDict = new TwoWayMap(iconDict);
 
-export { iconDict, twoWayIconDict }
+// Do NOT remove the Unicode Square! It defines the icon from the font file
+const glyphMap = { 'handshake': '', 'hand-holding': '', 'thumbs-up': ''};
+const CustomIcon = createIconSet(glyphMap, 'fontawesome-free', 'fa-solid-900.ttf');
+
+export { iconDict, twoWayIconDict, CustomIcon }
