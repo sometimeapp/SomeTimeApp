@@ -67,19 +67,19 @@ export default class HomeScreen extends React.Component {
 
         <View style={styles.makeButtonView}>
           <TouchableOpacity
-            style={{ ...styles.button, backgroundColor: Colors.sometimePrimary }}
+            style={{ ...styles.button, backgroundColor: Colors.sometimeBackground}}
             onPress={() => this.props.navigation.navigate('Terms')}>
-            <CustomIcon name="handshake" size={90} />
-            <Text style={{ ...styles.buttonText, color: 'black' }}>Make a Pledge</Text>
+            <CustomIcon name="handshake" size={90} color={Colors.sometimePrimary}/>
+            <Text style={{ ...styles.buttonText, color: Colors.sometimePrimary}}>Make a Pledge</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.acceptButtonView}>
           <TouchableOpacity
-            style={{ ...styles.button, backgroundColor: Colors.sometimeSecondary }}
+          style={{ ...styles.button, backgroundColor: Colors.sometimeBackground}}
             onPress={() => this.props.navigation.navigate('Receive')}>
-            <MaterialCommunityIcons name="qrcode-scan" size={90} />
-            <Text style={{ ...styles.buttonText, color: Colors.sometimeSecondaryText }}>Receive/Resolve</Text>
+            <MaterialCommunityIcons name="qrcode-scan" size={90} color={Colors.sometimeSecondary}/>
+            <Text style={{ ...styles.buttonText, color: Colors.sometimeSecondary}}>Receive/Resolve</Text>
           </TouchableOpacity>
         </View>
 
@@ -119,15 +119,15 @@ const styles = StyleSheet.create({
     padding: 10,
     height: devHeight / 6,
     width: devWidth / 2,
-    borderRadius: 10,
-    shadowColor: 'rgba(0,0,0, .4)', // IOS
-    shadowOffset: { height: 1, width: 1 }, // IOS
-    shadowOpacity: 1, // IOS
-    shadowRadius: 1, //IOS
-    elevation: 10, // Android
+    // borderRadius: 10,
+    // shadowColor: 'rgba(0,0,0, .4)', // IOS
+    // shadowOffset: { height: 1, width: 1 }, // IOS
+    // shadowOpacity: 1, // IOS
+    // shadowRadius: 1, //IOS
+    // elevation: 10, // Android
   },
   buttonText: {
     fontSize: buttonFontSize,
-    // fontWeight: "bold",
+     fontWeight: "bold",
   },
 });
