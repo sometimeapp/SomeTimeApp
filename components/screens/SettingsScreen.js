@@ -23,10 +23,15 @@ if (PixelRatio.get() <= 2) {
 }
 
 import Layout from '../../constants/Layout';
+import Colors from '../../constants/Colors';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
     headerTitle: 'Settings',
+    headerStyle: {
+      backgroundColor: Colors.sometimeHeader
+    },
+    headerTintColor: Colors.sometimeSecondaryText
   };
 
   state = {
@@ -87,7 +92,7 @@ export default class SettingsScreen extends React.Component {
             secureTextEntry={false}
             autoCorrect={false}
             containerStyle={{ width: "95%" }}
-            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+            inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
             inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
             onChangeText={value => this.onChangeText('oldPassword', value)}
             onSubmitEditing={() => this.newPassword.focus()}
@@ -99,7 +104,7 @@ export default class SettingsScreen extends React.Component {
             secureTextEntry={false}
             autoCorrect={false}
             containerStyle={{ width: "95%" }}
-            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+            inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
             inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
             ref={ref => this.newPassword = ref}
             onChangeText={value => this.onChangeText('newPassword', value)}
@@ -107,23 +112,23 @@ export default class SettingsScreen extends React.Component {
 
           <TouchableOpacity
             onPress={() => this._changePasswordAsync()}
-            style={styles.button}>
+            style={{ ...styles.button, backgroundColor: Colors.sometimeTertiary }}>
             <Text style={styles.buttonText}>
-              Submit
-                </Text>
+            Submit
+            </Text>
           </TouchableOpacity>
 
-        </View>
+        </View >
 
-        <View style={styles.buttonView}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this._signOutAsync()}>
-            <Text style={styles.buttonText}>Sign Out</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.buttonView}>
+        <TouchableOpacity
+          style={{ ...styles.button, backgroundColor: Colors.sometimeSecondary }}
+          onPress={() => this._signOutAsync()}>
+          <Text style={styles.buttonText}>Sign Out</Text>
+        </TouchableOpacity>
+      </View>
 
-      </SafeAreaView>
+      </SafeAreaView >
     );
   }
 }
@@ -131,6 +136,7 @@ export default class SettingsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.sometimeBackground
   },
   buttonView: {
     flex: 1,
@@ -145,7 +151,6 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: "center",
-    backgroundColor: '#DDDDDD',
     padding: 10,
     height: (Layout.window.height / 15),
     width: (Layout.window.width / 3),
@@ -154,7 +159,7 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
-    elevation: 10, // Android
+    elevation: 2, // Android
   },
   buttonText: {
     fontSize: buttonFontSize,
@@ -163,5 +168,4 @@ const styles = StyleSheet.create({
   headingText: {
     fontSize: 20
   }
-
 })
