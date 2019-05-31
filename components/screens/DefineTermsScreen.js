@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     Dimensions,
     PixelRatio,
-    Platform, 
+    Platform,
     TextInput,
 } from 'react-native';
 
@@ -16,6 +16,7 @@ import { Auth } from 'aws-amplify';
 import moment from 'moment';
 
 import Layout from '../../constants/Layout';
+import Colors from '../../constants/Colors';
 
 import StaticTermsIcons from '../screenComponents/StaticTermsIcons';
 import { twoWayIconDict } from '../../constants/iconInfo';
@@ -39,6 +40,10 @@ export default class DefineTermsScreen extends React.Component {
 
     static navigationOptions = {
         headerTitle: 'Terms',
+        headerStyle: {
+            backgroundColor: Colors.sometimeHeader
+        },
+        headerTintColor: Colors.sometimeSecondaryText
     };
 
     async componentDidMount() {
@@ -91,24 +96,24 @@ export default class DefineTermsScreen extends React.Component {
                         {
                             this.state.otherSelected ?
                                 (
-                                    
+
                                     <View>
-                                        {!this.state.inputHasFocus && <Text style={{marginBottom: 10}}>(Enter custom pledge)</Text> }
-                                        
+                                        {!this.state.inputHasFocus && <Text style={{ marginBottom: 10 }}>(Enter custom pledge)</Text>}
+
                                         <TextInput
-                                            style={{fontSize: 22, color: "teal"}}
+                                            style={{ fontSize: 22, color: Colors.sometimePrimary }}
                                             placeholder="  touch here"
                                             placeholderTextColor="#888888"
                                             onChangeText={text => this.setState({ terms: text })}
                                             multiline={true}
                                             maxLength={50}
-                                            onFocus={() => this.setState({inputHasFocus: true})}
+                                            onFocus={() => this.setState({ inputHasFocus: true })}
                                         />
-                                       
+
                                     </View>
                                 ) :
                                 (
-                                    <View style={{flex: 1, justifyContent: "center", alignContent:"center"}}>
+                                    <View style={{ flex: 1, justifyContent: "center", alignContent: "center" }}>
                                         <Icon
                                             name={twoWayIconDict.revGet(this.state.terms)}
                                             type='material-community'
@@ -129,7 +134,7 @@ export default class DefineTermsScreen extends React.Component {
                 </View>
 
                 <View style={styles.durationColumnBox}>
-                    <Text style={{ fontSize: 28 }}>within   <Text style={{ fontSize: 32, color: "teal" }}>{this.state.duration}</Text>   {this.state.duration < 2 ? 'day' : 'days'}</Text>
+                    <Text style={{ fontSize: 28 }}>within   <Text style={{ fontSize: 32, color: Colors.sometimePrimary }}>{this.state.duration}</Text>   {this.state.duration < 2 ? 'day' : 'days'}</Text>
                 </View>
 
                 <View style={styles.sliderContainer}>
@@ -142,11 +147,12 @@ export default class DefineTermsScreen extends React.Component {
                         ]}
                         minimumValue={1}
                         maximumValue={90}
-                        minimumTrackTintColor="#1EB1FC"
-                        maximumTractTintColor="#1EB1FC"
+                        minimumTrackTintColor={Colors.sometimePrimary}
+                        maximumTrackTintColor={Colors.sometimePrimary}
                         step={1}
                         value={3}
                         onValueChange={value => this.onChangeDuration(value)}
+                        thumbTintColor={Colors.sometimeHeader}
                     />
                 </View>
 
@@ -154,14 +160,14 @@ export default class DefineTermsScreen extends React.Component {
                     <View style={styles.buttonRowContainer}>
                         <View style={styles.signInButtonView}>
                             <TouchableOpacity
-                                style={styles.button}
+                                style={{ ...styles.button, backgroundColor: Colors.sometimeSecondary }}
                                 onPress={() => this.props.navigation.navigate('Home')}>
                                 <Text style={styles.buttonText}>Cancel</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.signUpButtonView}>
                             <TouchableOpacity
-                                style={styles.button}
+                                style={{ ...styles.button, backgroundColor: Colors.sometimeTertiary }}
                                 onPress={() => {
                                     let today = moment();
                                     let future = today.clone().add(this.state.duration, 'd');
@@ -181,7 +187,8 @@ export default class DefineTermsScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: Colors.sometimeBackground
     },
     introContainer: {
         flex: 2,
@@ -199,7 +206,7 @@ const styles = StyleSheet.create({
     },
     termsBox: {
         borderRadius: 5,
-        backgroundColor: "#eeeeee",
+        backgroundColor: "#FAFAFA",
         position: "absolute",
         height: "90%",
         width: "50%",
@@ -209,7 +216,7 @@ const styles = StyleSheet.create({
     termsBoxText: {
         fontSize: 22,
         fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
-        color: "teal"
+        color: Colors.sometimePrimary
     },
 
     staticTermsContainer: {
@@ -248,7 +255,6 @@ const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
         justifyContent: "center",
-        backgroundColor: '#DDDDDD',
         padding: 10,
         height: (Layout.window.height / 15),
         width: (Layout.window.width / 3),
@@ -257,7 +263,7 @@ const styles = StyleSheet.create({
         shadowOffset: { height: 1, width: 1 }, // IOS
         shadowOpacity: 1, // IOS
         shadowRadius: 1, //IOS
-        elevation: 10, // Android
+        elevation: 2, // Android
     },
     buttonText: {
         fontSize: buttonFontSize,

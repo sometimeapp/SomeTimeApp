@@ -9,13 +9,21 @@ import {
 } from 'react-native';
 
 import Layout from '../../constants/Layout';
+import Colors from '../../constants/Colors';
 
 var buttonFontSize = 16;
 if (PixelRatio.get() <= 2) {
-  buttonFontSize = 12;
+    buttonFontSize = 12;
 }
 
 export default class GeneratedQRCodeScreen extends React.Component {
+
+    static navigationOptions = {
+        headerStyle: {
+            backgroundColor: Colors.sometimeHeader
+        },
+        headerTintColor: Colors.sometimeSecondaryText
+    };
 
     render() {
         console.log('Generated QR Code screen: ' + JSON.stringify(this.props.navigation.state.params));
@@ -27,7 +35,7 @@ export default class GeneratedQRCodeScreen extends React.Component {
                 />
                 <View style={{ marginTop: 20 }}>
                     <TouchableOpacity
-                        style={styles.button}
+                        style={{ ...styles.button, backgroundColor: Colors.sometimeTertiary }}
                         onPress={() => this.props.navigation.navigate('Home')}>
                         <Text style={styles.buttonText}>Home</Text>
                     </TouchableOpacity>
@@ -43,11 +51,11 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: Colors.sometimeBackground
     },
     button: {
         alignItems: 'center',
         justifyContent: "center",
-        backgroundColor: '#DDDDDD',
         padding: 10,
         height: (Layout.window.height / 15),
         width: (Layout.window.width / 3),
@@ -56,10 +64,10 @@ const styles = StyleSheet.create({
         shadowOffset: { height: 1, width: 1 }, // IOS
         shadowOpacity: 1, // IOS
         shadowRadius: 1, //IOS
-        elevation: 10, // Android
+        elevation: 2, // Android
     },
     buttonText: {
         fontSize: buttonFontSize,
         fontWeight: "bold"
-      }
+    }
 })
