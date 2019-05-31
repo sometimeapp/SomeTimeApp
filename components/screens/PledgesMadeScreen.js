@@ -5,7 +5,7 @@ import {
   View,
   FlatList,
   ActivityIndicator,
-  TouchableOpacity, 
+  TouchableOpacity,
   Button
 } from 'react-native';
 import { Auth } from 'aws-amplify';
@@ -17,7 +17,8 @@ export default class PledgesMadeScreen extends React.Component {
 
   state = {
     pledgesMade: null,
-    isFetching: false
+    isFetching: false,
+    showResolved: true
   }
 
   static navigationOptions = {
@@ -25,6 +26,12 @@ export default class PledgesMadeScreen extends React.Component {
   };
 
   async componentDidMount() {
+
+    this.props.navigation.setParams({
+      toggleResolved: this.toggleResolved, 
+      showResolved: this.state.showResolved
+    })
+
     let userInfo = await this.getId();
     let promisorId = userInfo.userID;
     this.setState({ isFetching: true });
@@ -33,6 +40,14 @@ export default class PledgesMadeScreen extends React.Component {
       promisorId: promisorId,
       pledgesMade: apiData,
       isFetching: false
+    })
+  }
+
+  toggleResolved = () => {
+    const position = this.state.showResolved;
+    this.setState({showResolved: !position})
+    this.props.navigation.setParams({
+      showResolved: this.state.showResolved
     })
   }
 
@@ -59,7 +74,12 @@ export default class PledgesMadeScreen extends React.Component {
   }
 
   render() {
-    console.log(this.state.pledgesMade);
+    //console.log(this.state.pledgesMade)
+    let { pledgesMade, showResolved } = this.state;
+    if(!showResolved) {
+      pledgesMade = pledgesMade.filter( item => item.pledgeStatus === 'pending')
+    }
+
     if (!this.state.pledgesMade || this.state.isFetching) {
       return (
         <View style={styles.indicatorContainer}>
@@ -70,7 +90,7 @@ export default class PledgesMadeScreen extends React.Component {
       return (
         <View style={styles.container}>
           <FlatList
-            data={this.state.pledgesMade}
+            data={pledgesMade}
             keyExtractor={(x, i) => i.toString()}
             onRefresh={() => this.onRefresh()}
             refreshing={this.state.isFetching}

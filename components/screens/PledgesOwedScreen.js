@@ -16,7 +16,8 @@ export default class PledgesOwedScreen extends React.Component {
 
   state = {
     pledgesOwed: null,
-    isFetching: false
+    isFetching: false,
+    showResolved: true
   }
 
   static navigationOptions = {
@@ -24,6 +25,11 @@ export default class PledgesOwedScreen extends React.Component {
   };
 
   async componentDidMount() {
+    this.props.navigation.setParams({
+      toggleResolved: this.toggleResolved,
+      showResolved: this.state.showResolved
+    })
+
     let userInfo = await this.getId();
     let promiseeId = userInfo.userID;
     this.setState({ isFetching: true });
@@ -32,6 +38,14 @@ export default class PledgesOwedScreen extends React.Component {
       promiseeId: promiseeId,
       pledgesOwed: apiData,
       isFetching: false
+    })
+  }
+
+  toggleResolved = () => {
+    const position = this.state.showResolved;
+    this.setState({showResolved: !position})
+    this.props.navigation.setParams({
+      showResolved: this.state.showResolved
     })
   }
 
@@ -59,6 +73,10 @@ export default class PledgesOwedScreen extends React.Component {
   }
 
   render() {
+    let { pledgesOwed, showResolved } = this.state;
+    if(!showResolved) {
+      pledgesOwed = pledgesOwed.filter( item => item.pledgeStatus === 'pending')
+    }
     if (!this.state.pledgesOwed || this.state.isFetching) {
       return (
         <View style={styles.indicatorContainer}>
@@ -69,7 +87,7 @@ export default class PledgesOwedScreen extends React.Component {
       return (
         <View style={styles.container}>
           <FlatList
-            data={this.state.pledgesOwed}
+            data={pledgesOwed}
             keyExtractor={(x, i) => i.toString()}
             onRefresh={() => this.onRefresh()}
             refreshing={this.state.isFetching}

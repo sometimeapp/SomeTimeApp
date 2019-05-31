@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, TouchableOpacity, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 
@@ -49,16 +49,24 @@ const PledgesTab = createMaterialTopTabNavigator({
   PledgesOwed: PledgesOwedScreen
 })
 
-PledgesTab.navigationOptions = {
+PledgesTab.navigationOptions = ({navigation}) => {
+
+  return {
   title: 'Pledges',
   headerRight: (
-  <Icon
-      name={'dots-vertical'}
-      type={'material-community'}
-      size={30}
-      color='#000000'
-  />
+    <TouchableOpacity onPress={ () => {
+      if( navigation._childrenNavigation.PledgesMade.isFocused() ) {
+        navigation._childrenNavigation.PledgesMade.state.params.toggleResolved()
+      } else if (navigation._childrenNavigation.PledgesOwed.isFocused() ) {
+        navigation._childrenNavigation.PledgesOwed.state.params.toggleResolved() 
+      }
+      
+      } 
+    } style={{alignItems: 'center', justifyContent: 'center', backgroundColor: '#DDDDDD'}}>
+    <Text>Toggle Show Resolved</Text>
+  </TouchableOpacity>
   ),
+  }
 }
 
 const PledgesStack = createStackNavigator({
