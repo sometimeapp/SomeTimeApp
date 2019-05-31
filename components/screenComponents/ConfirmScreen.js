@@ -13,6 +13,7 @@ import {
 } from 'react-native-elements'
 
 import Layout from '../../constants/Layout';
+import Colors from '../../constants/Colors';
 
 var buttonFontSize = 16;
 if (PixelRatio.get() <= 2) {
@@ -22,7 +23,7 @@ if (PixelRatio.get() <= 2) {
 const ConfirmSignUp = (props) => {
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
+    <View style={{ flex: 1, justifyContent: 'center', backgroundColor: Colors.sometimeBackground }}>
       <View style={{
         alignItems: 'center',
         height: (Layout.window.height * .25),
@@ -35,7 +36,7 @@ const ConfirmSignUp = (props) => {
             returnKeyType="done"
             autoCorrect={false}
             containerStyle={{ width: (Layout.window.width * .95) }}
-            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+            inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
             inputContainerStyle={{ borderBottomWidth: 0 }}
             onChangeText={value => props.onChangeText('authCode', value)}
           />
@@ -71,11 +72,16 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: "center",
-    backgroundColor: '#DDDDDD',
+    backgroundColor: Colors.sometimeHeader,
     padding: 10,
     height: (Layout.window.height / 15),
     width: (Layout.window.width / 3),
-    borderRadius: 10
+    borderRadius: 10,
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    elevation: 2, // Android
   },
   buttonText: {
     fontSize: buttonFontSize,

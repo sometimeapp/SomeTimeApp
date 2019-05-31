@@ -87,7 +87,7 @@ export default class SignInScreen extends React.Component {
               textContentType="emailAddress"
               autoCorrect={false}
               containerStyle={{ width: "95%" }}
-              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+              inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
               inputContainerStyle={{ borderBottomWidth: 0 }}
               onSubmitEditing={() => this.password.focus()}
               onChangeText={value => this.onChangeText('email', value)}
@@ -98,7 +98,7 @@ export default class SignInScreen extends React.Component {
               secureTextEntry={true}
               autoCorrect={false}
               containerStyle={{ width: "95%" }}
-              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+              inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
               inputContainerStyle={{ borderBottomWidth: 0 }}
               ref={ref => this.password = ref}
               onChangeText={value => this.onChangeText('password', value)}
@@ -109,7 +109,7 @@ export default class SignInScreen extends React.Component {
 
             <View style={{ ...styles.buttonRow, justifyContent: "flex-start" }}>
               <TouchableOpacity
-                style={{...styles.button, backgroundColor: Colors.sometimePrimary}}
+                style={{...styles.button, backgroundColor: Colors.sometimeTertiary}}
                 onPress={() => this.props.navigation.navigate('SignUp')}>
                 <Text style={styles.buttonText}>Sign Up</Text>
               </TouchableOpacity>
@@ -117,7 +117,7 @@ export default class SignInScreen extends React.Component {
 
             <View style={{ ...styles.buttonRow, justifyContent: "flex-end" }}>
               <TouchableOpacity
-                style={{...styles.button, backgroundColor: Colors.sometimeSecondary}}
+                style={{...styles.button, backgroundColor: Colors.sometimeHeader}}
                 onPress={() => this._signInAsync()}>
                 <Text style={styles.buttonText}>Sign In</Text>
               </TouchableOpacity>
@@ -178,7 +178,6 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: "center",
-    backgroundColor: '#DDDDDD',
     padding: 10,
     height: (Layout.window.height / 15),
     width: (Layout.window.width / 3),
