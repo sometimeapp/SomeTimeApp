@@ -170,10 +170,21 @@ export default class SignUpScreen extends React.Component {
               ref={ref => this.password = ref}
               onChangeText={value => this.onChangeText('password', value)}
               onFocus={() => this.setState({ passwordOnFocus: true })}
+              onBlur={() => this.setState({ passwordOnFocus: false})}
             />
-            {this.state.passwordOnFocus ?
-              (<Text style={{ alignSelf: "flex-start" }}>Password Requirements:</Text>)
-              : (null)}
+            <View>
+              {this.state.passwordOnFocus ?
+                (
+                  <Text>
+                    <Text style={{fontWeight: 'bold'}}>Password requirements:</Text>
+                    {'\n\u2022'} 8 character minimum
+                    {'\n\u2022'} 1 capital letter
+                    {'\n\u2022'} 1 number
+                    {'\n\u2022'} 1 special character
+                  </Text>
+                )
+                : (null)}
+            </View>
           </View>
 
           <View style={styles.resendContainer}>
@@ -206,7 +217,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     //backgroundColor: "pink",
-    flex: 4,
+    flex: 3,
     justifyContent: "space-around",
     alignItems: "center"
   },
