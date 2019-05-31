@@ -37,8 +37,8 @@ HomeStack.navigationOptions = ({ navigation }) => {
         focused={focused}
         name={
           Platform.OS === 'ios'
-            ? `ios-information-circle${focused ? '' : '-outline'}`
-            : 'md-information-circle'
+            ? `ios-home${focused ? '' : '-outline'}`
+            : 'md-home'
         }
       />
     ),
@@ -72,7 +72,7 @@ PledgesStack.navigationOptions = ({ navigation }) => {
     tabBarIcon: ({ focused }) => (
       <TabBarIcon
         focused={focused}
-        name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+        name={Platform.OS === 'ios' ? 'ios-list' : 'md-list'}
       />
     ),
   };
@@ -87,7 +87,7 @@ SettingsStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+      name={Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'}
     />
   ),
 };
