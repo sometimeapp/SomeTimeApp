@@ -42,6 +42,7 @@ if (PixelRatio.get() <= 2) {
 }
 
 import Layout from '../../constants/Layout';
+import Colors from '../../constants/Colors';
 
 export default class TermsReviewScreen extends React.Component {
 
@@ -55,6 +56,10 @@ export default class TermsReviewScreen extends React.Component {
 
   static navigationOptions = {
     headerTitle: 'Review Terms',
+    headerStyle: {
+      backgroundColor: Colors.sometimeHeader
+    },
+    headerTintColor: Colors.sometimeSecondaryText
   };
 
   async componentDidMount() {
@@ -159,7 +164,7 @@ export default class TermsReviewScreen extends React.Component {
 
         <View style={{ flex: 2 }}>
 
-          <View style={{ flex: 1, backgroundColor: "white", borderWidth: 3, borderRadius: 10, margin: 20, padding: 8 }}>
+          <View style={{ flex: 1, backgroundColor: Colors.sometimeBackground, borderWidth: 3, borderRadius: 10, margin: 20, padding: 8 }}>
             <Text style={{ fontSize: largeFontSize, fontStyle: "italic" }}>
               {`I hereby acknowledge that I owe ${promiseeFirstName} ${promiseeLastName} the favor of ${terms}, and that I shall repay this debt on or before ${date}.
 
@@ -176,7 +181,7 @@ ${promisorFirstName} ${promisorLastName}`}
               <View style={styles.buttonRowContainer}>
                 <View style={styles.buttonView}>
                   <TouchableOpacity
-                    style={styles.button}
+                    style={{ ...styles.button, backgroundColor: Colors.sometimeSecondary }}
                     onPress={() => this.props.navigation.navigate('Home')}>
                     <Text style={styles.buttonText}>Reject</Text>
                   </TouchableOpacity>
@@ -184,7 +189,7 @@ ${promisorFirstName} ${promisorLastName}`}
 
                 <View style={styles.buttonView}>
                   <TouchableOpacity
-                    style={styles.button}
+                    style={{ ...styles.button, backgroundColor: Colors.sometimeTertiary }}
                     disabled={this.state.sending ? true : false}
                     onPress={() => this.savePledge()}>
                     <Text style={styles.buttonText}>Accept</Text>
@@ -206,10 +211,10 @@ ${promisorFirstName} ${promisorLastName}`}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: Colors.sometimeBackground
   },
   buttonRowContainer: {
-
     flexDirection: "row",
     flex: 1,
     alignItems: "center"
@@ -222,7 +227,6 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: "center",
-    backgroundColor: '#DDDDDD',
     padding: 10,
     height: (Layout.window.height / 15),
     width: (Layout.window.width / 3),
@@ -231,7 +235,7 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
-    elevation: 10, // Android
+    elevation: 2, // Android
   },
   buttonText: {
     fontSize: buttonFontSize,
