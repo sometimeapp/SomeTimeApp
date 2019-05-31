@@ -18,6 +18,7 @@ import {
 } from 'react-native-elements'
 
 import Layout from '../../constants/Layout';
+import Colors from '../../constants/Colors';
 
 var buttonFontSize = 16;
 if (PixelRatio.get() <= 2) {
@@ -27,6 +28,10 @@ if (PixelRatio.get() <= 2) {
 export default class SignInScreen extends React.Component {
   static navigationOptions = {
     headerTitle: 'Forgot Password',
+    headerStyle: {
+      backgroundColor: Colors.sometimeHeader
+    },
+    headerTintColor: Colors.sometimeSecondaryText
   };
 
   state = {
@@ -79,10 +84,10 @@ export default class SignInScreen extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
 
-        <View style={styles.titleContainer}>
+        {/* <View style={styles.titleContainer}>
           <Text style={styles.titleText}>SomeTime</Text>
           <Text style={styles.subtitleText}>a ledger for casual contracts</Text>
-        </View>
+        </View> */}
 
         <View style={styles.inputContainer}>
           <Input
@@ -90,12 +95,12 @@ export default class SignInScreen extends React.Component {
             textContentType="emailAddress"
             autoCorrect={false}
             containerStyle={{ width: "95%" }}
-            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
-            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+            inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
+            inputContainerStyle={{ borderBottomWidth: 0, padding: 15, marginTop: 50 }}
             onChangeText={value => this.onChangeText('email', value)}
           />
           <TouchableOpacity
-            style={styles.button}
+            style={{...styles.button, backgroundColor: Colors.sometimeTertiary}}
             onPress={() => this.forgotPassword()}>
             <Text style={styles.buttonText}>Send Code</Text>
           </TouchableOpacity>
@@ -106,7 +111,7 @@ export default class SignInScreen extends React.Component {
             secureTextEntry={true}
             autoCorrect={false}
             containerStyle={{ width: "95%" }}
-            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+            inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
             inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
             onSubmitEditing={() => this.confirmationCode.focus()}
             onChangeText={value => this.onChangeText('newPassword', value)}
@@ -116,14 +121,14 @@ export default class SignInScreen extends React.Component {
             keyboardType={'numeric'}
             autoCorrect={false}
             containerStyle={{ width: "95%" }}
-            inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+            inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
             inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
             ref={ref => this.confirmationCode = ref}
             onChangeText={value => this.onChangeText('authCode', value)}
           />
 
           <TouchableOpacity
-            style={styles.button}
+          style={{...styles.button, backgroundColor: Colors.sometimeSecondary}}
             onPress={() => this.forgotPasswordSubmit()}>
             <Text style={styles.buttonText}>Confirm</Text>
           </TouchableOpacity>
@@ -137,6 +142,7 @@ export default class SignInScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.sometimeBackground
   },
   titleContainer: {
     flex: 1,
@@ -160,7 +166,6 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: "center",
-    backgroundColor: '#DDDDDD',
     padding: 10,
     height: (Layout.window.height / 15),
     width: (Layout.window.width / 3),
@@ -169,7 +174,7 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
-    elevation: 10, // Android
+    elevation: 2, // Android
   },
   buttonText: {
     fontSize: buttonFontSize,

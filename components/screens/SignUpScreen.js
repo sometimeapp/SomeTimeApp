@@ -19,6 +19,7 @@ import {
 
 import ConfirmSignup from '../screenComponents/ConfirmScreen';
 import Layout from '../../constants/Layout';
+import Colors from '../../constants/Colors';
 
 var buttonFontSize = 16;
 if (PixelRatio.get() <= 2) {
@@ -28,6 +29,10 @@ if (PixelRatio.get() <= 2) {
 export default class SignUpScreen extends React.Component {
   static navigationOptions = {
     headerTitle: 'Sign Up',
+    headerStyle: {
+      backgroundColor: Colors.sometimeHeader
+    },
+    headerTintColor: Colors.sometimeSecondaryText
   };
 
   state = {
@@ -129,7 +134,7 @@ export default class SignUpScreen extends React.Component {
               textContentType="emailAddress"
               autoCorrect={false}
               containerStyle={{ width: "95%" }}
-              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+              inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
               inputContainerStyle={{ borderBottomWidth: 0 }}
               onSubmitEditing={() => this.firstname.focus()}
               onChangeText={value => this.onChangeText('email', value)}
@@ -138,7 +143,7 @@ export default class SignUpScreen extends React.Component {
               placeholder="First Name"
               autoCorrect={false}
               containerStyle={{ width: "95%" }}
-              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+              inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
               inputContainerStyle={{ borderBottomWidth: 0 }}
               onSubmitEditing={() => this.lastname.focus()}
               ref={ref => this.firstname = ref}
@@ -148,7 +153,7 @@ export default class SignUpScreen extends React.Component {
               placeholder="Last Name"
               autoCorrect={false}
               containerStyle={{ width: "95%" }}
-              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+              inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
               inputContainerStyle={{ borderBottomWidth: 0 }}
               onSubmitEditing={() => this.password.focus()}
               ref={ref => this.lastname = ref}
@@ -160,7 +165,7 @@ export default class SignUpScreen extends React.Component {
               secureTextEntry={true}
               autoCorrect={false}
               containerStyle={{ width: "95%" }}
-              inputStyle={{ borderColor: 'gray', borderWidth: 1, borderRadius: 5, padding: 5 }}
+              inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
               inputContainerStyle={{ borderBottomWidth: 0 }}
               ref={ref => this.password = ref}
               onChangeText={value => this.onChangeText('password', value)}
@@ -197,6 +202,7 @@ export default class SignUpScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.sometimeBackground
   },
   inputContainer: {
     //backgroundColor: "pink",
@@ -212,7 +218,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: "center",
-    backgroundColor: '#DDDDDD',
+    backgroundColor: Colors.sometimeTertiary,
     padding: 10,
     height: (Layout.window.height / 15),
     width: (Layout.window.width / 3),
@@ -221,7 +227,7 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
-    elevation: 10, // Android
+    elevation: 2, // Android
   },
   buttonText: {
     fontSize: buttonFontSize,
@@ -231,6 +237,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: "center",
     padding: 10,
-    borderRadius: 10
   }
 })

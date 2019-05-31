@@ -5,6 +5,7 @@ const sometimePrimary = '#168055';
 const sometimePrimaryText = '#f8fbfc';
 const sometimeSecondary = '#00808F';
 const sometimeSecondaryText = '#f8fbfc'
+const sometimeTertiary = '#4FB7A7';
 const sometimeBackground = '#E7F0F5';
 const sometimeBackgroundText = '#4b4b4b';
 
@@ -14,6 +15,7 @@ export default {
   sometimePrimaryText,
   sometimeSecondary,
   sometimeSecondaryText,
+  sometimeTertiary,
   sometimeHeader,
   sometimeHeaderText,
   sometimeBackground,
