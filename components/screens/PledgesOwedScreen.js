@@ -1,16 +1,8 @@
 import React from 'react';
-import {
-  Text,
-  StyleSheet,
-  View,
-  FlatList,
-  ActivityIndicator,
-  TouchableOpacity
-} from 'react-native';
+
 import { Auth } from 'aws-amplify';
 import { getData } from '../../utilities/services';
-
-import PledgeCard from '../screenComponents/PledgeCard'
+import PledgeList from '../screenComponents/PledgeList'
 
 export default class PledgesOwedScreen extends React.Component {
 
@@ -58,67 +50,20 @@ export default class PledgesOwedScreen extends React.Component {
     }
   }
 
-  render() {
-    if (!this.state.pledgesOwed || this.state.isFetching) {
-      return (
-        <View style={styles.indicatorContainer}>
-          <ActivityIndicator size="large"></ActivityIndicator>
-        </View>
-      )
-    } else {
-      return (
-        <View style={styles.container}>
-          <FlatList
-            data={this.state.pledgesOwed}
-            keyExtractor={(x, i) => i.toString()}
-            onRefresh={() => this.onRefresh()}
-            refreshing={this.state.isFetching}
-            ListEmptyComponent={
-              <View style={{ flex: 1, justifyContent: "center", paddingTop: 25 }}>
-                <Text style={{ fontSize: 16, textAlign: 'center' }}>You have no pledges owed to you.</Text>
-                <Text style={{ fontSize: 14, textAlign: 'center', paddingTop: 10 }}>(Pull to refresh)</Text>
-              </View>
-            }
-            renderItem={({ item }) => (
-              <View>
-                <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate('Details', { ...item, screen: 'owed' })}
-                >
-                  <PledgeCard
-                    pledge={item}
-                    screen={this.props.navigation.state.routeName}
-                  />
-
-                </TouchableOpacity>
-              </View>
-            )}
-          />
-        </View>
-      )
-    }
+  goToDetails = (item, screenName) => {
+    this.props.navigation.navigate('Details', { ...item, screen: screenName })
   }
 
+  render() {
+    const { routeName } = this.props.navigation.state;
+    return (
+      <PledgeList
+        pledges={this.state.pledgesOwed}
+        isFetching={this.state.isFetching}
+        onRefresh={this.onRefresh}
+        routeName={routeName}
+        navigate={this.goToDetails}
+      />
+    )
+  }
 }
-
-const styles = StyleSheet.create({
-  indicatorContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  container: {
-    flex: 1,
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: "center",
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    height: "10%",
-    width: "25%",
-    borderRadius: 10
-  },
-  buttonText: {
-    fontWeight: "bold"
-  },
-});

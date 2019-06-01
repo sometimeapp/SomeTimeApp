@@ -46,7 +46,7 @@ export default class PledgeDetailsScreen extends React.Component {
 
             <View style={styles.pledgeHeadingsContainer}>
               <Text style={{ fontWeight: "bold" }}>Terms:</Text>
-              <Text style={{ fontWeight: "bold" }}>{pledge.screen === 'made' ? 'Owed to:' : 'Owed by:'}</Text>
+              <Text style={{ fontWeight: "bold" }}>{pledge.screen === 'pledgesMade' ? 'Owed to:' : 'Owed by:'}</Text>
               <Text style={{ fontWeight: "bold" }}>Pledge made:</Text>
               <Text style={{ fontWeight: "bold" }}>Due:</Text>
               <Text style={{ fontWeight: "bold" }}>Status:</Text>

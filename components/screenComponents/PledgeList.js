@@ -34,7 +34,7 @@ const PledgeList = (props) => {
               renderItem={({ item }) => (
                 <View>
                   <TouchableOpacity
-                    onPress={() => console.log("Pressed!")/*this.props.navigation.navigate('Details', { ...item, screen: 'made' }) */}
+                    onPress={() => props.navigate(item, props.routeName ) }
                   >
                     <PledgeCard
                       pledge={item}
