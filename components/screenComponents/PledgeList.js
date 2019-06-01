@@ -10,7 +10,7 @@ import {
 import PledgeCard from './PledgeCard';
 
 const PledgeList = (props) => {
-    console.log(props);
+    //console.log(props);
     if (!props.pledges || props.isFetching) {
         return (
           <View style={styles.indicatorContainer}>

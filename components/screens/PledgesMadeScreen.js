@@ -59,12 +59,13 @@ export default class PledgesMadeScreen extends React.Component {
   }
 
   render() {
-
+    const {routeName} = this.props.navigation.state;
     return (
       <PledgeList
         pledges={this.state.pledgesMade}
         isFetching={this.state.isFetching}
         onRefresh={this.onRefresh}
+        routeName={routeName}
       />
     )
 
