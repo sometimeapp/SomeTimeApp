@@ -46,7 +46,7 @@ export default class PledgeDetailsScreen extends React.Component {
 
             <View style={styles.pledgeHeadingsContainer}>
               <Text style={{ fontWeight: "bold" }}>Terms:</Text>
-              <Text style={{ fontWeight: "bold" }}>{pledge.screen === 'pledgesMade' ? 'Owed to:' : 'Owed by:'}</Text>
+              <Text style={{ fontWeight: "bold" }}>{pledge.screen === 'PledgesMade' ? 'Owed to:' : 'Owed by:'}</Text>
               <Text style={{ fontWeight: "bold" }}>Pledge made:</Text>
               <Text style={{ fontWeight: "bold" }}>Due:</Text>
               <Text style={{ fontWeight: "bold" }}>Status:</Text>
@@ -54,7 +54,7 @@ export default class PledgeDetailsScreen extends React.Component {
 
             <View style={styles.pledgeDetailsContainer}>
               <Text>{pledge.terms}</Text>
-              <Text>{pledge.screen === 'made' ? `${pledge.promiseeFirstName} ${pledge.promiseeLastName}`
+              <Text>{pledge.screen === 'PledgesMade' ? `${pledge.promiseeFirstName} ${pledge.promiseeLastName}`
                 : `${pledge.promisorFirstName} ${pledge.promisorLastName}`}
               </Text>
               <Text>{moment(pledge.promiseDate).format('MMM Do YYYY')}</Text>
@@ -67,7 +67,7 @@ export default class PledgeDetailsScreen extends React.Component {
         </View>
 
         <View style={styles.buttonContainer}>
-          {pledge.screen === 'made' && pledge.pledgeStatus !== 'resolved' ? (
+          {pledge.screen === 'PledgesMade' && pledge.pledgeStatus !== 'resolved' ? (
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate('ResolveQR', pledge)}>
