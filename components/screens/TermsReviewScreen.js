@@ -144,7 +144,7 @@ export default class TermsReviewScreen extends React.Component {
             </View>
 
             <View style={{ flex: 3 }}>
-              <View style={{ flex: 1, flexDirection: "row", margin: 10, borderWidth: 3, borderRadius: 10 }}>
+              <View style={{ flex: 1, flexDirection: "row", margin: 10, borderWidth: 3, borderRadius: 10, backgroundColor: "#FAFAFA" }}>
                 <View style={{ flex: 1, padding: 5, justifyContent: "space-between" }}>
                   <Text style={{ fontSize: smallFontSize }}>Terms:</Text>
                   <Text style={{ fontSize: smallFontSize }}>Date:</Text>
@@ -164,7 +164,7 @@ export default class TermsReviewScreen extends React.Component {
 
         <View style={{ flex: 2 }}>
 
-          <View style={{ flex: 1, backgroundColor: Colors.sometimeBackground, borderWidth: 3, borderRadius: 10, margin: 20, padding: 8 }}>
+          <View style={{ flex: 1, backgroundColor: "#FAFAFA", borderWidth: 3, borderRadius: 10, margin: 20, padding: 8 }}>
             <Text style={{ fontSize: largeFontSize, fontStyle: "italic" }}>
               {`I hereby acknowledge that I owe ${promiseeFirstName} ${promiseeLastName} the favor of ${terms}, and that I shall repay this debt on or before ${date}.
 

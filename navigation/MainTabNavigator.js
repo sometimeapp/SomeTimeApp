@@ -63,10 +63,10 @@ PledgesTab.navigationOptions = {
 
 
 const PledgesStack = createStackNavigator({
-  //Pledges: PledgesTab,
+  Pledges: PledgesTab,
   Details: PledgeDetailsScreen,
-  //ResolveQR: GeneratedQRCodeScreen, 
-  //ResolveReview: ResolveReviewScreeen
+  ResolveQR: GeneratedQRCodeScreen, 
+  ResolveReview: ResolveReviewScreeen
 })
 
 PledgesStack.navigationOptions = ({ navigation }) => {
@@ -110,7 +110,7 @@ const bottomNavConfig = {
 }
 
 export default createBottomTabNavigator({
-  //HomeStack,
+  HomeStack,
   PledgesStack,
   SettingsStack,
 }, bottomNavConfig);
