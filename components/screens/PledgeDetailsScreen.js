@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     margin: 10, 
+    paddingTop: 10,
     backgroundColor: "#FAFAFA", 
   },
   pledgeRowContainer: {
