@@ -31,14 +31,20 @@ import Layout from '../../constants/Layout';
 import Colors from '../../constants/Colors';
 
 var buttonFontSize = 16;
+var iconSize = 100
 if (PixelRatio.get() <= 2) {
   buttonFontSize = 12;
+  iconSize = 75;
 }
 
 export default class PledgeDetailsScreen extends React.Component {
 
   static navigationOptions = {
-    title: '',
+    headerTitle: 'Details',
+    headerStyle: {
+      backgroundColor: Colors.sometimeHeader
+    },
+    headerTintColor: Colors.sometimeSecondaryText
   };
 
   render() {
@@ -52,7 +58,7 @@ export default class PledgeDetailsScreen extends React.Component {
           <Icon
             name={twoWayIconDict.revGet(pledge.terms) || "asterisk"}
             type="material-community"
-            size={100}
+            size={iconSize}
             containerStyle={{ borderRadius: 10, padding: 15, backgroundColor: "#FAFAFA" }}
           />
         </View>
@@ -160,7 +166,7 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
-    elevation: 10, // Android
+    elevation: 2, // Android
   },
   buttonText: {
     fontSize: buttonFontSize,
