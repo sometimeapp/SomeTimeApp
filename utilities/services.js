@@ -9,6 +9,9 @@ const getData = async (id, index) => {
         path += `?message=${index}`
     }
     let apiData = await API.get(apiName, path);
+    apiData.sort(function(a, b) {
+        return a.pledgeStatus.localeCompare(b.pledgeStatus);
+      });
     return apiData;
 }
 

@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     },
     termsBox: {
         borderRadius: 5,
-        backgroundColor: "#FAFAFA",
+        backgroundColor: Colors.sometimeSecondaryText,
         position: "absolute",
         height: "90%",
         width: "50%",

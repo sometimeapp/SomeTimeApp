@@ -12,7 +12,7 @@ export default class PledgesOwedScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: 'Pledges Owed to Me',
+    title: 'Owed to Me',
   };
 
   async componentDidMount() {
@@ -30,7 +30,7 @@ export default class PledgesOwedScreen extends React.Component {
   onRefresh = async () => {
     this.setState({ isFetching: true });
     const newPledges = await getData(this.state.promiseeId, null);
-    console.log(newPledges)
+    //console.log(newPledges)
     this.setState({
       pledgesOwed: newPledges,
       isFetching: false
