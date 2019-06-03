@@ -48,8 +48,7 @@ export default class PledgeDetailsScreen extends React.Component {
   };
 
   render() {
-    //const pledge = this.props.navigation.state.params;
-    console.log(Layout.window.width)
+    const pledge = this.props.navigation.state.params;
 
     return (
       <View style={styles.mainContainer}>
