@@ -11,7 +11,7 @@ export default class PledgesMadeScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: "Pledges I've Made",
+    title: "Made by Me",
   };
 
   async componentDidMount() {

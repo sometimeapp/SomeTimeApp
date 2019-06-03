@@ -48,7 +48,6 @@ export default class PledgeDetailsScreen extends React.Component {
   };
 
   render() {
-    const pledge = this.props.navigation.state.params;
 
     return (
       <View style={styles.mainContainer}>
@@ -58,7 +57,7 @@ export default class PledgeDetailsScreen extends React.Component {
             name={twoWayIconDict.revGet(pledge.terms) || "asterisk"}
             type="material-community"
             size={iconSize}
-            containerStyle={{ borderRadius: 10, padding: 15, backgroundColor: "#FAFAFA" }}
+            containerStyle={{ borderRadius: 10, padding: 15, backgroundColor: Colors.sometimeSecondaryText }}
           />
         </View>
 
@@ -138,7 +137,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 10, 
     paddingTop: 10,
-    backgroundColor: "#FAFAFA", 
+    backgroundColor: Colors.sometimeSecondaryText, 
   },
   pledgeRowContainer: {
     flex: 1, 

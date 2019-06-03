@@ -46,11 +46,29 @@ HomeStack.navigationOptions = ({ navigation }) => {
 const PledgesTab = createMaterialTopTabNavigator({
   PledgesMade: PledgesMadeScreen,
   PledgesOwed: PledgesOwedScreen
+}, {
+  tabBarOptions: {
+    //activeTintColor: Colors.sometimeSecondaryText,
+    //inactiveTintColor: Colors.sometimeSecondaryText,
+    style: {
+      backgroundColor: Colors.sometimeTertiary
+    }, 
+    indicatorStyle: {
+      backgroundColor: Colors.sometimePrimary, 
+      height: 3
+    }
+  },
 })
 
 PledgesTab.navigationOptions = {
-  title: 'Pledges'
-}
+  title: 'Pledges',
+  headerStyle: {
+    backgroundColor: Colors.sometimeHeader
+  },
+  headerTintColor: Colors.sometimeSecondaryText
+};
+
+
 
 // PledgesTab.navigationOptions = ({ navigation, screenProps }) => { 
 //   const childOptions = getActiveChildNavigationOptions(navigation, screenProps); 

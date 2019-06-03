@@ -9,8 +9,9 @@ import {
 } from 'react-native';
 import PledgeCard from './PledgeCard';
 
+import Colors from '../../constants/Colors';
+
 const PledgeList = (props) => {
-    console.log(props.routeName);
     if (!props.pledges || props.isFetching) {
         return (
           <View style={styles.indicatorContainer}>
@@ -19,12 +20,14 @@ const PledgeList = (props) => {
         )
     } else {
         return (
+          
           <View style={styles.container}>
             <FlatList
               data={props.pledges}
               keyExtractor={(x, i) => i.toString()}
               onRefresh={() => props.onRefresh()}
               refreshing={props.isFetching}
+              contentContainerStyle={{paddingBottom: 10}}
               ListEmptyComponent={
                 <View style={{ flex: 1, justifyContent: "center", paddingTop: 25 }}>
                   <Text style={{ fontSize: 16, textAlign: 'center' }}>No pledges to show.</Text>
@@ -44,6 +47,7 @@ const PledgeList = (props) => {
               )}
             />
           </View>
+          
         )
       }
 }
@@ -56,6 +60,7 @@ const styles = StyleSheet.create({
     },
     container: {
       flex: 1,
+      backgroundColor: Colors.sometimeBackground
     },
     button: {
       alignItems: 'center',

@@ -3,11 +3,18 @@ import {
     StyleSheet,
     Text,
     View,
+    PixelRatio
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import moment from 'moment';
 
 import { twoWayIconDict } from '../../constants/iconInfo';
+import Colors from '../../constants/Colors';
+
+var fontSize = 14
+if (PixelRatio.get() <= 2) {
+  fontSize = 12;
+}
 
 export default class PledgeCard extends React.Component {
 
@@ -49,13 +56,13 @@ export default class PledgeCard extends React.Component {
 
                             <View style={styles.promiseDetailsContainer}>
                                 <View style={styles.detailContainer}>
-                                    <Text>{moment(this.props.pledge.promiseDate).format('MMM Do YYYY')}</Text>
+                                    <Text style={styles.detailText}>{moment(this.props.pledge.promiseDate).format('MMM Do YYYY')}</Text>
                                 </View>
                                 <View style={styles.detailContainer}>
-                                    <Text>{moment(this.props.pledge.promiseDueDate).format('MMM Do YYYY')}</Text>
+                                    <Text style={styles.detailText}>{moment(this.props.pledge.promiseDueDate).format('MMM Do YYYY')}</Text>
                                 </View>
                                 <View style={styles.detailContainer}>
-                                    <Text>{this.props.pledge.pledgeStatus}</Text>
+                                    <Text style={styles.detailText}>{this.props.pledge.pledgeStatus}</Text>
                                 </View>
                             </View>
                         </View>
@@ -86,7 +93,10 @@ const styles = StyleSheet.create({
         height: 150,
         borderWidth: 3,
         borderRadius: 10,
-        margin: 10
+        marginTop: 10, 
+        marginRight: 10, 
+        marginLeft: 10, 
+        backgroundColor: Colors.sometimeSecondaryText
     },
     imageContainer: {
         flex: 2,
@@ -130,7 +140,11 @@ const styles = StyleSheet.create({
         flex: 3,
         flexDirection: "row"
     },
+    detailText: {
+        fontSize: fontSize
+    },
     headingText: {
+        fontSize: fontSize,
         fontWeight: "bold"
     }
 

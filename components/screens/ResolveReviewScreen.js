@@ -132,7 +132,7 @@ export default class ResolveReviewScreen extends React.Component {
             </View>
 
             <View style={{ flex: 3 }}>
-              <View style={{ flex: 1, flexDirection: "row", margin: 10, borderWidth: 3, borderRadius: 10, backgroundColor: "#FAFAFA" }}>
+              <View style={{ flex: 1, flexDirection: "row", margin: 10, borderWidth: 3, borderRadius: 10, backgroundColor: Colors.sometimeSecondaryText }}>
                 <View style={{ flex: 1, padding: 5, justifyContent: "space-between" }}>
                   <Text style={{ fontSize: smallFontSize }}>Terms:</Text>
                   <Text style={{ fontSize: smallFontSize }}>Date:</Text>
@@ -152,7 +152,7 @@ export default class ResolveReviewScreen extends React.Component {
 
         <View style={{ flex: 2 }}>
 
-          <View style={{ flex: 1, backgroundColor: "#FAFAFA", borderWidth: 3, borderRadius: 10, margin: 20, padding: 8 }}>
+          <View style={{ flex: 1, backgroundColor: Colors.sometimeSecondaryText, borderWidth: 3, borderRadius: 10, margin: 20, padding: 8 }}>
             <Text style={{ fontSize: largeFontSize, fontStyle: "italic" }}>
               {`Hey, ${promiseeFirstName}!  Remember that time I promised you ${terms}?  I've paid my debt!  So, we're good now, right?
 
