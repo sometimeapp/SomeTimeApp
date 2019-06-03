@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   pledgeInfoContainer: {
     flex: 3,
-    borderWidth: 1,
+    borderWidth: 3,
     borderRadius: 10,
     margin: 10, 
     paddingTop: 10,
