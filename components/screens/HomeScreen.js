@@ -16,8 +16,10 @@ import { CustomIcon } from '../../constants/iconInfo';
 import Colors from '../../constants/Colors';
 
 var buttonFontSize = 20;
+var iconSize = 90
 if (PixelRatio.get() <= 2) {
   buttonFontSize = 16;
+  iconSize = 75;
 }
 
 const devHeight = Dimensions.get('window').height;
@@ -69,7 +71,7 @@ export default class HomeScreen extends React.Component {
           <TouchableOpacity
             style={{ ...styles.button, backgroundColor: Colors.sometimeBackground}}
             onPress={() => this.props.navigation.navigate('Terms')}>
-            <CustomIcon name="handshake" size={90} color={Colors.sometimePrimary}/>
+            <CustomIcon name="handshake" size={iconSize} color={Colors.sometimePrimary}/>
             <Text style={{ ...styles.buttonText}}>Make a Pledge</Text>
           </TouchableOpacity>
         </View>
@@ -78,7 +80,7 @@ export default class HomeScreen extends React.Component {
           <TouchableOpacity
           style={{ ...styles.button, backgroundColor: Colors.sometimeBackground}}
             onPress={() => this.props.navigation.navigate('Receive')}>
-            <MaterialCommunityIcons name="qrcode-scan" size={90} color={Colors.sometimeSecondary}/>
+            <MaterialCommunityIcons name="qrcode-scan" size={iconSize} color={Colors.sometimeSecondary}/>
             <Text style={{ ...styles.buttonText}}>Receive/Resolve</Text>
           </TouchableOpacity>
         </View>
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
   },
   acceptButtonView: {
     flex: 2,
-    alignItems: "center"
+    alignItems: "center",
   },
   button: {
     alignItems: 'center',

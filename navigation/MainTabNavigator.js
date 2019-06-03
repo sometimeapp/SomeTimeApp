@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator, getActiveChildNavigationOptions } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../components/screens/HomeScreen';
@@ -36,10 +36,8 @@ HomeStack.navigationOptions = ({ navigation }) => {
       <TabBarIcon
         focused={focused}
         name={
-          Platform.OS === 'ios'
-            ? `ios-home${focused ? '' : '-outline'}`
-            : 'md-home'
-        }
+         Platform.OS === 'ios' ? 'ios-home' : 'md-home'
+       }
       />
     ),
   };
@@ -53,6 +51,14 @@ const PledgesTab = createMaterialTopTabNavigator({
 PledgesTab.navigationOptions = {
   title: 'Pledges'
 }
+
+// PledgesTab.navigationOptions = ({ navigation, screenProps }) => { 
+//   const childOptions = getActiveChildNavigationOptions(navigation, screenProps); 
+//   return { 
+//     title: childOptions.title, 
+//   }; 
+// }; 
+
 
 const PledgesStack = createStackNavigator({
   Pledges: PledgesTab,

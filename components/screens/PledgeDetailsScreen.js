@@ -1,3 +1,17 @@
+const pledge =     {
+  "pledgeStatus": "pending",
+  "promiseDate": "2019-05-30T22:12:38.125Z",
+  "promiseDueDate": "2019-07-15T22:12:38.125Z",
+  "promiseeFirstName": "Zach",
+  "promiseeId": "bdd53477-fc16-4fa3-888a-2d22e1acea4d",
+  "promiseeLastName": "Daniels",
+  "promisorFirstName": "Jonathan",
+  "promisorId": "679f22da-6818-4bfd-8a67-8a2b34168a8d",
+  "promisorLastName": "Adler",
+  "terms": "a meal",
+  "screen": "PledgesMade"
+}
+
 import React from 'react';
 import {
   Text,
@@ -14,60 +28,82 @@ import { twoWayIconDict } from '../../constants/iconInfo';
 
 import Layout from '../../constants/Layout';
 
+import Colors from '../../constants/Colors';
+
 var buttonFontSize = 16;
+var iconSize = 100
 if (PixelRatio.get() <= 2) {
   buttonFontSize = 12;
+  iconSize = 75;
 }
 
 export default class PledgeDetailsScreen extends React.Component {
 
   static navigationOptions = {
-    title: '',
+    headerTitle: 'Details',
+    headerStyle: {
+      backgroundColor: Colors.sometimeHeader
+    },
+    headerTintColor: Colors.sometimeSecondaryText
   };
 
   render() {
     const pledge = this.props.navigation.state.params;
 
     return (
-      <View style={styles.container}>
+      <View style={styles.mainContainer}>
 
         <View style={styles.iconContainer}>
           <Icon
             name={twoWayIconDict.revGet(pledge.terms) || "asterisk"}
             type="material-community"
-            size={85}
-            containerStyle={{ borderWidth: 3, padding: 15 }}
+            size={iconSize}
+            containerStyle={{ borderRadius: 10, padding: 15, backgroundColor: "#FAFAFA" }}
           />
         </View>
 
         <View style={styles.pledgeInfoContainer}>
 
-          <View style={{ flex: 1, flexDirection: "row" }}>
-
-            <View style={styles.pledgeHeadingsContainer}>
-              <Text style={{ fontWeight: "bold" }}>Terms:</Text>
-              <Text style={{ fontWeight: "bold" }}>{pledge.screen === 'made' ? 'Owed to:' : 'Owed by:'}</Text>
-              <Text style={{ fontWeight: "bold" }}>Pledge made:</Text>
-              <Text style={{ fontWeight: "bold" }}>Due:</Text>
-              <Text style={{ fontWeight: "bold" }}>Status:</Text>
+          <View style={styles.container}>
+            <View style={styles.pledgeRowContainer}>
+              <View style={{flex: 1, flexDirection: "row",  }}><Text style={{fontWeight: "bold"}}>Terms:</Text></View>
+              <View style={{flex: 1, flexDirection: "row", }}><Text>{pledge.terms}</Text></View>
             </View>
+          </View>
 
-            <View style={styles.pledgeDetailsContainer}>
-              <Text>{pledge.terms}</Text>
-              <Text>{pledge.screen === 'made' ? `${pledge.promiseeFirstName} ${pledge.promiseeLastName}`
-                : `${pledge.promisorFirstName} ${pledge.promisorLastName}`}
-              </Text>
-              <Text>{moment(pledge.promiseDate).format('MMM Do YYYY')}</Text>
-              <Text>{moment(pledge.promiseDueDate).format('MMM Do YYYY')}</Text>
-              <Text>{pledge.pledgeStatus}</Text>
+          <View style={styles.container}>
+          <View style={styles.pledgeRowContainer}>
+              <View style={{flex: 1, flexDirection: "row", }}><Text style={{fontWeight: "bold"}}>{pledge.screen === 'PledgesMade' ? 'Owed to:' : 'Owed by:'}</Text></View>
+              <View style={{flex: 1, flexDirection: "row", }}><Text>{pledge.screen === 'PledgesMade' ? `${pledge.promiseeFirstName} ${pledge.promiseeLastName}`
+                : `${pledge.promisorFirstName} ${pledge.promisorLastName}`}</Text></View>
             </View>
+          </View>
 
+          <View style={styles.container}>
+          <View style={styles.pledgeRowContainer}>
+              <View style={{flex: 1, flexDirection: "row", }}><Text style={{fontWeight: "bold"}}>Pledge made:</Text></View>
+              <View style={{flex: 1, flexDirection: "row", }}><Text>{moment(pledge.promiseDate).format('MMM Do YYYY')}</Text></View>
+            </View>
+          </View>
+
+          <View style={styles.container}>
+          <View style={styles.pledgeRowContainer}>
+              <View style={{flex: 1, flexDirection: "row", }}><Text style={{fontWeight: "bold"}}>Due:</Text></View>
+              <View style={{flex: 1, flexDirection: "row", }}><Text>{moment(pledge.promiseDueDate).format('MMM Do YYYY')}</Text></View>
+            </View>
+          </View>
+
+          <View style={styles.container}>
+          <View style={styles.pledgeRowContainer}>
+              <View style={{flex: 1, flexDirection: "row", }}><Text style={{fontWeight: "bold"}}>Status:</Text></View>
+              <View style={{flex: 1, flexDirection: "row", }}><Text>{pledge.pledgeStatus}</Text></View>
+            </View>
           </View>
 
         </View>
 
         <View style={styles.buttonContainer}>
-          {pledge.screen === 'made' && pledge.pledgeStatus !== 'resolved' ? (
+          {pledge.screen === 'PledgesMade' && pledge.pledgeStatus !== 'resolved' ? (
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate('ResolveQR', pledge)}>
@@ -83,33 +119,36 @@ export default class PledgeDetailsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: Colors.sometimeBackground
+  },
   container: {
     flex: 1,
   },
   iconContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  pledgeInfoContainer: {
-    flex: 1,
-    flexDirection: "column",
+    flex: 2,
     justifyContent: "center",
     alignItems: "center",
+    //backgroundColor: "silver"
   },
-  pledgeHeadingsContainer: {
-    flex: 4,
-    flexDirection: "column",
-    justifyContent: "space-between",
-    marginLeft: 15,
+  pledgeInfoContainer: {
+    flex: 3,
+    borderWidth: 3,
+    borderRadius: 10,
+    margin: 10, 
+    paddingTop: 10,
+    backgroundColor: "#FAFAFA", 
   },
-  pledgeDetailsContainer: {
-    flex: 6,
-    justifyContent: "space-between",
-    marginRight: 15
+  pledgeRowContainer: {
+    flex: 1, 
+    flexDirection: "row", 
+    //backgroundColor: "purple", 
+    paddingLeft: 30, 
+    paddingRight: 30,
   },
   buttonContainer: {
-    flex: 1,
+    flex: 2,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
@@ -117,7 +156,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: "center",
-    backgroundColor: '#DDDDDD',
+    backgroundColor: Colors.sometimeTertiary,
     padding: 10,
     height: (Layout.window.height / 15),
     width: (Layout.window.width / 3),
@@ -126,7 +165,7 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
-    elevation: 10, // Android
+    elevation: 2, // Android
   },
   buttonText: {
     fontSize: buttonFontSize,
