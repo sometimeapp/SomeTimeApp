@@ -1,16 +1,16 @@
-const pledge =     {
-  "pledgeStatus": "pending",
-  "promiseDate": "2019-05-30T22:12:38.125Z",
-  "promiseDueDate": "2019-07-15T22:12:38.125Z",
-  "promiseeFirstName": "Zach",
-  "promiseeId": "bdd53477-fc16-4fa3-888a-2d22e1acea4d",
-  "promiseeLastName": "Daniels",
-  "promisorFirstName": "Jonathan",
-  "promisorId": "679f22da-6818-4bfd-8a67-8a2b34168a8d",
-  "promisorLastName": "Adler",
-  "terms": "a meal",
-  "screen": "PledgesMade"
-}
+// const pledge =     {
+//   "pledgeStatus": "pending",
+//   "promiseDate": "2019-05-30T22:12:38.125Z",
+//   "promiseDueDate": "2019-07-15T22:12:38.125Z",
+//   "promiseeFirstName": "Zach",
+//   "promiseeId": "bdd53477-fc16-4fa3-888a-2d22e1acea4d",
+//   "promiseeLastName": "Daniels",
+//   "promisorFirstName": "Jonathan",
+//   "promisorId": "679f22da-6818-4bfd-8a67-8a2b34168a8d",
+//   "promisorLastName": "Adler",
+//   "terms": "a meal",
+//   "screen": "PledgesMade"
+// }
 
 import React from 'react';
 import {
@@ -48,6 +48,7 @@ export default class PledgeDetailsScreen extends React.Component {
   };
 
   render() {
+    const pledge = this.props.navigation.state.params;
 
     return (
       <View style={styles.mainContainer}>
