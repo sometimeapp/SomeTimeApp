@@ -89,7 +89,7 @@ export default class SettingsScreen extends React.Component {
           <Input
             placeholder="Old Password"
             textContentType="password"
-            secureTextEntry={false}
+            secureTextEntry={true}
             autoCorrect={false}
             containerStyle={{ width: "95%" }}
             inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
@@ -101,7 +101,7 @@ export default class SettingsScreen extends React.Component {
           <Input
             placeholder="New Password"
             textContentType="password"
-            secureTextEntry={false}
+            secureTextEntry={true}
             autoCorrect={false}
             containerStyle={{ width: "95%" }}
             inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
