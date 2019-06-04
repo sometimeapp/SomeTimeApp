@@ -62,7 +62,8 @@ export default class QRScannerScreen extends React.Component {
 
     handleBarCodeScanned = ({ type, data }) => {
         //alert variables
-        let title, message, btn1Text, btn2Text, btn1PressAction;
+        let title, message, btn1Text, btn2Text;
+        let btn1PressAction = () => this.setState({ scanned: false });
 
         //set scanned to 'true' to stop continuous scanning
         this.setState({ scanned: true });
@@ -70,41 +71,41 @@ export default class QRScannerScreen extends React.Component {
         //parse scanned data to make sure its valid JSON
         data = this.parseAndValidateJSON(data);
 
-        if (!data || (!data.screen && !data.promisorID)) {  //if data is invalid or it is not a valid promise
+        if (!data || (!data.screen && !data.promisorID)) {  //if data is invalid or it is not a valid pledge
             title = 'Error!';
-            message = 'Invalid QR Code'
-            btn1Text = 'Scan again',
-                btn2Text = 'Cancel'
-            btn1PressAction = () => this.setState({ scanned: false });
-        } else if (!data.terms) { //if the data is valid, but there are no promise terms specified
+            message = 'Invalid QR Code';
+            btn1Text = 'Scan again';
+            btn2Text = 'Cancel';
+        } else if (!data.terms) { //if the data is valid, but there are no pledge terms specified
             title = 'Alert!'
             message = 'Pledge terms are blank -- cannot be accepted';
-            btn1Text = 'Scan again',
-                btn2Text = 'Cancel',
-                btn1PressAction = () => this.setState({ scanned: false });
-        } else if (data.screen) { //if the 'screen' attribute is present, this is a pledge submitted for resolution
+            btn1Text = 'Scan again';
+            btn2Text = 'Cancel';
+        } else if (data.promisorID === this.state.userID) {
+            title = 'Alert!';
+            message = 'You cannot make a pledge to yourself!';
+            btn1Text = 'Scan again';
+            btn2Text = 'Cancel';
+        } else if(data.screen) { //if the 'screen' attribute is present, this is a pledge submitted for resolution
             if (data.promiseeId !== this.state.userID) { //if this pledge doesn't belong to you....
-                title = 'Alert!'
-                message = 'It looks like this pledge does not belong to you!'
-                btn1Text = 'Scan again';
-                btn2Text = 'Cancel';
-                btn1PressAction = () => this.setState({ scanned: false });
+            title = 'Alert!'
+            message = 'It looks like this pledge does not belong to you!'
+            btn1Text = 'Scan again';
+            btn2Text = 'Cancel';
             } else {
-                title = 'Resolve?'
-                message = `${data.promisorFirstName} claims to have resolved a pledge.`
-                btn1Text = 'Review';
-                btn2Text = 'Dismiss';
-                btn1PressAction = () => this.props.navigation.navigate('ResolveReview', data);
-            }
-
-        } else {
-            title = 'Pledge Received'
-            message = `${data.promisorFirstName} has made a pledge.`
-            btn1Text = 'Review terms';
+            title = 'Resolve?'
+            message = `${data.promisorFirstName} claims to have resolved a pledge.`
+            btn1Text = 'Review';
             btn2Text = 'Dismiss';
-            btn1PressAction = () => this.props.navigation.navigate('Review', data);
+            btn1PressAction = () => this.props.navigation.navigate('ResolveReview', data);
+            }
+        } else {
+        title = 'Pledge Received'
+        message = `${data.promisorFirstName} has made a pledge.`
+        btn1Text = 'Review terms';
+        btn2Text = 'Dismiss';
+        btn1PressAction = () => this.props.navigation.navigate('Review', data);
         }
-
         Alert.alert(
             title,
             message,
@@ -123,78 +124,78 @@ export default class QRScannerScreen extends React.Component {
         );
     }
 
-    //set opendedOnce back to false when leaving the screen
-    componentWillUnmount() {
-        this.openedOnce = false;
+//set opendedOnce back to false when leaving the screen
+componentWillUnmount() {
+    this.openedOnce = false;
+}
+
+render() {
+    /*
+        When the screen first renders, openedOnce flag is false, and so is this.state.scannerIsVisible.
+        Wait 800ms, then set scannerIsVisible to true.  This allows the 'waiting for camera' view to
+        render before the laggy request to open the camera is made.  Toggle openedOnce to 'true' afterward
+        to prevent constant re-renders.
+    */
+    if (!this.openedOnce) {
+        setTimeout(() => {
+            this.setState({ scannerIsVisible: true });
+            this.openedOnce = true;
+        }, 800);
     }
 
-    render() {
-        /*
-            When the screen first renders, openedOnce flag is false, and so this.state.scannerIsVisible.
-            Wait 800ms, then set scannerIsVisible to true.  This allows the 'waiting for camera' view to
-            render before the laggy request to open the camera is made.  Toggle openedOnce to 'true' afterward
-            to prevent constant re-renders.
-        */
-        if (!this.openedOnce) {
-            setTimeout(() => {
-                this.setState({ scannerIsVisible: true });
-                this.openedOnce = true;
-            }, 800);
-        }
+    const { hasCameraPermission, scanned } = this.state;
 
-        const { hasCameraPermission, scanned } = this.state;
-
-        if (hasCameraPermission === null || !this.state.scannerIsVisible) {
-            return (
-                <View style={{
-                    backgroundColor: 'black',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flex: 1
-                }}>
-                    <ActivityIndicator
-                        size='large'
-                    />
-                    <Text style={{
-                        color: 'white',
-                        fontSize: 20
-                    }}> Waiting for camera...
-                    </Text>
-                </View>
-            )
-        }
-        if (hasCameraPermission === false) {
-            return <Text>No access to camera</Text>;
-        }
+    if (hasCameraPermission === null || !this.state.scannerIsVisible) {
         return (
-            <View style={styles.container}>
-                <BarCodeScanner
-                    onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
-                    style={StyleSheet.absoluteFill}
+            <View style={{
+                backgroundColor: 'black',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flex: 1
+            }}>
+                <ActivityIndicator
+                    size='large'
                 />
-                <View style={styles.topOverlay} />
-                <View style={styles.leftOverlay} />
-                <View style={styles.rightOverlay} />
-                <View style={styles.bottomOverlay} />
-                <View style={styles.topLeftCorner} />
-                <View style={styles.topRightCorner} />
-                <View style={styles.bottomLeftCorner} />
-                <View style={styles.bottomRightCorner} />
-
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>Scan Pledge Code</Text>
-                </View>
-
-                <View style={styles.footer}>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.goBack()}
-                        hitSlop={{ top: 40, bottom: 40, right: 40, left: 40 }}>
-                        <Text style={styles.cancelText}>Cancel</Text>
-                    </TouchableOpacity>
-                </View>
+                <Text style={{
+                    color: 'white',
+                    fontSize: 20
+                }}> Waiting for camera...
+                    </Text>
             </View>
-        );
+        )
     }
+    if (hasCameraPermission === false) {
+        return <Text>No access to camera</Text>;
+    }
+    return (
+        <View style={styles.container}>
+            <BarCodeScanner
+                onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
+                style={StyleSheet.absoluteFill}
+            />
+            <View style={styles.topOverlay} />
+            <View style={styles.leftOverlay} />
+            <View style={styles.rightOverlay} />
+            <View style={styles.bottomOverlay} />
+            <View style={styles.topLeftCorner} />
+            <View style={styles.topRightCorner} />
+            <View style={styles.bottomLeftCorner} />
+            <View style={styles.bottomRightCorner} />
+
+            <View style={styles.header}>
+                <Text style={styles.headerText}>Scan Pledge Code</Text>
+            </View>
+
+            <View style={styles.footer}>
+                <TouchableOpacity
+                    onPress={() => this.props.navigation.goBack()}
+                    hitSlop={{ top: 40, bottom: 40, right: 40, left: 40 }}>
+                    <Text style={styles.cancelText}>Cancel</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+}
 }
 
 const BOX_MARGIN = 30;
