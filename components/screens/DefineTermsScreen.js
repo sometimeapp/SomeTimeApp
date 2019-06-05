@@ -34,6 +34,7 @@ export default class DefineTermsScreen extends React.Component {
         promisorLastName: '',
         duration: 3,
         terms: '',
+        focusedIcon: null,
         otherSelected: false,
         inputHasFocus: false
     }
@@ -69,7 +70,7 @@ export default class DefineTermsScreen extends React.Component {
     }
 
     onChangeTerms = (value) => {
-        this.setState({ terms: value })
+        this.setState({ terms: value, })
     }
 
     onChangeDuration = (value) => {
@@ -78,9 +79,9 @@ export default class DefineTermsScreen extends React.Component {
 
     setStaticPledge = (value) => {
         value === 'other' ?
-            this.setState({ terms: value, otherSelected: true })
+            this.setState({ terms: value, otherSelected: true, focusedIcon: value })
             :
-            this.setState({ terms: value, otherSelected: false });
+            this.setState({ terms: value, otherSelected: false, focusedIcon: value });
     }
 
     render() {
@@ -130,6 +131,7 @@ export default class DefineTermsScreen extends React.Component {
                 <View style={styles.staticTermsContainer}>
                     <StaticTermsIcons
                         handleTouch={value => this.setStaticPledge(value)}
+                        focusedIcon={this.state.focusedIcon}
                     />
                 </View>
 
@@ -167,7 +169,10 @@ export default class DefineTermsScreen extends React.Component {
                         </View>
                         <View style={styles.signUpButtonView}>
                             <TouchableOpacity
-                                style={{ ...styles.button, backgroundColor: Colors.sometimeTertiary }}
+                                style={(this.state.terms === '' || this.state.terms === 'other' ?
+                                    styles.button
+                                    : { ...styles.button, backgroundColor: Colors.sometimeTertiary })}
+                                disabled={this.state.terms === '' || this.state.terms === 'other' ? true : false}
                                 onPress={() => {
                                     let today = moment();
                                     let future = today.clone().add(this.state.duration, 'd');
@@ -255,6 +260,7 @@ const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
         justifyContent: "center",
+        backgroundColor: 'silver',
         padding: 10,
         height: (Layout.window.height / 15),
         width: (Layout.window.width / 3),

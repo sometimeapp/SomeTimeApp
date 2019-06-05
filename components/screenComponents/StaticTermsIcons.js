@@ -8,6 +8,7 @@ import {
 import { Icon } from 'react-native-elements';
 
 import { iconDict, twoWayIconDict } from '../../constants/iconInfo';
+import Colors from '../../constants/Colors';
 
 export default class StaticTermsIcons extends React.Component {
 
@@ -17,11 +18,14 @@ export default class StaticTermsIcons extends React.Component {
 
                 {Object.keys(iconDict).map((item) => {
                     return (
-                        <TouchableOpacity key={item} style={styles.itemContainer} onPress={() => this.props.handleTouch(twoWayIconDict.get(item))}>
+                        <TouchableOpacity key={item}
+                            style={styles.itemContainer}
+                            onPress={() => this.props.handleTouch(twoWayIconDict.get(item))}>
                             <Icon
                                 name={item}
                                 type='material-community'
                                 size={35}
+                                color={this.props.focusedIcon === twoWayIconDict.get(item) ? Colors.sometimePrimary : 'black'}
                             />
                         </TouchableOpacity>
                     );
