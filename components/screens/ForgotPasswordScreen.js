@@ -49,7 +49,7 @@ export default class SignInScreen extends React.Component {
     let { email } = this.state
     email = email.toLowerCase();
     await Auth.forgotPassword(email)
-      .then(data => console.log('New code sent', data))
+      .then(Alert.alert('Enter the confirmation code sent to your email address'))
       .catch(err => {
         if (!err.message) {
           console.log('Error while setting up the new password: ', err)
@@ -67,7 +67,7 @@ export default class SignInScreen extends React.Component {
     await Auth.forgotPasswordSubmit(email, authCode, newPassword)
       .then(() => {
         this.props.navigation.navigate('SignIn')
-        console.log('the New password submitted successfully')
+        Alert.alert('Password successfully changed.');
       })
       .catch(err => {
         if (!err.message) {
