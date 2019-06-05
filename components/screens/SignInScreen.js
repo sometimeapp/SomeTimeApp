@@ -12,6 +12,10 @@ import {
   Image
 } from 'react-native';
 
+import { connect } from 'react-redux'
+
+import { authenticate, confirmUserLogin } from '../actions'
+
 import Layout from '../../constants/Layout';
 import Colors from '../../constants/Colors';
 
@@ -28,7 +32,7 @@ if (PixelRatio.get() <= 2) {
   buttonFontSize = 12;
 }
 
-export default class SignInScreen extends React.Component {
+export class SignInScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -138,6 +142,17 @@ export default class SignInScreen extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = {
+  dispatchConfirmUserLogin: authCode => confirmUserLogin(authCode),
+  dispatchAuthenticate: (username, password) => authenticate(username, password)
+}
+
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen)
 
 const styles = StyleSheet.create({
   container: {
