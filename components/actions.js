@@ -15,6 +15,9 @@ import {
     CONFIRM_LOGIN_SUCCESS,
     CONFIRM_LOGIN_FAILURE
   } from './reducers/auth'
+
+  import { NavigationActions } from 'react-navigation'
+
   
   import { Alert } from 'react-native'
   import { Auth } from 'aws-amplify'
