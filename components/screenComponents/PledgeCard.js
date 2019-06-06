@@ -18,11 +18,23 @@ if (PixelRatio.get() <= 2) {
 
 export default class PledgeCard extends React.Component {
 
+    statusColor = (pledge) => {
+        switch (pledge) {
+            case 'resolved':
+                return Colors.sometimePrimary;
+            case 'expired':
+                return Colors.sometimeExpired;
+            default:
+                return Colors.sometimeSecondaryText;
+        }
+    }
+    
+
     render() {
         const { pledgeStatus } = this.props.pledge;
         return (
             <View style={styles.container} >
-                <View style={pledgeStatus === 'resolved' ? {...styles.card, backgroundColor: '#d3d3d3'} : {...styles.card}}>
+                <View style={{...styles.card, backgroundColor: this.statusColor(pledgeStatus)}}>
 
                     <View style={styles.imageContainer}>
                         <Icon
@@ -96,7 +108,6 @@ const styles = StyleSheet.create({
         marginTop: 10, 
         marginRight: 10, 
         marginLeft: 10, 
-        backgroundColor: Colors.sometimeSecondaryText
     },
     imageContainer: {
         flex: 2,

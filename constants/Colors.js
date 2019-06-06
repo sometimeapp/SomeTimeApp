@@ -8,6 +8,7 @@ const sometimeSecondaryText = '#FAFAFA'
 const sometimeTertiary = '#4FB7A7';
 const sometimeBackground = '#E7F0F5';
 const sometimeBackgroundText = '#4b4b4b';
+const sometimeExpired = '#FF4858';
 
 export default {
   tintColor,
@@ -20,7 +21,7 @@ export default {
   sometimeHeaderText,
   sometimeBackground,
   sometimeBackgroundText,
-  // sometimeText,
+  sometimeExpired,
   tabIconDefault: '#ccc',
   tabIconSelected: tintColor,
   tabBar: '#fefefe',
