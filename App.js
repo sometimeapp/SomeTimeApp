@@ -2,9 +2,10 @@ import React from 'react';
 
 import SomeTimeEntry from './components/SomeTimeEntry';
 
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import auth from './components/reducers'
+import auth from './components/reducers';
+import thunk from 'redux-thunk';
 
 const initialState = {};
 
@@ -12,7 +13,7 @@ const reducer = (state = initialState) => {
   return state;
 }
 
-const store = createStore(auth);
+const store = createStore(auth, applyMiddleware(thunk));
 
 
 export default class App extends React.Component {

@@ -15,9 +15,15 @@ import {
 import Layout from '../../constants/Layout';
 import Colors from '../../constants/Colors';
 
+import { authenticate, confirmUserLogin } from '../actions'
+
+
 
 // AWS Amplifyß
 import Auth from '@aws-amplify/auth'
+
+import { connect } from 'react-redux'
+
 
 import {
   Input,
@@ -28,7 +34,7 @@ if (PixelRatio.get() <= 2) {
   buttonFontSize = 12;
 }
 
-export default class SignInScreen extends React.Component {
+class SignInScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -43,28 +49,35 @@ export default class SignInScreen extends React.Component {
     this.setState({ [key]: value.trim() })
   }
 
-  _signInAsync = async () => {
-    this.setState({ isLoading: true });
-    let { email, password } = this.state
-    email = email.toLowerCase();
-    await Auth.signIn(email, password)
-      .then(user => {
-        this.setState({ user })
-        this.props.navigation.navigate('AuthLoading')
-      })
-      .catch(err => {
-        this.setState({ isLoading: false });
-        if (!err.message) {
-          console.log('Error when signing in: ', err)
-          Alert.alert('Error when signing in: ', err)
-        } else {
-          console.log('Error when signing in: ', err.message)
-          Alert.alert('Error when signing in: ', err.message)
-        }
-      })
-  };
+  // _signInAsync = async () => {
+  //   this.setState({ isLoading: true });
+  //   let { email, password } = this.state
+  //   email = email.toLowerCase();
+  //   await Auth.signIn(email, password)
+  //     .then(user => {
+  //       this.setState({ user })
+  //       this.props.navigation.navigate('AuthLoading')
+  //     })
+  //     .catch(err => {
+  //       this.setState({ isLoading: false });
+  //       if (!err.message) {
+  //         console.log('Error when signing in: ', err)
+  //         Alert.alert('Error when signing in: ', err)
+  //       } else {
+  //         console.log('Error when signing in: ', err.message)
+  //         Alert.alert('Error when signing in: ', err.message)
+  //       }
+  //     })
+  // };
+
+  _signInAsync() {
+    const { email, password } = this.state;
+    this.props.dispatchAuthenticate(email, password);
+  }
 
   render() {
+    console.log('THE PROPS ARE: ')
+    console.log(this.props);
     return (
       <SafeAreaView style={styles.container}>
         <View style={this.state.isLoading ? ({ opacity: 0.4, flex: 1, backgroundColor: 'black' }) : { opacity: 1, flex: 1 }}>
@@ -138,6 +151,17 @@ export default class SignInScreen extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = {
+  dispatchConfirmUserLogin: authCode => confirmUserLogin(authCode),
+  dispatchAuthenticate: (username, password) => authenticate(username, password)
+}
+
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);
 
 const styles = StyleSheet.create({
   container: {
