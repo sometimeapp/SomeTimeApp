@@ -69,13 +69,14 @@ export default class PledgeDetailsScreen extends React.Component {
     this.setState({ deleting: true});
 
     let apiName = 'PledgesCRUD';
-    let path = '/path';
+    let path = '/pledges/object/' + this.props.navigation.state.params.promiseeId + '/' + this.props.navigation.state.params.promiseDate;
     let myInit = { // OPTIONAL
-      headers: {} // OPTIONAL
+      headers: {}, // OPTIONAL
+      response: true
     }
     API.del(apiName, path, myInit).then(response => {
       alert('Pledge successfully deleted!');
-      this.props.navigation.navigate('Pledges');
+      this.props.navigation.navigate('Home');
     }).catch(error => {
       console.log(JSON.stringify(error.response))
     });
