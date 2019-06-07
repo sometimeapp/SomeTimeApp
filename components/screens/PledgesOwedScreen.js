@@ -15,18 +15,16 @@ export default class PledgesOwedScreen extends React.Component {
     title: 'Owed to Me',
   };
 
-   componentDidMount() {
-    this._navListener = this.props.navigation.addListener('didFocus', async () => {
-      let userInfo = await this.getId();
-      let promiseeId = userInfo.userID;
-      this.setState({ isFetching: true });
-      const apiData = await getData(promiseeId, null);
-      this.setState({
-        promiseeId: promiseeId,
-        pledgesOwed: apiData,
-        isFetching: false
-      })
-    });
+  async componentDidMount() {
+    let userInfo = await this.getId();
+    let promiseeId = userInfo.userID;
+    this.setState({ isFetching: true });
+    const apiData = await getData(promiseeId, null);
+    this.setState({
+      promiseeId: promiseeId,
+      pledgesOwed: apiData,
+      isFetching: false
+    })
   }
 
   onRefresh = async () => {
@@ -53,7 +51,12 @@ export default class PledgesOwedScreen extends React.Component {
   }
 
   goToDetails = (item, screenName) => {
-    this.props.navigation.navigate('Details', { ...item, screen: screenName })
+    this.props.navigation.navigate(
+      'Details', {
+        ...item,
+        screen: screenName,
+        onGoBack: () => this.onRefresh()
+      });
   }
 
   render() {

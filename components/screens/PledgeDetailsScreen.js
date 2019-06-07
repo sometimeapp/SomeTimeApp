@@ -53,6 +53,10 @@ export default class PledgeDetailsScreen extends React.Component {
     deleting: false
   }
 
+  componentDidMount() {
+    console.log(this.props.navigation);
+  }
+
   statusColor = (pledgeStatus) => {
     switch (pledgeStatus) {
       case 'resolved':
@@ -76,6 +80,7 @@ export default class PledgeDetailsScreen extends React.Component {
     }
     API.del(apiName, path, myInit).then(response => {
       alert('Pledge successfully deleted!');
+      this.props.navigation.state.params.onGoBack();
       this.props.navigation.goBack();
     }).catch(error => {
       console.log(JSON.stringify(error.response))
