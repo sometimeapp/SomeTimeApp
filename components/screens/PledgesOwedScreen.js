@@ -8,7 +8,7 @@ export default class PledgesOwedScreen extends React.Component {
 
   state = {
     pledgesOwed: null,
-    isFetching: false
+    isFetching: false,
   }
 
   static navigationOptions = {
@@ -51,7 +51,12 @@ export default class PledgesOwedScreen extends React.Component {
   }
 
   goToDetails = (item, screenName) => {
-    this.props.navigation.navigate('Details', { ...item, screen: screenName })
+    this.props.navigation.navigate(
+      'Details', {
+        ...item,
+        screen: screenName,
+        onGoBack: () => this.onRefresh()
+      });
   }
 
   render() {
@@ -63,6 +68,7 @@ export default class PledgesOwedScreen extends React.Component {
         onRefresh={this.onRefresh}
         routeName={routeName}
         navigate={this.goToDetails}
+        setGoingToExpired={this.setGoingToExpired}
       />
     )
   }

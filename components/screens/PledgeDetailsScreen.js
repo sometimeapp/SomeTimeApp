@@ -21,6 +21,8 @@ import {
   PixelRatio
 } from 'react-native';
 
+import { API } from 'aws-amplify';
+
 import { Icon } from 'react-native-elements';
 import moment from 'moment';
 
@@ -47,6 +49,44 @@ export default class PledgeDetailsScreen extends React.Component {
     headerTintColor: Colors.sometimeSecondaryText
   };
 
+  state = {
+    deleting: false
+  }
+
+  componentDidMount() {
+    console.log(this.props.navigation);
+  }
+
+  statusColor = (pledgeStatus) => {
+    switch (pledgeStatus) {
+      case 'resolved':
+        return Colors.sometimePrimary;
+      case 'expired':
+        return Colors.sometimeExpired;
+      default:
+        return Colors.sometimeSecondaryText;
+    }
+  }
+
+  deletePledge = async () => {
+
+    this.setState({ deleting: true});
+
+    let apiName = 'PledgesCRUD';
+    let path = '/pledges/object/' + this.props.navigation.state.params.promiseeId + '/' + this.props.navigation.state.params.promiseDate;
+    let myInit = { // OPTIONAL
+      headers: {}, // OPTIONAL
+      response: true
+    }
+    API.del(apiName, path, myInit).then(response => {
+      alert('Pledge successfully deleted!');
+      this.props.navigation.state.params.onGoBack();
+      this.props.navigation.goBack();
+    }).catch(error => {
+      console.log(JSON.stringify(error.response))
+    });
+  }
+
   render() {
     const pledge = this.props.navigation.state.params;
 
@@ -58,7 +98,7 @@ export default class PledgeDetailsScreen extends React.Component {
             name={twoWayIconDict.revGet(pledge.terms) || "asterisk"}
             type="material-community"
             size={iconSize}
-            containerStyle={{ borderRadius: 10, padding: 15, backgroundColor: Colors.sometimeSecondaryText }}
+            containerStyle={{ borderRadius: 10, padding: 15, backgroundColor: this.statusColor(pledge.pledgeStatus) }}
           />
         </View>
 
@@ -66,53 +106,71 @@ export default class PledgeDetailsScreen extends React.Component {
 
           <View style={styles.container}>
             <View style={styles.pledgeRowContainer}>
-              <View style={{flex: 1, flexDirection: "row",  }}><Text style={{fontWeight: "bold"}}>Terms:</Text></View>
-              <View style={{flex: 1, flexDirection: "row", }}><Text>{pledge.terms}</Text></View>
+              <View style={{ flex: 1, flexDirection: "row", }}><Text style={{ fontWeight: "bold" }}>Terms:</Text></View>
+              <View style={{ flex: 1, flexDirection: "row", }}><Text>{pledge.terms}</Text></View>
             </View>
           </View>
 
           <View style={styles.container}>
-          <View style={styles.pledgeRowContainer}>
-              <View style={{flex: 1, flexDirection: "row", }}><Text style={{fontWeight: "bold"}}>{pledge.screen === 'PledgesMade' ? 'Owed to:' : 'Owed by:'}</Text></View>
-              <View style={{flex: 1, flexDirection: "row", }}><Text>{pledge.screen === 'PledgesMade' ? `${pledge.promiseeFirstName} ${pledge.promiseeLastName}`
+            <View style={styles.pledgeRowContainer}>
+              <View style={{ flex: 1, flexDirection: "row", }}><Text style={{ fontWeight: "bold" }}>{pledge.screen === 'PledgesMade' ? 'Owed to:' : 'Owed by:'}</Text></View>
+              <View style={{ flex: 1, flexDirection: "row", }}><Text>{pledge.screen === 'PledgesMade' ? `${pledge.promiseeFirstName} ${pledge.promiseeLastName}`
                 : `${pledge.promisorFirstName} ${pledge.promisorLastName}`}</Text></View>
             </View>
           </View>
 
           <View style={styles.container}>
-          <View style={styles.pledgeRowContainer}>
-              <View style={{flex: 1, flexDirection: "row", }}><Text style={{fontWeight: "bold"}}>Pledge made:</Text></View>
-              <View style={{flex: 1, flexDirection: "row", }}><Text>{moment(pledge.promiseDate).format('MMM Do YYYY')}</Text></View>
+            <View style={styles.pledgeRowContainer}>
+              <View style={{ flex: 1, flexDirection: "row", }}><Text style={{ fontWeight: "bold" }}>Pledge made:</Text></View>
+              <View style={{ flex: 1, flexDirection: "row", }}><Text>{moment(pledge.promiseDate).format('MMM Do YYYY')}</Text></View>
             </View>
           </View>
 
           <View style={styles.container}>
-          <View style={styles.pledgeRowContainer}>
-              <View style={{flex: 1, flexDirection: "row", }}><Text style={{fontWeight: "bold"}}>Due:</Text></View>
-              <View style={{flex: 1, flexDirection: "row", }}><Text>{moment(pledge.promiseDueDate).format('MMM Do YYYY')}</Text></View>
+            <View style={styles.pledgeRowContainer}>
+              <View style={{ flex: 1, flexDirection: "row", }}><Text style={{ fontWeight: "bold" }}>Due:</Text></View>
+              <View style={{ flex: 1, flexDirection: "row", }}><Text>{moment(pledge.promiseDueDate).format('MMM Do YYYY')}</Text></View>
             </View>
           </View>
 
           <View style={styles.container}>
-          <View style={styles.pledgeRowContainer}>
-              <View style={{flex: 1, flexDirection: "row", }}><Text style={{fontWeight: "bold"}}>Status:</Text></View>
-              <View style={{flex: 1, flexDirection: "row", }}><Text>{pledge.pledgeStatus}</Text></View>
+            <View style={styles.pledgeRowContainer}>
+              <View style={{ flex: 1, flexDirection: "row", }}><Text style={{ fontWeight: "bold" }}>Status:</Text></View>
+              <View style={{ flex: 1, flexDirection: "row", }}><Text>{pledge.pledgeStatus}</Text></View>
             </View>
           </View>
 
         </View>
 
-        <View style={styles.buttonContainer}>
-          {pledge.screen === 'PledgesMade' && pledge.pledgeStatus !== 'resolved' ? (
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.props.navigation.navigate('ResolveQR', pledge)}>
-              <Text style={styles.buttonText}>Make Good</Text>
-            </TouchableOpacity>
-          ) : (null)
+        {(() => {
+          if (pledge.screen === 'PledgesMade' && pledge.pledgeStatus === 'pending') {
+            return (
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => this.props.navigation.navigate('ResolveQR', pledge)}>
+                  <Text style={styles.buttonText}>Make Good</Text>
+                </TouchableOpacity>
+              </View>
+            )
+          } else if (pledge.screen === 'PledgesOwed' && pledge.pledgeStatus === 'expired') {
+            return (
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  style={styles.button}
+                  disabled={this.state.deleting ? true : false}
+                  onPress={() => this.deletePledge()}>
+                  <Text style={styles.buttonText}>Delete</Text>
+                </TouchableOpacity>
+              </View>
+            )
+          } else {
+            return (
+              <View style={styles.buttonContainer}>
+              </View>
+            )
           }
-        </View>
-
+        })()}
       </View>
     )
   }
@@ -136,15 +194,15 @@ const styles = StyleSheet.create({
     flex: 3,
     borderWidth: 3,
     borderRadius: 10,
-    margin: 10, 
+    margin: 10,
     paddingTop: 10,
-    backgroundColor: Colors.sometimeSecondaryText, 
+    backgroundColor: Colors.sometimeSecondaryText,
   },
   pledgeRowContainer: {
-    flex: 1, 
-    flexDirection: "row", 
-    //backgroundColor: "purple", 
-    paddingLeft: 30, 
+    flex: 1,
+    flexDirection: "row",
+    //backgroundColor: "purple",
+    paddingLeft: 30,
     paddingRight: 30,
   },
   buttonContainer: {
