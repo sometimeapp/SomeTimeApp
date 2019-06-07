@@ -21,6 +21,8 @@ import {
   PixelRatio
 } from 'react-native';
 
+import { API } from 'aws-amplify';
+
 import { Icon } from 'react-native-elements';
 import moment from 'moment';
 
@@ -47,6 +49,10 @@ export default class PledgeDetailsScreen extends React.Component {
     headerTintColor: Colors.sometimeSecondaryText
   };
 
+  state = {
+    deleting: false
+  }
+
   statusColor = (pledgeStatus) => {
     switch (pledgeStatus) {
       case 'resolved':
@@ -56,6 +62,23 @@ export default class PledgeDetailsScreen extends React.Component {
       default:
         return Colors.sometimeSecondaryText;
     }
+  }
+
+  deletePledge = async () => {
+
+    this.setState({ deleting: true});
+
+    let apiName = 'PledgesCRUD';
+    let path = '/path';
+    let myInit = { // OPTIONAL
+      headers: {} // OPTIONAL
+    }
+    API.del(apiName, path, myInit).then(response => {
+      alert('Pledge successfully deleted!');
+      this.props.navigation.navigate('Pledges');
+    }).catch(error => {
+      console.log(JSON.stringify(error.response))
+    });
   }
 
   render() {
@@ -124,18 +147,21 @@ export default class PledgeDetailsScreen extends React.Component {
                 </TouchableOpacity>
               </View>
             )
-          } else if (pledge.screen === 'PledgesOwed' && pledge.pledgeStatus === 'expired' ) {
+          } else if (pledge.screen === 'PledgesOwed' && pledge.pledgeStatus === 'expired') {
             return (
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                  style={styles.button}>
+                  style={styles.button}
+                  disabled={this.state.deleting ? true : false}
+                  onPress={() => this.deletePledge()}>
                   <Text style={styles.buttonText}>Delete</Text>
                 </TouchableOpacity>
               </View>
             )
           } else {
             return (
-              <View style={styles.buttonContainer}><TouchableOpacity></TouchableOpacity></View>
+              <View style={styles.buttonContainer}>
+              </View>
             )
           }
         })()}
