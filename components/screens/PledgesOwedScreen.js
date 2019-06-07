@@ -68,7 +68,6 @@ export default class PledgesOwedScreen extends React.Component {
         onRefresh={this.onRefresh}
         routeName={routeName}
         navigate={this.goToDetails}
-        setGoingToExpired={this.setGoingToExpired}
       />
     )
   }
