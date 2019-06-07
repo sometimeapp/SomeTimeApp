@@ -76,7 +76,7 @@ export default class PledgeDetailsScreen extends React.Component {
     }
     API.del(apiName, path, myInit).then(response => {
       alert('Pledge successfully deleted!');
-      this.props.navigation.navigate('Home');
+      this.props.navigation.goBack();
     }).catch(error => {
       console.log(JSON.stringify(error.response))
     });

@@ -15,16 +15,18 @@ export default class PledgesOwedScreen extends React.Component {
     title: 'Owed to Me',
   };
 
-  async componentDidMount() {
-    let userInfo = await this.getId();
-    let promiseeId = userInfo.userID;
-    this.setState({ isFetching: true });
-    const apiData = await getData(promiseeId, null);
-    this.setState({
-      promiseeId: promiseeId,
-      pledgesOwed: apiData,
-      isFetching: false
-    })
+   componentDidMount() {
+    this._navListener = this.props.navigation.addListener('didFocus', async () => {
+      let userInfo = await this.getId();
+      let promiseeId = userInfo.userID;
+      this.setState({ isFetching: true });
+      const apiData = await getData(promiseeId, null);
+      this.setState({
+        promiseeId: promiseeId,
+        pledgesOwed: apiData,
+        isFetching: false
+      })
+    });
   }
 
   onRefresh = async () => {
