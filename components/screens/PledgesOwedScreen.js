@@ -8,24 +8,39 @@ export default class PledgesOwedScreen extends React.Component {
 
   state = {
     pledgesOwed: null,
-    isFetching: false
+    isFetching: false,
+    goingToExpired: false
   }
 
   static navigationOptions = {
     title: 'Owed to Me',
   };
 
-   componentDidMount() {
+   async componentDidMount() {
+    console.log("mounting owed");
+    let userInfo = await this.getId();
+    let promiseeId = userInfo.userID;
+    this.setState({ isFetching: true });
+    const apiData = await getData(promiseeId, null);
+    this.setState({
+      promiseeId: promiseeId,
+      pledgesOwed: apiData,
+      isFetching: false
+    })
+
     this._navListener = this.props.navigation.addListener('didFocus', async () => {
-      let userInfo = await this.getId();
-      let promiseeId = userInfo.userID;
-      this.setState({ isFetching: true });
-      const apiData = await getData(promiseeId, null);
-      this.setState({
-        promiseeId: promiseeId,
-        pledgesOwed: apiData,
-        isFetching: false
-      })
+      if(this.state.goingToExpired) {
+        let userInfo = await this.getId();
+        let promiseeId = userInfo.userID;
+        this.setState({ isFetching: true });
+        const apiData = await getData(promiseeId, null);
+        this.setState({
+          promiseeId: promiseeId,
+          pledgesOwed: apiData,
+          isFetching: false, 
+          goingToExpired: false
+        })
+      }
     });
   }
 
@@ -56,7 +71,12 @@ export default class PledgesOwedScreen extends React.Component {
     this.props.navigation.navigate('Details', { ...item, screen: screenName })
   }
 
+  setGoingToExpired = () => {
+    this.setState({goingToExpired: true})
+  }
+
   render() {
+    console.log("goingToExpired is " + this.state.goingToExpired);
     const { routeName } = this.props.navigation.state;
     return (
       <PledgeList
@@ -65,6 +85,7 @@ export default class PledgesOwedScreen extends React.Component {
         onRefresh={this.onRefresh}
         routeName={routeName}
         navigate={this.goToDetails}
+        setGoingToExpired={this.setGoingToExpired}
       />
     )
   }

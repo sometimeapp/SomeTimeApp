@@ -37,7 +37,16 @@ const PledgeList = (props) => {
               renderItem={({ item }) => (
                 <View>
                   <TouchableOpacity
-                    onPress={() => props.navigate(item, props.routeName ) }
+                    onPress={ () => {
+                      if(item.pledgeStatus === 'expired'){
+                        props.setGoingToExpired();
+                        props.navigate(item, props.routeName)
+                      } else {
+                        props.navigate(item, props.routeName )
+                      }
+                      
+                      }
+                    }
                   >
                     <PledgeCard
                       pledge={item}
