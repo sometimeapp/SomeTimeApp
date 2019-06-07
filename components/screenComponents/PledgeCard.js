@@ -29,7 +29,6 @@ export default class PledgeCard extends React.Component {
         }
     }
     
-
     render() {
         const { pledgeStatus } = this.props.pledge;
         return (
