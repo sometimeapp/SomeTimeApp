@@ -9,7 +9,6 @@ export default class PledgesOwedScreen extends React.Component {
   state = {
     pledgesOwed: null,
     isFetching: false,
-    goingToExpired: false
   }
 
   static navigationOptions = {
@@ -60,12 +59,7 @@ export default class PledgesOwedScreen extends React.Component {
       });
   }
 
-  setGoingToExpired = () => {
-    this.setState({goingToExpired: true})
-  }
-
   render() {
-    console.log("goingToExpired is " + this.state.goingToExpired);
     const { routeName } = this.props.navigation.state;
     return (
       <PledgeList
