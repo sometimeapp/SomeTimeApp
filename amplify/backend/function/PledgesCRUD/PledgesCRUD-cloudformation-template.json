@@ -67,8 +67,8 @@
 				"Runtime": "nodejs8.10",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "sometimeapp-20190418142935-deployment",
-					"S3Key": "amplify-builds/PledgesCRUD-1557954978-latest-build.zip"
+					"S3Bucket": "sometimeapp-20190608130554-deployment",
+					"S3Key": "amplify-builds/PledgesCRUD-1560026106-latest-build.zip"
 				}
 			}
 		},

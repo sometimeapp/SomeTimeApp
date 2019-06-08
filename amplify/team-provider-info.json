@@ -15,5 +15,22 @@
                 "cognitoe805bf90": {}
             }
         }
+    },
+    "master": {
+        "awscloudformation": {
+            "AuthRoleName": "sometimeapp-20190608130554-authRole",
+            "UnauthRoleArn": "arn:aws:iam::739568930245:role/sometimeapp-20190608130554-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::739568930245:role/sometimeapp-20190608130554-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "sometimeapp-20190608130554-deployment",
+            "UnauthRoleName": "sometimeapp-20190608130554-unauthRole",
+            "StackName": "sometimeapp-20190608130554",
+            "StackId": "arn:aws:cloudformation:us-west-2:739568930245:stack/sometimeapp-20190608130554/d1dac090-8a28-11e9-8d80-067d5109b35c"
+        },
+        "categories": {
+            "auth": {
+                "cognitoe805bf90": {}
+            }
+        }
     }
 }
