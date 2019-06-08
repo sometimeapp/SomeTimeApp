@@ -28,7 +28,7 @@
     "android": {
       "package": "com.adlerdaniels.sometime",
       "permissions": ["CAMERA"],
-      "versionCode": 3
+      "versionCode": 4
     }
   }
 }
