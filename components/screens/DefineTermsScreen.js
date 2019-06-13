@@ -21,10 +21,10 @@ import Colors from '../../constants/Colors';
 import StaticTermsIcons from '../screenComponents/StaticTermsIcons';
 import { twoWayIconDict } from '../../constants/iconInfo';
 
-var buttonFontSize = 16;
-if (PixelRatio.get() <= 2) {
-    buttonFontSize = 12;
-}
+// var buttonFontSize = 16;
+// if (PixelRatio.get() <= 2) {
+//     buttonFontSize = 12;
+// }
 
 export default class DefineTermsScreen extends React.Component {
 
@@ -102,8 +102,9 @@ export default class DefineTermsScreen extends React.Component {
                                         {!this.state.inputHasFocus && <Text style={{ marginBottom: 10 }}>(Enter custom pledge)</Text>}
 
                                         <TextInput
-                                            style={{ fontSize: 22, color: Colors.sometimePrimary }}
-                                            placeholder="  touch here"
+                                            style={{ fontSize: Layout.defineBoxFontSize, color: Colors.sometimePrimary }}
+                                            placeholder="touch here"
+                                            textAlign={'center'}
                                             placeholderTextColor="#888888"
                                             onChangeText={text => this.setState({ terms: text })}
                                             multiline={true}
@@ -136,7 +137,7 @@ export default class DefineTermsScreen extends React.Component {
                 </View>
 
                 <View style={styles.durationColumnBox}>
-                    <Text style={{ fontSize: 28 }}>within   <Text style={{ fontSize: 32, color: Colors.sometimePrimary }}>{this.state.duration}</Text>   {this.state.duration < 2 ? 'day' : 'days'}</Text>
+                    <Text style={{ fontSize: Layout.defineFontSize }}>within   <Text style={{ fontSize: Layout.defineFontSize * 1.1, color: Colors.sometimePrimary }}>{this.state.duration}</Text>   {this.state.duration < 2 ? 'day' : 'days'}</Text>
                 </View>
 
                 <View style={styles.sliderContainer}>
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     introText: {
-        fontSize: 32
+        fontSize: Layout.defineFontSize
     },
     termsBoxContainer: {
         flex: 3,
@@ -219,7 +220,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     termsBoxText: {
-        fontSize: 22,
+        fontSize: Layout.defineBoxFontSize,
         fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
         color: Colors.sometimePrimary
     },
@@ -260,19 +261,19 @@ const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
         justifyContent: "center",
-        backgroundColor: 'silver',
         padding: 10,
-        height: (Layout.window.height / 15),
-        width: (Layout.window.width / 3),
+        backgroundColor: 'silver',
+        height: Layout.buttonHeight,
+        width: Layout.buttonWidth,
         borderRadius: 10,
         shadowColor: 'rgba(0,0,0, .4)', // IOS
         shadowOffset: { height: 1, width: 1 }, // IOS
         shadowOpacity: 1, // IOS
         shadowRadius: 1, //IOS
         elevation: 2, // Android
-    },
+      },
     buttonText: {
-        fontSize: buttonFontSize,
+        fontSize: Layout.buttonFontSize,
         fontWeight: "bold"
     },
 

@@ -20,10 +20,10 @@ import {
 import Layout from '../../constants/Layout';
 import Colors from '../../constants/Colors';
 
-var buttonFontSize = 16;
-if (PixelRatio.get() <= 2) {
-  buttonFontSize = 12;
-}
+// var buttonFontSize = 16;
+// if (PixelRatio.get() <= 2) {
+//   buttonFontSize = 12;
+// }
 
 export default class SignInScreen extends React.Component {
   static navigationOptions = {
@@ -63,7 +63,7 @@ export default class SignInScreen extends React.Component {
   // Upon confirmation, redirect the user to the Sign In page
   async forgotPasswordSubmit() {
     let { email, authCode, newPassword } = this.state
-    email = email.toLowerCase();  
+    email = email.toLowerCase();
     await Auth.forgotPasswordSubmit(email, authCode, newPassword)
       .then(() => {
         this.props.navigation.navigate('SignIn')
@@ -94,13 +94,17 @@ export default class SignInScreen extends React.Component {
             placeholder="Email"
             textContentType="emailAddress"
             autoCorrect={false}
-            containerStyle={{ width: "95%" }}
+            containerStyle={{ width: Layout.inputWidth }}
             inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
-            inputContainerStyle={{ borderBottomWidth: 0, padding: 15, marginTop: 50 }}
+            inputContainerStyle={{
+              borderBottomWidth: 0,
+              marginTop: Layout.forgotPasswordMargin,
+              marginBottom: Layout.forgotPasswordMargin
+            }}
             onChangeText={value => this.onChangeText('email', value)}
           />
           <TouchableOpacity
-            style={{...styles.button, backgroundColor: Colors.sometimeTertiary}}
+            style={{ ...styles.button, backgroundColor: Colors.sometimeTertiary }}
             onPress={() => this.forgotPassword()}>
             <Text style={styles.buttonText}>Send Code</Text>
           </TouchableOpacity>
@@ -110,9 +114,13 @@ export default class SignInScreen extends React.Component {
             textContentType="password"
             secureTextEntry={true}
             autoCorrect={false}
-            containerStyle={{ width: "95%" }}
+            containerStyle={{ width: Layout.inputWidth }}
             inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
-            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+            inputContainerStyle={{
+              borderBottomWidth: 0,
+              marginTop: Layout.forgotPasswordMargin,
+              marginBottom: Layout.forgotPasswordMargin
+            }}
             onSubmitEditing={() => this.confirmationCode.focus()}
             onChangeText={value => this.onChangeText('newPassword', value)}
           />
@@ -120,20 +128,20 @@ export default class SignInScreen extends React.Component {
             placeholder="Confirmation Code"
             keyboardType={'numeric'}
             autoCorrect={false}
-            containerStyle={{ width: "95%" }}
+            containerStyle={{ width: Layout.inputWidth }}
             inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
-            inputContainerStyle={{ borderBottomWidth: 0, padding: 15 }}
+            inputContainerStyle={{ borderBottomWidth: 0, marginBottom: Layout.forgotPasswordMargin }}
             ref={ref => this.confirmationCode = ref}
             onChangeText={value => this.onChangeText('authCode', value)}
           />
 
           <TouchableOpacity
-          style={{...styles.button, backgroundColor: Colors.sometimeSecondary}}
+            style={{ ...styles.button, backgroundColor: Colors.sometimeSecondary }}
             onPress={() => this.forgotPasswordSubmit()}>
             <Text style={styles.buttonText}>Confirm</Text>
           </TouchableOpacity>
         </View>
-        
+
       </SafeAreaView>
     )
   }
@@ -167,8 +175,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: "center",
     padding: 10,
-    height: (Layout.window.height / 15),
-    width: (Layout.window.width / 3),
+    height: Layout.buttonHeight,
+    width: Layout.buttonWidth,
     borderRadius: 10,
     shadowColor: 'rgba(0,0,0, .4)', // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS
@@ -177,7 +185,7 @@ const styles = StyleSheet.create({
     elevation: 2, // Android
   },
   buttonText: {
-    fontSize: buttonFontSize,
+    fontSize: Layout.buttonFontSize,
     fontWeight: "bold"
   },
 })

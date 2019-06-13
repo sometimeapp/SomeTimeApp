@@ -32,12 +32,12 @@ import Layout from '../../constants/Layout';
 
 import Colors from '../../constants/Colors';
 
-var buttonFontSize = 16;
-var iconSize = 100
-if (PixelRatio.get() <= 2) {
-  buttonFontSize = 12;
-  iconSize = 75;
-}
+// var buttonFontSize = 16;
+// var iconSize = 100
+// if (PixelRatio.get() <= 2) {
+//   buttonFontSize = 12;
+//   iconSize = 75;
+// }
 
 export default class PledgeDetailsScreen extends React.Component {
 
@@ -66,7 +66,7 @@ export default class PledgeDetailsScreen extends React.Component {
 
   deletePledge = async () => {
 
-    this.setState({ deleting: true});
+    this.setState({ deleting: true });
 
     let apiName = 'PledgesCRUD';
     let path = '/pledges/object/' + this.props.navigation.state.params.promiseeId + '/' + this.props.navigation.state.params.promiseDate;
@@ -93,7 +93,7 @@ export default class PledgeDetailsScreen extends React.Component {
           <Icon
             name={twoWayIconDict.revGet(pledge.terms) || "asterisk"}
             type="material-community"
-            size={iconSize}
+            size={Layout.largeIconSize}
             containerStyle={{ borderRadius: 10, padding: 15, backgroundColor: this.statusColor(pledge.pledgeStatus) }}
           />
         </View>
@@ -143,7 +143,7 @@ export default class PledgeDetailsScreen extends React.Component {
             return (
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                  style={styles.button}
+                  style={{ ...styles.button, backgroundColor: Colors.sometimeTertiary }}
                   onPress={() => this.props.navigation.navigate('ResolveQR', pledge)}>
                   <Text style={styles.buttonText}>Make Good</Text>
                 </TouchableOpacity>
@@ -153,7 +153,7 @@ export default class PledgeDetailsScreen extends React.Component {
             return (
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                  style={styles.button}
+                  style={{ ...styles.button, backgroundColor: Colors.sometimeTertiary }}
                   disabled={this.state.deleting ? true : false}
                   onPress={() => this.deletePledge()}>
                   <Text style={styles.buttonText}>Delete</Text>
@@ -188,15 +188,15 @@ const styles = StyleSheet.create({
   },
   pledgeInfoContainer: {
     flex: 3,
-    borderWidth: 3,
+    borderWidth: 2,
     borderRadius: 10,
     margin: 10,
-    paddingTop: 10,
     backgroundColor: Colors.sometimeSecondaryText,
   },
   pledgeRowContainer: {
     flex: 1,
     flexDirection: "row",
+    alignItems: "center",
     //backgroundColor: "purple",
     paddingLeft: 30,
     paddingRight: 30,
@@ -210,10 +210,9 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: "center",
-    backgroundColor: Colors.sometimeTertiary,
     padding: 10,
-    height: (Layout.window.height / 15),
-    width: (Layout.window.width / 3),
+    height: Layout.buttonHeight,
+    width: Layout.buttonWidth,
     borderRadius: 10,
     shadowColor: 'rgba(0,0,0, .4)', // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS
@@ -222,7 +221,7 @@ const styles = StyleSheet.create({
     elevation: 2, // Android
   },
   buttonText: {
-    fontSize: buttonFontSize,
+    fontSize: Layout.buttonFontSize,
     fontWeight: "bold"
   },
 });

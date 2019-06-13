@@ -5,7 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
-  PixelRatio
+  Dimensions
 } from 'react-native';
 
 import {
@@ -15,10 +15,10 @@ import {
 import Layout from '../../constants/Layout';
 import Colors from '../../constants/Colors';
 
-var buttonFontSize = 16;
-if (PixelRatio.get() <= 2) {
-  buttonFontSize = 12;
-}
+// var buttonFontSize = 16;
+// if (PixelRatio.get() <= 2) {
+//   buttonFontSize = 12;
+// }
 
 const ConfirmSignUp = (props) => {
 
@@ -26,7 +26,7 @@ const ConfirmSignUp = (props) => {
     <View style={{ flex: 1, justifyContent: 'center', backgroundColor: Colors.sometimeBackground }}>
       <View style={{
         alignItems: 'center',
-        height: (Layout.window.height * .25),
+        height: (Dimensions.get('window').height * .25),
         justifyContent: 'space-evenly'
       }}>
         <View style={styles.inputContainer}>
@@ -35,7 +35,7 @@ const ConfirmSignUp = (props) => {
             keyboardType="numeric"
             returnKeyType="done"
             autoCorrect={false}
-            containerStyle={{ width: (Layout.window.width * .95) }}
+            containerStyle={{ width: Layout.inputWidth}}
             inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
             inputContainerStyle={{ borderBottomWidth: 0 }}
             onChangeText={value => props.onChangeText('authCode', value)}
@@ -45,7 +45,7 @@ const ConfirmSignUp = (props) => {
         <View style={styles.confirmContainer}>
           <TouchableOpacity
             onPress={() => props.confirmSignUp()}
-            style={styles.button}
+            style={{...styles.button, backgroundColor: Colors.sometimeTertiary}}
           >
             <Text style={styles.buttonText}>
               Confirm
@@ -72,10 +72,9 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: "center",
-    backgroundColor: Colors.sometimeHeader,
     padding: 10,
-    height: (Layout.window.height / 15),
-    width: (Layout.window.width / 3),
+    height: Layout.buttonHeight,
+    width: Layout.buttonWidth,
     borderRadius: 10,
     shadowColor: 'rgba(0,0,0, .4)', // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS
@@ -84,7 +83,7 @@ const styles = StyleSheet.create({
     elevation: 2, // Android
   },
   buttonText: {
-    fontSize: buttonFontSize,
+    fontSize: Layout.buttonFontSize,
     fontWeight: "bold"
   },
   resendText: {

@@ -1,9 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Alert, ActivityIndicator, TouchableOpacity, Dimensions } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
 import { Auth } from 'aws-amplify';
-
-import Layout from '../../constants/Layout';
 
 export default class QRScannerScreen extends React.Component {
     state = {
@@ -199,11 +197,14 @@ render() {
 }
 
 const BOX_MARGIN = 30;
-const BOX_SIZE = Layout.window.width - BOX_MARGIN * 2;
-const BOX_TOP = Layout.window.height / 2 - BOX_SIZE / 2;
+const WINDOW_HEIGHT =  Dimensions.get('window').height
+const WINDOW_WIDTH =  Dimensions.get('window').width
+
+const BOX_SIZE = WINDOW_WIDTH - BOX_MARGIN * 2;
+const BOX_TOP = WINDOW_HEIGHT / 2 - BOX_SIZE / 2;
 const BOX_BOTTOM = BOX_TOP + BOX_SIZE;
 const BOX_LEFT = BOX_MARGIN;
-const BOX_RIGHT = Layout.window.width - BOX_MARGIN;
+const BOX_RIGHT = WINDOW_WIDTH - BOX_MARGIN;
 
 const overlayBaseStyle = {
     position: 'absolute',
@@ -240,14 +241,14 @@ const styles = StyleSheet.create({
     },
     bottomLeftCorner: {
         ...cornerBaseStyle,
-        bottom: Layout.window.height - BOX_BOTTOM - 1,
+        bottom: WINDOW_HEIGHT - BOX_BOTTOM - 1,
         left: BOX_MARGIN - 1,
         borderTopWidth: 0,
         borderRightWidth: 0,
     },
     bottomRightCorner: {
         ...cornerBaseStyle,
-        bottom: Layout.window.height - BOX_BOTTOM - 1,
+        bottom: WINDOW_HEIGHT - BOX_BOTTOM - 1,
         right: BOX_MARGIN - 1,
         borderTopWidth: 0,
         borderLeftWidth: 0,
@@ -257,21 +258,21 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         right: 0,
-        bottom: Layout.window.height - BOX_TOP,
+        bottom: WINDOW_HEIGHT - BOX_TOP,
     },
     leftOverlay: {
         ...overlayBaseStyle,
         top: BOX_TOP,
         left: 0,
         right: BOX_RIGHT,
-        bottom: Layout.window.height - BOX_BOTTOM,
+        bottom: WINDOW_HEIGHT - BOX_BOTTOM,
     },
     rightOverlay: {
         ...overlayBaseStyle,
         top: BOX_TOP,
         left: BOX_RIGHT,
         right: 0,
-        bottom: Layout.window.height - BOX_BOTTOM,
+        bottom: WINDOW_HEIGHT - BOX_BOTTOM,
     },
     bottomOverlay: {
         ...overlayBaseStyle,
