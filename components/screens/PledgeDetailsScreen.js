@@ -53,10 +53,6 @@ export default class PledgeDetailsScreen extends React.Component {
     deleting: false
   }
 
-  componentDidMount() {
-    console.log(this.props.navigation);
-  }
-
   statusColor = (pledgeStatus) => {
     switch (pledgeStatus) {
       case 'resolved':
