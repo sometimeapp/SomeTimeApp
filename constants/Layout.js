@@ -24,6 +24,7 @@ const cardIconSize = hp('7.5%');
 const reviewSideMargin = wp('2.5%');
 const reviewTermsPadding = wp('2.5%');
 const resolveButtonMargin = wp('2.5%');
+const imageTopMargin = hp('2.5%');
 
 export default {
   buttonFontSize,
@@ -49,5 +50,6 @@ export default {
   cardIconSize,
   reviewSideMargin,
   reviewTermsPadding,
-  resolveButtonMargin
+  resolveButtonMargin,
+  imageTopMargin
 };

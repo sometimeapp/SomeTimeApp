@@ -22,11 +22,6 @@ import {
   Input,
 } from 'react-native-elements'
 
-// var buttonFontSize = 16;
-// if (PixelRatio.get() <= 2) {
-//   buttonFontSize = 12;
-// }
-
 export default class SignInScreen extends React.Component {
   static navigationOptions = {
     header: null,
@@ -73,8 +68,6 @@ export default class SignInScreen extends React.Component {
             </View>
           }
           <View style={styles.titleContainer}>
-            {/* <Text style={styles.titleText}>SomeTime</Text>
-            <Text style={styles.subtitleText}>a ledger for casual contracts</Text> */}
             <Image
               source={require('../../assets/images/handshakeSmall-transparent.png')}
             />
@@ -147,7 +140,7 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: "center",
     justifyContent: "center",
-    //backgroundColor: "pink"
+    marginTop: Layout.imageTopMargin
   },
   titleText: {
     fontSize: 40
