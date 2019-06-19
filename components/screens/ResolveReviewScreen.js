@@ -26,6 +26,9 @@ import { Auth, API } from 'aws-amplify';
 import moment from 'moment';
 import { twoWayIconDict } from '../../constants/iconInfo';
 
+import { StackActions, NavigationActions } from 'react-navigation';
+
+
 import Layout from '../../constants/Layout';
 import Colors from '../../constants/Colors';
 
@@ -76,7 +79,10 @@ export default class ResolveReviewScreen extends React.Component {
 
     API.put(apiName, path, myInit).then(response => {
       alert('Pledge successfully resolved!');
-      this.props.navigation.navigate('Pledges');
+    
+    //Move to the top of the 'Pledges' stack, then immediately go to 'Home'
+    //This assures that user start at the top of 'Pledges' upon pressing bottom nav button    
+    this.props.navigation.popToTop() && this.props.navigation.navigate('Home');
     }).catch(error => {
       console.log(JSON.stringify(error.response))
     });
