@@ -9,7 +9,7 @@
 //   "promisorId": "bdd53477-fc16-4fa3-888a-2d22e1acea4d",
 //   "promisorLastName": "Daniels",
 //   "screen": "made",
-//   "terms": "a ride from here to there"
+//   "terms": "a coffee, but also something much longer and more involved"
 // }
 
 import React from 'react';
@@ -26,20 +26,8 @@ import { Auth, API } from 'aws-amplify';
 import moment from 'moment';
 import { twoWayIconDict } from '../../constants/iconInfo';
 
-var smallFontSize = 12;
-if (PixelRatio.get() <= 2) {
-  smallFontSize = 10;
-}
+import { StackActions, NavigationActions } from 'react-navigation';
 
-var largeFontSize = 21
-if (PixelRatio.get() <= 2) {
-  largeFontSize = 16;
-}
-
-var buttonFontSize = 16;
-if (PixelRatio.get() <= 2) {
-  buttonFontSize = 12;
-}
 
 import Layout from '../../constants/Layout';
 import Colors from '../../constants/Colors';
@@ -91,7 +79,10 @@ export default class ResolveReviewScreen extends React.Component {
 
     API.put(apiName, path, myInit).then(response => {
       alert('Pledge successfully resolved!');
-      this.props.navigation.navigate('Pledges');
+    
+    //Move to the top of the 'Pledges' stack, then immediately go to 'Home'
+    //This assures that user start at the top of 'Pledges' upon pressing bottom nav button    
+    this.props.navigation.popToTop() && this.props.navigation.navigate('Home');
     }).catch(error => {
       console.log(JSON.stringify(error.response))
     });
@@ -118,6 +109,13 @@ export default class ResolveReviewScreen extends React.Component {
     const dueDate = moment(this.props.navigation.getParam('promiseDueDate')).format('MMM Do YYYY');
     const { promiseeFirstName } = this.state;
 
+    // const promisorFirstName = PROMISE['promisorFirstName'];
+    // const promisorLastName = PROMISE['promisorLastName'];
+    // const terms = PROMISE['terms'];
+    // const date = moment(PROMISE['promiseDate']).format('MMM Do YYYY');
+    // const dueDate = moment(PROMISE['promiseDueDate']).format('MMM Do YYYY');
+    // const { promiseeFirstName, promiseeLastName } = this.state;
+
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
@@ -130,21 +128,47 @@ export default class ResolveReviewScreen extends React.Component {
                 size={85}
               />
             </View>
-
-            <View style={{ flex: 3 }}>
-              <View style={{ flex: 1, flexDirection: "row", margin: 10, borderWidth: 3, borderRadius: 10, backgroundColor: Colors.sometimeSecondaryText }}>
-                <View style={{ flex: 1, padding: 5, justifyContent: "space-between" }}>
-                  <Text style={{ fontSize: smallFontSize }}>Terms:</Text>
-                  <Text style={{ fontSize: smallFontSize }}>Date:</Text>
-                  <Text style={{ fontSize: smallFontSize }}>Due Date:</Text>
+            <View style={styles.miniBoxInfoContainer}>
+              <View style={styles.miniBoxContainer}>
+                <View style={styles.miniBoxRowContainer}>
+                  <View style={{ flex: 1, flexDirection: "row", }}>
+                    <Text style={{ fontWeight: "bold" }}>Terms:</Text></View>
+                  <View style={{ flex: 1, flexDirection: "row", }}>
+                    <Text style={{ fontSize: Layout.smallFontSize }}>{terms.length <= 13 ? terms : terms.substring(0, 15) + "..."}</Text></View>
                 </View>
-                <View style={{ flex: 2, padding: 5, justifyContent: "space-between" }}>
-                  <Text style={{ fontSize: smallFontSize }}>{terms.length <= 13 ? terms : terms.substring(0, 13) + "..."}</Text>
-                  <Text style={{ fontSize: smallFontSize }}>{date}</Text>
-                  <Text style={{ fontSize: smallFontSize }}>{dueDate}</Text>
+              </View>
+
+              <View style={styles.miniBoxContainer}>
+                <View style={styles.miniBoxRowContainer}>
+                  <View style={{ flex: 1, flexDirection: "row", }}>
+                    <Text style={{ fontWeight: "bold" }}>Date:</Text></View>
+                  <View style={{ flex: 1, flexDirection: "row", }}>
+                    <Text style={{ fontSize: Layout.smallFontSize }}>{date}</Text></View>
+                </View>
+              </View>
+
+              <View style={styles.miniBoxContainer}>
+                <View style={styles.miniBoxRowContainer}>
+                  <View style={{ flex: 1, flexDirection: "row", }}><Text style={{ fontWeight: "bold" }}>Due Date:</Text></View>
+                  <View style={{ flex: 1, flexDirection: "row", }}><Text style={{ fontSize: Layout.smallFontSize }}>{dueDate}</Text></View>
                 </View>
               </View>
             </View>
+
+            {/* <View style={{ flex: 3 }}>
+              <View style={{ flex: 1, flexDirection: "row", margin: 10, borderWidth: 2, borderRadius: 10, backgroundColor: Colors.sometimeSecondaryText }}>
+                <View style={{ flex: 1, padding: 5, justifyContent: "space-between" }}>
+                  <Text style={{ fontSize: Layout.smallFontSize }}>Terms:</Text>
+                  <Text style={{ fontSize: Layout.smallFontSize }}>Date:</Text>
+                  <Text style={{ fontSize: Layout.smallFontSize }}>Due Date:</Text>
+                </View>
+                <View style={{ flex: 2, padding: 5, justifyContent: "space-between" }}>
+                  <Text style={{ fontSize: Layout.smallFontSize }}>{terms.length <= 13 ? terms : terms.substring(0, 50) + "..."}</Text>
+                  <Text style={{ fontSize: Layout.smallFontSize }}>{date}</Text>
+                  <Text style={{ fontSize: Layout.smallFontSize }}>{dueDate}</Text>
+                </View>
+              </View>
+            </View> */}
 
           </View>
 
@@ -152,8 +176,16 @@ export default class ResolveReviewScreen extends React.Component {
 
         <View style={{ flex: 2 }}>
 
-          <View style={{ flex: 1, backgroundColor: Colors.sometimeSecondaryText, borderWidth: 3, borderRadius: 10, margin: 20, padding: 8 }}>
-            <Text style={{ fontSize: largeFontSize, fontStyle: "italic" }}>
+          <View style={{
+            flex: 1,
+            backgroundColor: Colors.sometimeSecondaryText,
+            borderWidth: 2,
+            borderRadius: 10,
+            marginLeft: Layout.reviewSideMargin,
+            marginRight: Layout.reviewSideMargin,
+            padding: Layout.reviewTermsPadding,
+          }}>
+            <Text style={{ fontSize: Layout.largeFontSize, fontStyle: "italic" }}>
               {`Hey, ${promiseeFirstName}!  Remember that time I promised you ${terms}?  I've paid my debt!  So, we're good now, right?
 
 Sincerely, 
@@ -165,8 +197,8 @@ ${promisorFirstName} ${promisorLastName}`}
 
           {
             !this.state.sending ? (
-              <View style={styles.buttonRowContainer}>
-                <View style={styles.buttonView}>
+              <View style={styles.buttonsContainer}>
+                <View style={{ ...styles.buttonRow, justifyContent: "flex-start" }}>
                   <TouchableOpacity
                     style={{ ...styles.button, backgroundColor: Colors.sometimeSecondary }}
                     onPress={() => this.props.navigation.navigate('Home')}>
@@ -174,7 +206,7 @@ ${promisorFirstName} ${promisorLastName}`}
                   </TouchableOpacity>
                 </View>
 
-                <View style={styles.buttonView}>
+                <View style={{ ...styles.buttonRow, justifyContent: "flex-end" }}>
                   <TouchableOpacity
                     style={{ ...styles.button, backgroundColor: Colors.sometimeTertiary }}
                     disabled={this.state.sending ? true : false}
@@ -201,22 +233,41 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.sometimeBackground
   },
-  buttonRowContainer: {
-    flexDirection: "row",
-    flex: 1,
-    alignItems: "center"
+  miniBoxInfoContainer: {
+    flex: 3,
+    borderWidth: 2,
+    borderRadius: 10,
+    margin: 10,
+    backgroundColor: Colors.sometimeSecondaryText,
   },
-  buttonView: {
+  miniBoxContainer: {
+    flex: 1,
+  },
+  miniBoxRowContainer: {
     flex: 1,
     flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: 10
+  },
+  buttonsContainer: {
+    flex: 1,
+    flexDirection: "row",
+    //backgroundColor: "yellow"
+  },
+  buttonRow: {
+    flex: 1,
+    flexDirection: "row",
+    //backgroundColor: "silver", 
     justifyContent: "center",
+    alignItems: "center",
+    margin: Layout.resolveButtonMargin
   },
   button: {
     alignItems: 'center',
     justifyContent: "center",
     padding: 10,
-    height: (Layout.window.height / 15),
-    width: (Layout.window.width / 3),
+    height: Layout.buttonHeight,
+    width: Layout.buttonWidth,
     borderRadius: 10,
     shadowColor: 'rgba(0,0,0, .4)', // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS
@@ -225,7 +276,7 @@ const styles = StyleSheet.create({
     elevation: 2, // Android
   },
   buttonText: {
-    fontSize: buttonFontSize,
+    fontSize: Layout.buttonFontSize,
     fontWeight: "bold"
   },
 

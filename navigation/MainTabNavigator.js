@@ -48,8 +48,6 @@ const PledgesTab = createMaterialTopTabNavigator({
   PledgesOwed: PledgesOwedScreen
 }, {
   tabBarOptions: {
-    //activeTintColor: Colors.sometimeSecondaryText,
-    //inactiveTintColor: Colors.sometimeSecondaryText,
     style: {
       backgroundColor: Colors.sometimeTertiary
     }, 
@@ -67,16 +65,6 @@ PledgesTab.navigationOptions = {
   },
   headerTintColor: Colors.sometimeSecondaryText
 };
-
-
-
-// PledgesTab.navigationOptions = ({ navigation, screenProps }) => { 
-//   const childOptions = getActiveChildNavigationOptions(navigation, screenProps); 
-//   return { 
-//     title: childOptions.title, 
-//   }; 
-// }; 
-
 
 const PledgesStack = createStackNavigator({
   Pledges: PledgesTab,

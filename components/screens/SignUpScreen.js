@@ -21,10 +21,10 @@ import ConfirmSignup from '../screenComponents/ConfirmScreen';
 import Layout from '../../constants/Layout';
 import Colors from '../../constants/Colors';
 
-var buttonFontSize = 16;
-if (PixelRatio.get() <= 2) {
-  buttonFontSize = 12;
-}
+// var buttonFontSize = 16;
+// if (PixelRatio.get() <= 2) {
+//   buttonFontSize = 12;
+// }
 
 export default class SignUpScreen extends React.Component {
   static navigationOptions = {
@@ -133,7 +133,7 @@ export default class SignUpScreen extends React.Component {
               placeholder="Email"
               textContentType="emailAddress"
               autoCorrect={false}
-              containerStyle={{ width: "95%" }}
+              containerStyle={{ width: Layout.inputWidth}}
               inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
               inputContainerStyle={{ borderBottomWidth: 0 }}
               onSubmitEditing={() => this.firstname.focus()}
@@ -142,7 +142,7 @@ export default class SignUpScreen extends React.Component {
             <Input
               placeholder="First Name"
               autoCorrect={false}
-              containerStyle={{ width: "95%" }}
+              containerStyle={{ width: Layout.inputWidth}}
               inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
               inputContainerStyle={{ borderBottomWidth: 0 }}
               onSubmitEditing={() => this.lastname.focus()}
@@ -152,7 +152,7 @@ export default class SignUpScreen extends React.Component {
             <Input
               placeholder="Last Name"
               autoCorrect={false}
-              containerStyle={{ width: "95%" }}
+              containerStyle={{ width: Layout.inputWidth}}
               inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
               inputContainerStyle={{ borderBottomWidth: 0 }}
               onSubmitEditing={() => this.password.focus()}
@@ -164,7 +164,7 @@ export default class SignUpScreen extends React.Component {
               textContentType="password"
               secureTextEntry={true}
               autoCorrect={false}
-              containerStyle={{ width: "95%" }}
+              containerStyle={{ width: Layout.inputWidth}}
               inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
               inputContainerStyle={{ borderBottomWidth: 0 }}
               ref={ref => this.password = ref}
@@ -189,7 +189,7 @@ export default class SignUpScreen extends React.Component {
 
           <View style={styles.resendContainer}>
             <TouchableOpacity
-              style={styles.button}
+              style={{...styles.button, backgroundColor: Colors.sometimeTertiary}}
               onPress={() => this.signUp()}
             >
               <Text style={styles.buttonText}>Sign Up</Text>
@@ -229,10 +229,9 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: "center",
-    backgroundColor: Colors.sometimeTertiary,
     padding: 10,
-    height: (Layout.window.height / 15),
-    width: (Layout.window.width / 3),
+    height: Layout.buttonHeight,
+    width: Layout.buttonWidth,
     borderRadius: 10,
     shadowColor: 'rgba(0,0,0, .4)', // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS
@@ -241,7 +240,7 @@ const styles = StyleSheet.create({
     elevation: 2, // Android
   },
   buttonText: {
-    fontSize: buttonFontSize,
+    fontSize: Layout.buttonFontSize,
     fontWeight: "bold"
   },
   resendText: {
