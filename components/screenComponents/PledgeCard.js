@@ -10,11 +10,12 @@ import moment from 'moment';
 
 import { twoWayIconDict } from '../../constants/iconInfo';
 import Colors from '../../constants/Colors';
+import Layout from '../../constants/Layout';
 
-var fontSize = 14
-if (PixelRatio.get() <= 2) {
-  fontSize = 12;
-}
+// var fontSize = 14
+// if (PixelRatio.get() <= 2) {
+//   fontSize = 12;
+// }
 
 export default class PledgeCard extends React.Component {
 
@@ -39,13 +40,13 @@ export default class PledgeCard extends React.Component {
                         <Icon
                             name={twoWayIconDict.revGet(this.props.pledge.terms) || "asterisk"}
                             type="material-community"
-                            size={60}
+                            size={Layout.cardIconSize}
                         />
                     </View>
 
                     <View style={styles.infoContainer}>
                         <View style={styles.promiseeNameContainer}>
-                            <Text style={{ fontSize: 20 }}>
+                            <Text style={{ fontSize: Layout.cardHeaderFontSize }}>
                                 {this.props.screen === 'PledgesMade' ?
                                     `${this.props.pledge.promiseeFirstName} ${this.props.pledge.promiseeLastName}`
                                     : `${this.props.pledge.promisorFirstName} ${this.props.pledge.promisorLastName}`}
@@ -83,7 +84,7 @@ export default class PledgeCard extends React.Component {
                         <Icon
                             name='angle-right'
                             type='font-awesome'
-                            size={60}
+                            size={Layout.cardIconSize}
                         />
                     </View>
 
@@ -101,16 +102,15 @@ const styles = StyleSheet.create({
     card: {
         flex: 1,
         flexDirection: "row",
-        height: 150,
-        borderWidth: 3,
+        height: Layout.cardHeight,
+        borderWidth: 2,
         borderRadius: 10,
-        marginTop: 10, 
-        marginRight: 10, 
-        marginLeft: 10, 
+        marginTop: Layout.cardMargin, 
+        marginRight: Layout.cardMargin, 
+        marginLeft: Layout.cardMargin, 
     },
     imageContainer: {
         flex: 2,
-
         justifyContent: "center",
         alignItems: "center"
     },
@@ -151,10 +151,10 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     detailText: {
-        fontSize: fontSize
+        fontSize: Layout.cardDetailFontSize
     },
     headingText: {
-        fontSize: fontSize,
+        fontSize: Layout.cardDetailFontSize,
         fontWeight: "bold"
     }
 

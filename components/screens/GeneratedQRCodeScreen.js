@@ -11,10 +11,10 @@ import {
 import Layout from '../../constants/Layout';
 import Colors from '../../constants/Colors';
 
-var buttonFontSize = 16;
-if (PixelRatio.get() <= 2) {
-    buttonFontSize = 12;
-}
+// var buttonFontSize = 16;
+// if (PixelRatio.get() <= 2) {
+//     buttonFontSize = 12;
+// }
 
 export default class GeneratedQRCodeScreen extends React.Component {
 
@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: "center",
         padding: 10,
-        height: (Layout.window.height / 15),
-        width: (Layout.window.width / 3),
+        height: Layout.buttonHeight,
+        width: Layout.buttonWidth,
         borderRadius: 10,
         shadowColor: 'rgba(0,0,0, .4)', // IOS
         shadowOffset: { height: 1, width: 1 }, // IOS
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         elevation: 2, // Android
     },
     buttonText: {
-        fontSize: buttonFontSize,
+        fontSize: Layout.buttonFontSize,
         fontWeight: "bold"
     }
 })

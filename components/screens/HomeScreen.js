@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Dimensions,
   TouchableOpacity,
   PixelRatio
 } from 'react-native';
@@ -14,16 +13,7 @@ import { Auth } from 'aws-amplify';
 
 import { CustomIcon } from '../../constants/iconInfo';
 import Colors from '../../constants/Colors';
-
-var buttonFontSize = 20;
-var iconSize = 90
-if (PixelRatio.get() <= 2) {
-  buttonFontSize = 16;
-  iconSize = 75;
-}
-
-const devHeight = Dimensions.get('window').height;
-const devWidth = Dimensions.get('window').width;
+import Layout from '../../constants/Layout';
 
 export default class HomeScreen extends React.Component {
   state = {
@@ -71,7 +61,7 @@ export default class HomeScreen extends React.Component {
           <TouchableOpacity
             style={{ ...styles.button, backgroundColor: Colors.sometimeBackground}}
             onPress={() => this.props.navigation.navigate('Terms')}>
-            <CustomIcon name="handshake" size={iconSize} color={Colors.sometimePrimary}/>
+            <CustomIcon name="handshake" size={Layout.homeIconSize} color={Colors.sometimePrimary}/>
             <Text style={{ ...styles.buttonText}}>Make a Pledge</Text>
           </TouchableOpacity>
         </View>
@@ -80,7 +70,7 @@ export default class HomeScreen extends React.Component {
           <TouchableOpacity
           style={{ ...styles.button, backgroundColor: Colors.sometimeBackground}}
             onPress={() => this.props.navigation.navigate('Receive')}>
-            <MaterialCommunityIcons name="qrcode-scan" size={iconSize} color={Colors.sometimeSecondary}/>
+            <MaterialCommunityIcons name="qrcode-scan" size={Layout.homeIconSize} color={Colors.sometimeSecondary}/>
             <Text style={{ ...styles.buttonText}}>Receive/Resolve</Text>
           </TouchableOpacity>
         </View>
@@ -101,7 +91,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   welcomeText: {
-    fontSize: 18,
+    fontSize: Layout.homeButtonFontSize,
     color: Colors.sometimeBackgroundText,
     fontWeight: 'bold'
   },
@@ -119,8 +109,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: '#DDDDDD',
     padding: 10,
-    height: devHeight / 6,
-    width: devWidth / 2,
+    height: Layout.homeButtonHeight,
+    width: Layout.homeButtonWidth,
     // borderRadius: 10,
     // shadowColor: 'rgba(0,0,0, .4)', // IOS
     // shadowOffset: { height: 1, width: 1 }, // IOS
@@ -129,7 +119,7 @@ const styles = StyleSheet.create({
     // elevation: 10, // Android
   },
   buttonText: {
-    fontSize: buttonFontSize,
+    fontSize: Layout.homeButtonFontSize,
      fontWeight: "bold",
      color: 'black'
   },

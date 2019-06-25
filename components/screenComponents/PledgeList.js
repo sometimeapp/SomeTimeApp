@@ -62,18 +62,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.sometimeBackground
   },
-  button: {
-    alignItems: 'center',
-    justifyContent: "center",
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    height: "10%",
-    width: "25%",
-    borderRadius: 10
-  },
-  buttonText: {
-    fontWeight: "bold"
-  },
 });
 
 export default PledgeList

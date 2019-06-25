@@ -8,7 +8,6 @@ import {
   Alert,
   TouchableOpacity,
   ActivityIndicator,
-  PixelRatio,
   Image
 } from 'react-native';
 
@@ -22,11 +21,6 @@ import Auth from '@aws-amplify/auth'
 import {
   Input,
 } from 'react-native-elements'
-
-var buttonFontSize = 16;
-if (PixelRatio.get() <= 2) {
-  buttonFontSize = 12;
-}
 
 export default class SignInScreen extends React.Component {
   static navigationOptions = {
@@ -74,8 +68,6 @@ export default class SignInScreen extends React.Component {
             </View>
           }
           <View style={styles.titleContainer}>
-            {/* <Text style={styles.titleText}>SomeTime</Text>
-            <Text style={styles.subtitleText}>a ledger for casual contracts</Text> */}
             <Image
               source={require('../../assets/images/handshakeSmall-transparent.png')}
             />
@@ -86,7 +78,7 @@ export default class SignInScreen extends React.Component {
               placeholder="Email"
               textContentType="emailAddress"
               autoCorrect={false}
-              containerStyle={{ width: "95%" }}
+              containerStyle={{ width: Layout.inputWidth}}
               inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
               inputContainerStyle={{ borderBottomWidth: 0 }}
               onSubmitEditing={() => this.password.focus()}
@@ -97,7 +89,7 @@ export default class SignInScreen extends React.Component {
               textContentType="password"
               secureTextEntry={true}
               autoCorrect={false}
-              containerStyle={{ width: "95%" }}
+              containerStyle={{width: Layout.inputWidth}}
               inputStyle={{ borderColor: 'gray', borderWidth: 2, borderRadius: 5, padding: 5 }}
               inputContainerStyle={{ borderBottomWidth: 0 }}
               ref={ref => this.password = ref}
@@ -119,7 +111,7 @@ export default class SignInScreen extends React.Component {
               <TouchableOpacity
                 style={{...styles.button, backgroundColor: Colors.sometimeHeader}}
                 onPress={() => this._signInAsync()}>
-                <Text style={styles.buttonText}>Sign In</Text>
+                <Text style={styles.buttonText}>Log In</Text>
               </TouchableOpacity>
             </View>
 
@@ -148,7 +140,7 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: "center",
     justifyContent: "center",
-    //backgroundColor: "pink"
+    marginTop: Layout.imageTopMargin
   },
   titleText: {
     fontSize: 40
@@ -173,14 +165,14 @@ const styles = StyleSheet.create({
     //backgroundColor: "silver", 
     justifyContent: "center",
     alignItems: "center",
-    margin: (Layout.window.width * .05)
+    margin: Layout.authButtonMargin
   },
   button: {
     alignItems: 'center',
     justifyContent: "center",
     padding: 10,
-    height: (Layout.window.height / 15),
-    width: (Layout.window.width / 3),
+    height: Layout.buttonHeight,
+    width: Layout.buttonWidth,
     borderRadius: 10,
     shadowColor: 'rgba(0,0,0, .4)', // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS
@@ -189,7 +181,7 @@ const styles = StyleSheet.create({
     elevation: 2, // Android
   },
   buttonText: {
-    fontSize: buttonFontSize,
+    fontSize: Layout.buttonFontSize,
     fontWeight: "bold"
   },
   forgotPasswordContainer: {
