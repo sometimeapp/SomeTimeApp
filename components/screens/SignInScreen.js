@@ -13,6 +13,7 @@ import {
 
 import Layout from '../../constants/Layout';
 import Colors from '../../constants/Colors';
+import AppText from '../AppText';
 
 
 // AWS Amplifyß
@@ -103,7 +104,9 @@ export default class SignInScreen extends React.Component {
               <TouchableOpacity
                 style={{...styles.button, backgroundColor: Colors.sometimeTertiary}}
                 onPress={() => this.props.navigation.navigate('SignUp')}>
-                <Text style={styles.buttonText}>Sign Up</Text>
+                <AppText style={styles.buttonText}>
+                  Sign Up
+                </AppText>
               </TouchableOpacity>
             </View>
 
@@ -182,7 +185,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: Layout.buttonFontSize,
-    fontWeight: "bold"
+    //fontWeight: "bold"
   },
   forgotPasswordContainer: {
     flex: 1,
